@@ -31,6 +31,17 @@ Project for Principles of modeling in engineering course (CE1105)
   
 ## User histories
 
+* As a player I want to be able to move to any direction within the screen, shoot, and use special shots
+* As player I must die if i got shot with 2 normal shots, hit by collision or shot with 1 special bullet
+* As a player I want to gain 200 points for each killed enemy
+* As the client I want several predefined patterns for the enemies and select this patterns from the menu before start the game
+* As a player I may be able to play with at least another friend with our own controllers
+* As a player I need to register/login with my username, password, email and photo and customize my ship
+* As a client I want 3 levels with their own music and 20 enemies
+* As a client I want the player who start playing to be selected randomly
+* As a player I want a podium at the end of the game
+* As a player I want to get randomly 5 bonuses what falls over the screen while protected by enemies
+* As a Client I want to get saved the scores 
 
 ## Use Cases
 
@@ -47,3 +58,4 @@ Project for Principles of modeling in engineering course (CE1105)
 * Son 5 o 3 vidas? en el enunciado se contradice.
 * Al empezar el turno del siguiente jugador, este empieza en el mismo nivel que estaba su compañero? o desde cero?
 * Al comprar se gasta el score? O más bien el score solo desbloquea ciertos items segun se progresa?
+* El juevo es local, LAN u onnline?
