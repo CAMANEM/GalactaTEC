@@ -682,3 +682,4 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/csharp,unity,windows,linux,visualstudio
 /GalactaTEC/Library
 /GalactaTEC/Temp
+/GalactaTEC/UserSettings
