@@ -1803,7 +1803,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 714403758}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1036632887}
+        m_TargetAssemblyTypeName: signUpSceneScript, Assembly-CSharp
+        m_MethodName: createAccount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &714403758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3036,8 +3048,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e02c8a22fa5e4cb62076c4ec4a0cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userImage: {fileID: 1564208173}
-  shipImage: {fileID: 1176791881}
+  imgUserName: {fileID: 1564208173}
+  imgShipName: {fileID: 1176791881}
+  inpName: {fileID: 1457608020}
+  inpEmail: {fileID: 940956225}
+  inpUsername: {fileID: 566138153}
+  inpPassword: {fileID: 1325478986}
 --- !u!1 &1037153348
 GameObject:
   m_ObjectHideFlags: 0
@@ -4222,7 +4238,7 @@ GameObject:
   - component: {fileID: 1325478987}
   - component: {fileID: 1325478986}
   m_Layer: 5
-  m_Name: inptPassword
+  m_Name: inpPassword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
