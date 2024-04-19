@@ -40,7 +40,7 @@ public class signUpSceneScript : MonoBehaviour
             }
         } catch
         {
-            Debug.LogError("Esta función solo está disponible en el editor de Unity.");
+            Debug.LogError("Something went wrong loading the selected user image. Image selected: " + userImage);
         }
     }
 
@@ -62,7 +62,7 @@ public class signUpSceneScript : MonoBehaviour
         }
         catch
         {
-            Debug.LogError("Esta función solo está disponible en el editor de Unity.");
+            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + shipImage);
         }
     }
 }
