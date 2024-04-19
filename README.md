@@ -1,8 +1,6 @@
 # GalactaTEC
 Project for Principles of modeling in engineering course (CE1105)
 
-
-GalactaTEC
 Welcome to the official repository for GalactaTEC, a reinvention of the classic arcade game, adapted and modernized by the TecGamesNow team using Unity. This project aims to revive the excitement of retro video games, integrating modern technology and a collaborative approach that allows multiple players to enjoy the experience together.
 
 Project Description
