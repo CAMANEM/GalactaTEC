@@ -22,7 +22,6 @@ public class mainMenuScript : MonoBehaviour
 
     public void _HallofFameButtonOnClick()
     {
-        Debug.Log("Opening hall of fame window");
         SceneManager.LoadScene("HallofFameScene");
     }
 
