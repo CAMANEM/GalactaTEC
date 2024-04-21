@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using GameManager;
+
 public class cnvTitleScript : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -22,16 +24,14 @@ public class cnvTitleScript : MonoBehaviour
 
     public void _1PlayerButtonOnClick()
     {
-        // ToDo: Updates quantity of players to 1
-        Debug.Log("Updates quantity of players to 1");
+        gameManager.getInstance().cuantityOfPlayers = 1;
 
         SceneManager.LoadScene("LoginScene");
     }
 
     public void _2PlayersButtonOnClick()
     {
-        // ToDo: Updates quantity of players to 2
-        Debug.Log("Updates quantity of players to 2");
+        gameManager.getInstance().cuantityOfPlayers = 2;
 
         SceneManager.LoadScene("LoginScene");
     }
