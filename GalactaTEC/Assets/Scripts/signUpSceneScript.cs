@@ -9,6 +9,8 @@ using System.Net.Mail;
 using System.Text.RegularExpressions;
 using TMPro;
 
+using alertsManager;
+
 [System.Serializable]
 public class User
 {
@@ -46,7 +48,7 @@ public class signUpSceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // alertsScript.getInstance().setTitle("Testing title").setBody("Testing body").showAlert();
     }
 
     // Update is called once per frame
@@ -94,6 +96,7 @@ public class signUpSceneScript : MonoBehaviour
         }
         catch
         {
+
             Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + imgShipName);
         }
     }

@@ -12,12 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScene.unity
     guid: 4236bd43eca437a408bdd53f8b86c76a
   - enabled: 1
-    path: Assets/Scenes/LoginScene.unity
+    path: Assets/Scenes/1PLoginScene.unity
     guid: be16585652d13b44c9b6fc1fc2f81af6
   - enabled: 1
     path: Assets/Scenes/MainMenuScene.unity
     guid: 698dc3665a61cbd4184206ce78fa59f4
   - enabled: 1
-    path: Assets/Scenes/HallOfFameScene.unity
+    path: Assets/Scenes/HallofFameScene.unity
     guid: 6ac48075f87ab684dab29dd7d12d54d5
   m_configObjects: {}
