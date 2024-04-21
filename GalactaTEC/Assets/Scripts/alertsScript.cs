@@ -40,20 +40,27 @@ namespace alertsManager
         {
             if(instance == null)
             {
-                instance = new alertsScript();
-                return instance;
+                instance = FindObjectOfType<alertsScript>();
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject("alertsManager");
+                    instance = obj.AddComponent<alertsScript>();
+                }
+            }
+            return instance;
+        }
+        
+        void Awake()
+        {
+            if(instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
             }
             else
             {
-                return instance;
+                Destroy(gameObject);
             }
-        }
-
-        private alertsScript(){}
-
-        void Awake()
-        {
-            instance = this;
 
             alertCloseButton.onClick.RemoveAllListeners();
             alertCloseButton.onClick.AddListener(hideAlert);

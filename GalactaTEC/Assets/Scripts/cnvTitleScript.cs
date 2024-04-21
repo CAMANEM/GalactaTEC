@@ -24,16 +24,16 @@ public class cnvTitleScript : MonoBehaviour
 
     public void _1PlayerButtonOnClick()
     {
-        gameManager.getInstance().cuantityOfPlayers = 1;
+        gameManager.getInstance().setCuantityOfPlayers(1);
 
-        SceneManager.LoadScene("LoginScene");
+        SceneManager.LoadScene("1PLoginScene");
     }
 
     public void _2PlayersButtonOnClick()
     {
-        gameManager.getInstance().cuantityOfPlayers = 2;
+        gameManager.getInstance().setCuantityOfPlayers(2);
 
-        SceneManager.LoadScene("LoginScene");
+        SceneManager.LoadScene("2PLoginScene");
     }
 
     public void closeButtonOnClick()

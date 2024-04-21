@@ -13,28 +13,39 @@ namespace GameManager
         {
             if(instance == null)
             {
-                instance = new gameManager();
+                // Si no hay una instancia en la escena, busca si ya existe
+                instance = FindObjectOfType<gameManager>();
+                // Si no existe, crea un nuevo objeto GameManager en la escena
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject("GameManager");
+                    instance = obj.AddComponent<gameManager>();
+                }
             }
             return instance;
         }
-
-        private gameManager() {}
 
         // variables
         public int cuantityOfPlayers = 0;
         public string player1Username = "";
         public string player2Username = "";
 
-        // Start is called before the first frame update
-        void Start()
+        private void Awake()
         {
-            
+            if(instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
-        // Update is called once per frame
-        void Update()
+        public void setCuantityOfPlayers(int cuantityOfPlayers)
         {
-            
+            this.cuantityOfPlayers = cuantityOfPlayers;
         }
-}
+    }
 }
