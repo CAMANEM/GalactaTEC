@@ -30,6 +30,9 @@ namespace GameManager
         public string player1Username = "";
         public string player2Username = "";
 
+        public string validResetPasswordCode = null;
+        public string emailRecoveringPassword = "";
+
         private void Awake()
         {
             if(instance == null)

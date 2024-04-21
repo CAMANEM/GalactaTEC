@@ -95,4 +95,9 @@ public class loginSceneScript : MonoBehaviour
             player2isLoggedIn = false;
         }
     }
+
+    public void changePasswordButtonOnClick()
+    {
+        SceneManager.LoadScene("PasswordRecoveryScene");
+    }
 }
