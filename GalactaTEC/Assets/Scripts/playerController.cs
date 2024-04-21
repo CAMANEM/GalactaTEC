@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
-    float maxSpeed = 300f;
+    float maxSpeed = 150f;
 
     [SerializeField]
     private GameObject normalShot;
     
     [SerializeField]
     private Transform attack_Point;
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,10 +29,17 @@ public class playerController : MonoBehaviour
 
     void Move()
     {
-        Vector3 pos = transform.position;
-        pos.x += Input.GetAxis("Horizontal") * maxSpeed * Time.deltaTime;
-        pos.y += Input.GetAxis("Vertical") * maxSpeed * Time.deltaTime;
-        transform.position = pos;
+        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)) {
+            
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+            // Calculate the movement direction
+            Vector3 movement = new Vector3(horizontalInput, verticalInput, 0f).normalized;
+            // Calculate the new position based on the fixed movement distance
+            Vector3 newPosition = transform.position + movement * maxSpeed;
+            // Update the player's position
+            transform.position = newPosition;
+        }
     }
 
     void Attack()
