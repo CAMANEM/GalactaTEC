@@ -12,6 +12,10 @@ public class playerController : MonoBehaviour
     [SerializeField]
     private Transform attack_Point;
 
+    public AudioSource source;
+    public AudioClip audioClip;
+    public float volume=0.5f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +35,7 @@ public class playerController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)) {
             
+            source.PlayOneShot(audioClip, volume);
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
             // Calculate the movement direction
