@@ -12,13 +12,17 @@ public class normalShot : MonoBehaviour
     public AudioClip audioClip;
 
     public float volume=0.5f;
+    private PointManager pointManager;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
         // Invoke("DeactivateGameObject", deactivateTimer);
         source.PlayOneShot(audioClip, volume);
+
+        //vea esto mae XD es para el puntaje
+        //  pointManager = GameObject.Find("PointMananger").GetComponent<PointManager>();
     }
 
     // Update is called once per frame
@@ -26,6 +30,26 @@ public class normalShot : MonoBehaviour
     {
         Move();
     }
+
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Enemy")
+    //    {
+    // Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+    // Destroy(collision.gameObject);
+    // pointManager.UpdateScore(50)
+    // Destroy(gameObject);
+    //}
+
+    //if (collision.gameObject.tag == "Boundary")
+    //{
+    //Destroy(gameObject);
+    //        }
+    //   }
+
+
+
 
     void Move()
     {

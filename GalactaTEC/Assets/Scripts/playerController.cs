@@ -8,13 +8,18 @@ public class playerController : MonoBehaviour
 
     [SerializeField]
     private GameObject normalShot;
-    
+
+    [SerializeField]
+    private GameObject explosiveShot;
+
     [SerializeField]
     private Transform attack_Point;
 
+
+
     public AudioSource source;
     public AudioClip audioClip;
-    public float volume=0.5f;
+    public float volume = 0.5f;
 
 
     // Start is called before the first frame update
@@ -33,8 +38,9 @@ public class playerController : MonoBehaviour
 
     void Move()
     {
-        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)) {
-            
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+
             source.PlayOneShot(audioClip, volume);
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
@@ -49,10 +55,13 @@ public class playerController : MonoBehaviour
 
     void Attack()
     {
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(normalShot, attack_Point.position, Quaternion.identity);
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Instantiate(explosiveShot, attack_Point.position, Quaternion.identity); 
         }
     }
 }
