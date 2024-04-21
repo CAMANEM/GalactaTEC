@@ -19,7 +19,12 @@ public class playerController : MonoBehaviour
 
     public AudioSource source;
     public AudioClip audioClip;
-    public float volume = 0.5f;
+    public float volume=0.5f;
+    public float minY = 350f;
+    public float maxY = 910f;
+    public float minX = 300f;
+    public float maxX = 1600f;
+
 
 
     // Start is called before the first frame update
@@ -38,28 +43,47 @@ public class playerController : MonoBehaviour
 
     void Move()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
+        Vector3 pos = transform.position;
 
-            source.PlayOneShot(audioClip, volume);
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
-            // Calculate the movement direction
-            Vector3 movement = new Vector3(horizontalInput, verticalInput, 0f).normalized;
-            // Calculate the new position based on the fixed movement distance
-            Vector3 newPosition = transform.position + movement * maxSpeed;
-            // Update the player's position
-            transform.position = newPosition;
+        if(Input.GetKeyDown(KeyCode.LeftArrow) && (pos.x > minX)) {
+            
+            MoveAux();
         }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && (pos.x < maxX))
+        {
+            MoveAux();
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && (pos.y < maxY))
+        {
+            MoveAux();
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow)  && (pos.y > minY))
+        {
+            MoveAux();
+        }
+    }
+
+    void MoveAux(){
+        source.PlayOneShot(audioClip, volume);
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        // Calculate the movement direction
+        Vector3 movement = new Vector3(horizontalInput, verticalInput, 0f).normalized;
+        // Calculate the new position based on the fixed movement distance
+        Vector3 newPosition = transform.position + movement * maxSpeed;
+
+        // Update the player's position
+        transform.position = newPosition;
     }
 
     void Attack()
     {
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(normalShot, attack_Point.position, Quaternion.identity);
         }
-        if (Input.GetKeyDown(KeyCode.V))
+        else if (Input.GetKeyDown(KeyCode.V))
         {
             Instantiate(explosiveShot, attack_Point.position, Quaternion.identity); 
         }

@@ -1572,13 +1572,13 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240069953}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1626,6 +1626,10 @@ MonoBehaviour:
   source: {fileID: 1240069961}
   audioClip: {fileID: 8300000, guid: a8995ac16a32e9747a4676a6c77c1cd0, type: 3}
   volume: 0.5
+  minY: 350
+  maxY: 910
+  minX: 300
+  maxX: 1600
 --- !u!82 &1240069961
 AudioSource:
   m_ObjectHideFlags: 0
