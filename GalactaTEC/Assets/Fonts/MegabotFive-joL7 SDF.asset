@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: MegabotFive-joL7 SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -1953893047
   material: {fileID: 8163583779168852140}
-  materialHashCode: 0
+  materialHashCode: 1742253513
   m_Version: 1.1.0
   m_SourceFontFileGUID: 4c3fa616cfa18b94ea0a5b4cde6e4b9e
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 4c3fa616cfa18b94ea0a5b4cde6e4b9e, type: 3}
@@ -2572,9 +2572,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.8333333
+    - _ScaleRatioB: 0.6770833
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0

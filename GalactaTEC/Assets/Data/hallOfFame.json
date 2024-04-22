@@ -1,0 +1,29 @@
+{
+    "hallOfFame": [
+        {
+            "photoPath": "/Data/UserPhotos/mhernandez.png",
+            "username": "mhernandez",
+            "score": 1600
+        },
+        {
+            "photoPath": "/Data/UserPhotos/andres.png",
+            "username": "Jose216",
+            "score": 2400
+        },
+        {
+            "photoPath": "/Data/UserPhotos/emanuel.png",
+            "username": "Emarin19",
+            "score": 400
+        },
+        {
+            "photoPath": "/Data/UserPhotos/oscar.png",
+            "username": "Camanem",
+            "score": 1800
+        },
+        {
+            "photoPath": "/Data/UserPhotos/felipe.png",
+            "username": "FelipeV13",
+            "score": 600
+        }
+    ]
+}
