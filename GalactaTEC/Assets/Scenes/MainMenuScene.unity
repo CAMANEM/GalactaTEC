@@ -625,6 +625,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: btnCloseDialogue
       objectReference: {fileID: 0}
+    - target: {fileID: 7004434956275406354, guid: 65ab394ea351e4d418a9d9d8ecac41ca, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7563867016126688901, guid: 65ab394ea351e4d418a9d9d8ecac41ca, type: 3}
       propertyPath: m_SizeDelta.x
       value: 400
