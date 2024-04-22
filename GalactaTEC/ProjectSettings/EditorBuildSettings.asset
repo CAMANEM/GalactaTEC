@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/Scenes/EditProfileScene.unity
     guid: 8d5d80765e8020941bafed76c59df7ff
   - enabled: 1
-    path: Assets/Scenes/HallOfFameScene.unity
+    path: Assets/Scenes/HallofFameScene.unity
     guid: 6ac48075f87ab684dab29dd7d12d54d5
   - enabled: 1
     path: Assets/Scenes/ConfigureGameScene.unity
@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: 6f93ff1298362f04d88ad23c1907e9f8
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 71048d3474f3eed4eb0bec3042d62980
   m_configObjects: {}

@@ -94,7 +94,7 @@ namespace dialogueManager
                     // Calls the LoadScene method of the loadingSceneScript script
                     if (loadingScript != null)
                     {
-                        loadingScript.LoadScene(7);
+                        loadingScript.LoadScene(11);
                     }
                     else
                     {
@@ -126,7 +126,7 @@ namespace dialogueManager
                     // Calls the LoadScene method of the loadingSceneScript script
                     if (loadingScript != null)
                     {
-                        loadingScript.LoadScene(7);
+                        loadingScript.LoadScene(11);
                     }
                     else
                     {
