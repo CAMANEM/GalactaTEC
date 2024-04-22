@@ -10,9 +10,13 @@ namespace dialogueManager
     public class dialogueScript : MonoBehaviour
     {
         [SerializeField] GameObject pnlDialogue;
+        [SerializeField] GameObject sceneLoader;
+        [SerializeField] TextMeshProUGUI txtDialogueTitle;
         [SerializeField] Button btnPlayer;
         [SerializeField] Button btnPlayers;
         [SerializeField] Button btnCloseDialogue;
+
+        public string optionMenu;
 
         // Start is called before the first frame update
         void Start()
@@ -58,26 +62,94 @@ namespace dialogueManager
             btnCloseDialogue.onClick.AddListener(HideDialogue);
         }
 
+        public void ConfigureGameButtonOnClick()
+        {
+            this.optionMenu = "ConfigureGame";
+            this.txtDialogueTitle.text = "Settings for:";
+            ShowDialogue();
+        }
+
+        public void StartGameButtonOnClick()
+        {
+            this.optionMenu = "StartGame";
+            this.txtDialogueTitle.text = "Game for:";
+            ShowDialogue();
+        }
+
+        public void PlayerButtonOnClick()
+        {
+            if (optionMenu == "ConfigureGame")
+            {
+                pnlDialogue.SetActive(false);
+                SceneManager.LoadScene("ConfigureGameScene");
+            }
+            else if (optionMenu == "StartGame")
+            {
+                // Make sure the GameObject sceneLoader is assigned in the Inspector
+                if (sceneLoader != null)
+                {
+                    // Get the loadingScene component from the GameObject sceneLoader
+                    var loadingScript = sceneLoader.GetComponent<loadingScene>();
+
+                    // Calls the LoadScene method of the loadingSceneScript script
+                    if (loadingScript != null)
+                    {
+                        loadingScript.LoadScene(7);
+                    }
+                    else
+                    {
+                        Debug.LogError("The GameObject sceneLoader does not have the loadingScene script attached to it.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("The GameObject sceneLoader has not been assigned in the Inspector.");
+                }
+            } 
+        }
+
+        public void PlayersButtonOnClick()
+        {
+            if (optionMenu == "ConfigureGame")
+            {
+                pnlDialogue.SetActive(false);
+                SceneManager.LoadScene("ConfigureGameScene");
+            }
+            else if (optionMenu == "StartGame")
+            {
+                // Make sure the GameObject sceneLoader is assigned in the Inspector
+                if (sceneLoader != null)
+                {
+                    // Get the loadingScene component from the GameObject sceneLoader
+                    var loadingScript = sceneLoader.GetComponent<loadingScene>();
+
+                    // Calls the LoadScene method of the loadingSceneScript script
+                    if (loadingScript != null)
+                    {
+                        loadingScript.LoadScene(7);
+                    }
+                    else
+                    {
+                        Debug.LogError("The GameObject sceneLoader does not have the loadingScene script attached to it.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("The GameObject sceneLoader has not been assigned in the Inspector.");
+                }
+            }
+        }
+
         public void ShowDialogue()
         {
             pnlDialogue.SetActive(true);
         }
 
-        public void PlayerButtonOnClick()
-        {
-            pnlDialogue.SetActive(false);
-            SceneManager.LoadScene("ConfigureGameScene");
-        }
-
-        public void PlayersButtonOnClick()
-        {
-            pnlDialogue.SetActive(false);
-            SceneManager.LoadScene("ConfigureGameScene");
-        }
-
         public void HideDialogue()
         {
             pnlDialogue.SetActive(false);
+            this.optionMenu = "";
+            this.txtDialogueTitle.text = "";
         }
     }
 }

@@ -67,40 +67,6 @@ namespace patternSelectionManager
             btnClosePatternSelection.onClick.AddListener(HidePatternSelection);
         }
 
-        public void ShowPatternSelection()
-        {
-            pnlPatternSelection.SetActive(true);
-        }
-
-        public void HidePatternSelection()
-        {
-            //Debug.Log("Toggle state for level " + levelPrefix + ":");
-            //for (int i = 0; i < toggles.Length; i++)
-            //{
-            //    int toggleState = PlayerPrefs.GetInt(levelPrefix + "Toggle" + i, 0);
-            //    Debug.Log("Toggle " + i + ": " + toggleState);
-            //}
-
-            bool anyToggleSelected = false;
-            for (int i = 0; i < toggles.Length; i++)
-            {
-                if (toggles[i].isOn)
-                {
-                    anyToggleSelected = true;
-                }
-            }
-
-            if (!anyToggleSelected)
-            {
-                PlayerPrefs.SetInt(levelPrefix + "Toggle" + 0, 1);
-                PlayerPrefs.Save();
-            }
-
-            pnlPatternSelection.SetActive(false);
-            this.txtPatternSelectionTitle.text = "";
-            this.levelPrefix = "";
-        }
-
         public void Level1ButtonOnClick()
         {
             this.levelPrefix = "Level1";
@@ -177,6 +143,39 @@ namespace patternSelectionManager
                 toggles[i].isOn = toggleState == 1;
             }
         }
-    }
 
+        public void ShowPatternSelection()
+        {
+            pnlPatternSelection.SetActive(true);
+        }
+
+        public void HidePatternSelection()
+        {
+            //Debug.Log("Toggle state for level " + levelPrefix + ":");
+            //for (int i = 0; i < toggles.Length; i++)
+            //{
+            //    int toggleState = PlayerPrefs.GetInt(levelPrefix + "Toggle" + i, 0);
+            //    Debug.Log("Toggle " + i + ": " + toggleState);
+            //}
+
+            bool anyToggleSelected = false;
+            for (int i = 0; i < toggles.Length; i++)
+            {
+                if (toggles[i].isOn)
+                {
+                    anyToggleSelected = true;
+                }
+            }
+
+            if (!anyToggleSelected)
+            {
+                PlayerPrefs.SetInt(levelPrefix + "Toggle" + 0, 1);
+                PlayerPrefs.Save();
+            }
+
+            pnlPatternSelection.SetActive(false);
+            this.txtPatternSelectionTitle.text = "";
+            this.levelPrefix = "";
+        }
+    }
 }
