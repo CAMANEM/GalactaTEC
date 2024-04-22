@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class normalShot : MonoBehaviour
+public class NormalShot : MonoBehaviour
 {
 
     public float speed = 500f;

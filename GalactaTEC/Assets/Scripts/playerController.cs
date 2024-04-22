@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     float maxSpeed = 150f;
 
@@ -26,6 +26,10 @@ public class playerController : MonoBehaviour
     public float maxX = 1600f;
 
 
+    public bool expasiveShot = false;
+    public bool chaserShot = false;
+    public bool x2Pts = false;
+    public bool shield = false;
 
     // Start is called before the first frame update
     void Start()
@@ -87,5 +91,33 @@ public class playerController : MonoBehaviour
         {
             Instantiate(explosiveShot, attack_Point.position, Quaternion.identity); 
         }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            ActivateChaser();
+        }
+    }
+
+    public void ActivateChaser(){
+        chaserShot = true;
+        ChaserItem chaserScript = GameObject.Find("ChaserShot").GetComponent<ChaserItem>();
+        chaserScript.Activate();
+    }
+
+    public void ActivateExpansive(){
+        expasiveShot = true;
+        ExpansiveItem expansiveScript = GameObject.Find("ExpansiveShot").GetComponent<ExpansiveItem>();
+        expansiveScript.Activate();
+    }
+
+    public void ActivateShield(){
+        shield = true;
+        ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
+        shieldScript.Activate();
+    }
+
+    public void ActivateX2Pts(){
+        x2Pts = true;
+        x2PtItem x2PtsScript = GameObject.Find("x2ptShot").GetComponent<x2PtItem>();
+        x2PtsScript.Activate();
     }
 }
