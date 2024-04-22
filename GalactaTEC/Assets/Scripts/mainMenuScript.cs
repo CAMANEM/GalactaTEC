@@ -22,7 +22,12 @@ public class mainMenuScript : MonoBehaviour
 
     public void _HallofFameButtonOnClick()
     {
-        SceneManager.LoadScene("HallofFameScene");
+        SceneManager.LoadScene("HallOfFameScene");
+    }
+
+    public void _ConfigureGameButtonOnClick()
+    {
+        SceneManager.LoadScene("ConfigureGameScene");
     }
 
     public void _ExitButtonOnClick()
