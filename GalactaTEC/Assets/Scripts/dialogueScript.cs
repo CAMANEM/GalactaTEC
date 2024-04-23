@@ -62,13 +62,6 @@ namespace dialogueManager
             btnCloseDialogue.onClick.AddListener(HideDialogue);
         }
 
-        public void ConfigureGameButtonOnClick()
-        {
-            this.optionMenu = "ConfigureGame";
-            this.txtDialogueTitle.text = "Settings for:";
-            ShowDialogue();
-        }
-
         public void StartGameButtonOnClick()
         {
             this.optionMenu = "StartGame";
@@ -78,12 +71,7 @@ namespace dialogueManager
 
         public void PlayerButtonOnClick()
         {
-            if (optionMenu == "ConfigureGame")
-            {
-                pnlDialogue.SetActive(false);
-                SceneManager.LoadScene("ConfigureGameScene");
-            }
-            else if (optionMenu == "StartGame")
+            if (optionMenu == "StartGame")
             {
                 // Make sure the GameObject sceneLoader is assigned in the Inspector
                 if (sceneLoader != null)
@@ -94,7 +82,7 @@ namespace dialogueManager
                     // Calls the LoadScene method of the loadingSceneScript script
                     if (loadingScript != null)
                     {
-                        loadingScript.LoadScene(11);
+                        loadingScript.LoadScene(10); // Load GameScene
                     }
                     else
                     {
@@ -110,33 +98,9 @@ namespace dialogueManager
 
         public void PlayersButtonOnClick()
         {
-            if (optionMenu == "ConfigureGame")
+            if (optionMenu == "StartGame")
             {
-                pnlDialogue.SetActive(false);
-                SceneManager.LoadScene("ConfigureGameScene");
-            }
-            else if (optionMenu == "StartGame")
-            {
-                // Make sure the GameObject sceneLoader is assigned in the Inspector
-                if (sceneLoader != null)
-                {
-                    // Get the loadingScene component from the GameObject sceneLoader
-                    var loadingScript = sceneLoader.GetComponent<loadingScene>();
-
-                    // Calls the LoadScene method of the loadingSceneScript script
-                    if (loadingScript != null)
-                    {
-                        loadingScript.LoadScene(11);
-                    }
-                    else
-                    {
-                        Debug.LogError("The GameObject sceneLoader does not have the loadingScene script attached to it.");
-                    }
-                }
-                else
-                {
-                    Debug.LogError("The GameObject sceneLoader has not been assigned in the Inspector.");
-                }
+                SceneManager.LoadScene("PickerWheelScene");
             }
         }
 

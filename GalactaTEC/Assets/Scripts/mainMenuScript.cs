@@ -20,17 +20,17 @@ public class mainMenuScript : MonoBehaviour
         }
     }
 
-    public void _HallofFameButtonOnClick()
+    public void HallofFameButtonOnClick()
     {
         SceneManager.LoadScene("HallOfFameScene");
     }
 
-    public void _ConfigureGameButtonOnClick()
+    public void ConfigureGameButtonOnClick()
     {
         SceneManager.LoadScene("ConfigureGameScene");
     }
 
-    public void _ExitButtonOnClick()
+    public void ExitButtonOnClick()
     {
         Application.Quit();
     }

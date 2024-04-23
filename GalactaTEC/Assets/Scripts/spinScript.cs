@@ -10,14 +10,16 @@ public class spinScript : MonoBehaviour
 {
     [SerializeField] Button btnSpin;
     [SerializeField] TextMeshProUGUI txtSpin;
+    [SerializeField] TextMeshProUGUI txtPlayer;
+    [SerializeField] GameObject sceneLoader;
 
     [SerializeField] PickerWheel pickerWheel;
-
     private WheelPiece[] wheelPieces;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Tests
         wheelPieces = pickerWheel.GetWheelPieces();
         PlayerPrefs.SetString("username" + 0, "Emarin19");
         PlayerPrefs.SetString("photoPath" + 0, "/Data/UserPhotos/emanuel.png");
@@ -26,11 +28,6 @@ public class spinScript : MonoBehaviour
         PlayerPrefs.SetString("photoPath" + 1, "/Data/UserPhotos/andres.png");
 
         PlayerPrefs.Save();
-
-        foreach (WheelPiece wheelPiece in pickerWheel.GetWheelPieces())
-        {
-            //wheelPiece.Amount = "";
-        }
 
         for (int i = 0; i < wheelPieces.Length; i++)
         {
@@ -62,13 +59,39 @@ public class spinScript : MonoBehaviour
 
             pickerWheel.OnSpinEnd(wheelPiece =>
             {
-                Debug.Log("Spin end: Label: " + wheelPiece.Label + ", Amount: " + wheelPiece.Amount);
                 btnSpin.interactable = true;
                 txtSpin.text = "Spin";
+                txtPlayer.text = wheelPiece.Label + "\nwill start the game";
+
+                Invoke("LoadNewScene", 2.0f);
             });
 
             pickerWheel.Spin();
         });
+    }
+
+    void LoadNewScene()
+    {
+        // Make sure the GameObject sceneLoader is assigned in the Inspector
+        if (sceneLoader != null)
+        {
+            // Get the loadingScene component from the GameObject sceneLoader
+            var loadingScript = sceneLoader.GetComponent<loadingScene>();
+
+            // Calls the LoadScene method of the loadingSceneScript script
+            if (loadingScript != null)
+            {
+                loadingScript.LoadScene(10); // Load GameScene
+            }
+            else
+            {
+                Debug.LogError("The GameObject sceneLoader does not have the loadingScene script attached to it.");
+            }
+        }
+        else
+        {
+            Debug.LogError("The GameObject sceneLoader has not been assigned in the Inspector.");
+        }
     }
 
     // Update is called once per frame
