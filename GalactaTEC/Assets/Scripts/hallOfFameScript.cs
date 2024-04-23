@@ -77,7 +77,7 @@ public class hallOfFameScript : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning("No se pudo encontrar la imagen del jugador: " + entry.photoPath);
+                    Debug.LogWarning("Could not find player image: " + entry.photoPath);
                 }
             }
             else
