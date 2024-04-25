@@ -38,6 +38,29 @@ public class loginSceneScript : MonoBehaviour
         
     }
 
+    private User getUserByEmail(string email)
+    {
+        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+
+        Users users = JsonUtility.FromJson<Users>(usersJSON);
+
+        User foundUser = null;
+
+        foreach (User user in users.users)
+        {
+            if (user.email == email)
+            {
+                foundUser = user;
+            }
+            else
+            {
+                Debug.Log("Something went wrong loading player information");
+            }
+        }
+
+        return foundUser;
+    }
+
     public void signUpButtonOnClick()
     {
         SceneManager.LoadScene("SignUpScene");
@@ -58,11 +81,12 @@ public class loginSceneScript : MonoBehaviour
 
         if(users.Exists(user => (user.email == inpUsernameEmailP1.text && user.password == inpPasswordP1.text)))
         {
-            gameManager.getInstance().player1Username = inpUsernameEmailP1.text;
+            gameManager.getInstance().player1Email = inpUsernameEmailP1.text;
 
             player1isLoggedIn = true;
+            gameManager.getInstance().player1Username = getUserByEmail(inpUsernameEmailP1.text).username;
 
-            if((gameManager.getInstance().cuantityOfPlayers == 1) || (gameManager.getInstance().cuantityOfPlayers == 2 && player2isLoggedIn))
+            if ((gameManager.getInstance().cuantityOfPlayers == 1) || (gameManager.getInstance().cuantityOfPlayers == 2 && player2isLoggedIn))
             {
                 SceneManager.LoadScene("MainMenuScene");
             }
@@ -80,11 +104,12 @@ public class loginSceneScript : MonoBehaviour
 
         if(users.Exists(user => (user.email == inpUsernameEmailP2.text && user.password == inpPasswordP2.text)))
         {
-            gameManager.getInstance().player2Username = inpUsernameEmailP2.text;
+            gameManager.getInstance().player2Email = inpUsernameEmailP2.text;
 
             player2isLoggedIn = true;
+            gameManager.getInstance().player2Username = getUserByEmail(inpUsernameEmailP2.text).username;
 
-            if(player1isLoggedIn)
+            if (player1isLoggedIn)
             {
                 SceneManager.LoadScene("MainMenuScene");
             }

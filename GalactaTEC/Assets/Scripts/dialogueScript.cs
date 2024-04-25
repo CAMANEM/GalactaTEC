@@ -66,13 +66,44 @@ namespace dialogueManager
             btnCloseDialogue.onClick.AddListener(HideDialogue);
         }
 
+        private void loadGameScene()
+        {
+            // Make sure the GameObject sceneLoader is assigned in the Inspector
+            if (sceneLoader != null)
+            {
+                // Get the loadingScene component from the GameObject sceneLoader
+                var loadingScript = sceneLoader.GetComponent<loadingScene>();
+
+                // Calls the LoadScene method of the loadingSceneScript script
+                if (loadingScript != null)
+                {
+                    loadingScript.LoadScene(10); // Load GameScene
+                }
+                else
+                {
+                    Debug.LogError("The GameObject sceneLoader does not have the loadingScene script attached to it.");
+                }
+            }
+            else
+            {
+                Debug.LogError("The GameObject sceneLoader has not been assigned in the Inspector.");
+            }
+        }
+
         public void StartGameButtonOnClick()
         {
-            this.optionMenu = "StartGame";
-            this.txtDialogueTitle.text = "Game for:";
-            this.txtOption1ButtonText.text = "1 Player";
-            this.txtOption2ButtonText.text = "2 Players";
-            ShowDialogue();
+            if (gameManager.getInstance().cuantityOfPlayers == 2)
+            {
+                this.optionMenu = "StartGame";
+                this.txtDialogueTitle.text = "Game for:";
+                this.txtOption1ButtonText.text = "1 Player";
+                this.txtOption2ButtonText.text = "2 Players";
+                ShowDialogue();
+            } else
+            {
+                loadGameScene();
+            }
+            
         }
 
         public void editPlayerButtonOnClick()
@@ -88,42 +119,43 @@ namespace dialogueManager
                 ShowDialogue();
             } else
             {
-                gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player1Username;
+                gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player1Email;
                 SceneManager.LoadScene("EditProfileScene");
             }
+        }
+
+        public void selectPlayerToPlay()
+        {
+            this.optionMenu = "playerPlayingSelection";
+            this.txtDialogueTitle.text = "Select player:";
+            this.txtOption1ButtonText.text = gameManager.getInstance().player1Username;
+            this.txtOption2ButtonText.text = gameManager.getInstance().player2Username;
+            ShowDialogue();
         }
 
         public void Option1ButtonOnClick()
         {
             if (optionMenu == "StartGame")
             {
-                // Make sure the GameObject sceneLoader is assigned in the Inspector
-                if (sceneLoader != null)
+                if (gameManager.getInstance().cuantityOfPlayers == 2)
                 {
-                    // Get the loadingScene component from the GameObject sceneLoader
-                    var loadingScript = sceneLoader.GetComponent<loadingScene>();
-
-                    // Calls the LoadScene method of the loadingSceneScript script
-                    if (loadingScript != null)
-                    {
-                        loadingScript.LoadScene(10); // Load GameScene
-                    }
-                    else
-                    {
-                        Debug.LogError("The GameObject sceneLoader does not have the loadingScene script attached to it.");
-                    }
+                    Debug.Log("Showing player selection");
+                    selectPlayerToPlay();
                 }
                 else
                 {
-                    Debug.LogError("The GameObject sceneLoader has not been assigned in the Inspector.");
+                    loadGameScene();
                 }
             } else if (optionMenu == "editProfile")
             {
-                gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player1Username;
+                gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player1Email;
                 SceneManager.LoadScene("EditProfileScene");
+                HideDialogue();
+            } else if (optionMenu == "playerPlayingSelection")
+            {
+                loadGameScene();
+                HideDialogue();
             }
-
-            HideDialogue();
         }
 
         public void Option2ButtonOnClick()
@@ -134,7 +166,7 @@ namespace dialogueManager
             }
             else if (optionMenu == "editProfile")
             {
-                gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player2Username;
+                gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player2Email;
                 SceneManager.LoadScene("EditProfileScene");
             }
             HideDialogue();

@@ -27,6 +27,8 @@ namespace GameManager
 
         // variables
         public int cuantityOfPlayers = 0;
+        public string player1Email = "";
+        public string player2Email = "";
         public string player1Username = "";
         public string player2Username = "";
 

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using GameManager;
+
 public class mainMenuScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("P1: " + gameManager.getInstance().player1Username);
+        Debug.Log("P2: " + gameManager.getInstance().player2Username);
     }
 
     // Update is called once per frame

@@ -5468,7 +5468,7 @@ GameObject:
   - component: {fileID: 1972852678}
   - component: {fileID: 1972852677}
   m_Layer: 5
-  m_Name: txtCreateAccount
+  m_Name: txtApplyChanges
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5513,7 +5513,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Create Account
+  m_text: Apply changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d8f7ecb132d0a924da74e31d6a4beaa8, type: 2}
   m_sharedMaterial: {fileID: -1059792908536846297, guid: d8f7ecb132d0a924da74e31d6a4beaa8, type: 2}
@@ -5858,7 +5858,7 @@ GameObject:
   - component: {fileID: 2047586024}
   - component: {fileID: 2047586023}
   m_Layer: 5
-  m_Name: btnCreateAccount
+  m_Name: btnApplyChanges
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

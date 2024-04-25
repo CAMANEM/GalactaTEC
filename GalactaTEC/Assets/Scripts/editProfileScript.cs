@@ -22,6 +22,10 @@ public class editProfileScript : MonoBehaviour {
     public TMP_InputField inpEmail;
     public TMP_InputField inpUsername;
 
+    // Variables
+    string userImagePath = "";
+    string shipImagePath = "";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,6 +88,15 @@ public class editProfileScript : MonoBehaviour {
         
     }
 
+    private List<User> getSignedUsers()
+    {
+        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+
+        Users users = JsonUtility.FromJson<Users>(usersJSON);
+
+        return users.users;
+    }
+
     private User getUserInformation()
     {
         string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
@@ -105,6 +118,89 @@ public class editProfileScript : MonoBehaviour {
         }
 
         return foundUser;
+    }
+
+    public void changeImageButtonOnClick()
+    {
+        try
+        {
+            userImagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new user image", "", "png,jpg,jpeg,gif,bmp");
+
+            if (!string.IsNullOrEmpty(userImagePath))
+            {
+                byte[] imageBytes = System.IO.File.ReadAllBytes(userImagePath);
+
+                Texture2D texture = new Texture2D(2, 2);
+                texture.LoadImage(imageBytes);
+
+                imgUserName.texture = texture;
+            }
+        }
+        catch
+        {
+            Debug.LogError("Something went wrong loading the selected user image. Image selected: " + userImagePath);
+        }
+    }
+
+    public void changeShipButtonOnClick()
+    {
+        try
+        {
+            shipImagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new ship image", "", "png,jpg,jpeg,gif,bmp");
+
+            if (!string.IsNullOrEmpty(shipImagePath))
+            {
+                byte[] imageBytes = System.IO.File.ReadAllBytes(shipImagePath);
+
+                Texture2D texture = new Texture2D(2, 2);
+                texture.LoadImage(imageBytes);
+
+                imgShipName.texture = texture;
+            }
+        }
+        catch
+        {
+
+            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + shipImagePath);
+        }
+    }
+
+    public void applyChangesButtonOnClick()
+    {
+        List<User> users = getSignedUsers();
+
+        foreach (User user in users)
+        {
+            if (user.email == gameManager.getInstance().playerEditingInformation)
+            {
+                user.name = inpName.text;
+                user.email = inpEmail.text;
+                user.username = inpUsername.text;
+                user.userImage = userImagePath;
+                user.shipImage = shipImagePath;
+
+                /*if (emailIsUnique(user.email) && usernameIsUnique(user.username))
+                {
+                    if (emailExists(user.email))
+                    {
+                        users.users.Add(user);
+                        users.cuantity += 1;
+
+                        string updatedJSON = JsonUtility.ToJson(users);
+
+                        File.WriteAllText(usersPath, updatedJSON);
+
+                        //MessageBox.Show("What are you waiting for? Let's play!", "Account created succesfully!");
+                        Debug.Log("Account created succesfully!");
+                        goToLoginScene();
+                    }
+                }*/
+            }
+            else
+            {
+                Debug.Log("Something went wrong loading player information");
+            }
+        }
     }
 
     public void changePasswordButtonOnClick()
