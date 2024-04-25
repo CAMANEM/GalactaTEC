@@ -26,7 +26,10 @@ public class passwordRecoveryScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (gameManager.getInstance().emailRecoveringPassword != "")
+        {
+            inpEmail.text = gameManager.getInstance().emailRecoveringPassword;
+        }
     }
 
     // Update is called once per frame
@@ -114,8 +117,7 @@ public class passwordRecoveryScript : MonoBehaviour
 
         yield return new WaitForSeconds(300);
 
-        gameManager.getInstance().validResetPasswordCode = null;
-        gameManager.getInstance().emailRecoveringPassword = "";
+        
     }
 
     public void sendButtonOnClick()
@@ -143,6 +145,21 @@ public class passwordRecoveryScript : MonoBehaviour
         catch
         {
             Debug.Log("Wrong code");
+        }
+    }
+
+    public void backButtonOnClick()
+    {
+        gameManager.getInstance().validResetPasswordCode = null;
+        gameManager.getInstance().emailRecoveringPassword = "";
+
+        if (gameManager.getInstance().cuantityOfPlayers == 1)
+        {
+            SceneManager.LoadScene("1PLoginScene");
+        }
+        else
+        {
+            SceneManager.LoadScene("2PLoginScene");
         }
     }
 }

@@ -100,4 +100,9 @@ public class loginSceneScript : MonoBehaviour
     {
         SceneManager.LoadScene("PasswordRecoveryScene");
     }
+
+    public void backButtonOnClik()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
 }

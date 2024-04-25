@@ -131,7 +131,10 @@ public class newPasswordScript : MonoBehaviour
 
             Debug.Log("Password changed succesfully!");
 
-            if(gameManager.getInstance().cuantityOfPlayers == 1)
+            gameManager.getInstance().validResetPasswordCode = null;
+            gameManager.getInstance().emailRecoveringPassword = "";
+
+            if (gameManager.getInstance().cuantityOfPlayers == 1)
             {
                 SceneManager.LoadScene("1PLoginScene");
             }
@@ -144,5 +147,11 @@ public class newPasswordScript : MonoBehaviour
         {
             Debug.Log("There was a problem changing your password, please try again.");
         }
+    }
+
+    public void backButtonOnClick()
+    {
+        gameManager.getInstance().validResetPasswordCode = null;
+        SceneManager.LoadScene("PasswordRecoveryScene");
     }
 }

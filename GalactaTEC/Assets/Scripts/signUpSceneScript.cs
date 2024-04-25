@@ -8,6 +8,9 @@ using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using TMPro;
+using UnityEngine.SceneManagement;
+
+using GameManager;
 
 using alertsManager;
 
@@ -57,7 +60,7 @@ public class signUpSceneScript : MonoBehaviour
         
     }
 
-    public void selectUserImage()
+    public void changeImageButtonOnClick()
     {
         try
         {
@@ -78,7 +81,7 @@ public class signUpSceneScript : MonoBehaviour
         }
     }
 
-    public void selectShipImage()
+    public void changeShipButtonOnClick()
     {
         try
         {
@@ -110,7 +113,7 @@ public class signUpSceneScript : MonoBehaviour
         return users.users;
     }
 
-    public void createAccount()
+    public void createAccountButtonOnClick()
     {
         if (File.Exists(usersPath))
         {
@@ -137,6 +140,7 @@ public class signUpSceneScript : MonoBehaviour
 
                     //MessageBox.Show("What are you waiting for? Let's play!", "Account created succesfully!");
                     Debug.Log("Account created succesfully!");
+                    goToLoginScene();
                 }
             }
         }
@@ -163,6 +167,7 @@ public class signUpSceneScript : MonoBehaviour
                     File.WriteAllText(usersPath, userJson);
                     //MessageBox.Show("What are you waiting for? Let's play!", "Account created succesfully!");
                     Debug.Log("Account created succesfully!");
+                    goToLoginScene();
                 }
             }     
         }
@@ -357,6 +362,23 @@ public class signUpSceneScript : MonoBehaviour
             Debug.Log("We have troubles to confirm your email address, please, check your email and try again");
             return false;
         }
+    }
+
+    private void goToLoginScene()
+    {
+        if (gameManager.getInstance().cuantityOfPlayers == 1)
+        {
+            SceneManager.LoadScene("1PLoginScene");
+        }
+        else
+        {
+            SceneManager.LoadScene("2PLoginScene");
+        }
+    }
+
+    public void backButtonOnClik()
+    {
+        goToLoginScene();
     }
 }
 
