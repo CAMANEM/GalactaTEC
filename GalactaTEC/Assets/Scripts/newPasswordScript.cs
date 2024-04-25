@@ -134,7 +134,11 @@ public class newPasswordScript : MonoBehaviour
             gameManager.getInstance().validResetPasswordCode = null;
             gameManager.getInstance().emailRecoveringPassword = "";
 
-            if (gameManager.getInstance().cuantityOfPlayers == 1)
+            if (gameManager.getInstance().isUserEditingProfileInformation)
+            {
+                SceneManager.LoadScene("EditProfileScene");
+            }
+            else if (gameManager.getInstance().cuantityOfPlayers == 1)
             {
                 SceneManager.LoadScene("1PLoginScene");
             }

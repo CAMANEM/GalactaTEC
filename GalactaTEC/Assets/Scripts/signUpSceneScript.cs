@@ -21,6 +21,9 @@ public class User
     public string email;
     public string username;
     public string password;
+    public string userImage;
+    public string shipImage;
+    public int[] scoreRecord;
 }
 
 [System.Serializable]
@@ -43,7 +46,9 @@ public class signUpSceneScript : MonoBehaviour
     public TMP_InputField inpPassword;
 
     // Variables
-    string imagePath;
+    string userImagePath = "";
+    string shipImagePath = "";
+
 
     string usersPath = Application.dataPath + "/Data/users.json";
 
@@ -64,11 +69,11 @@ public class signUpSceneScript : MonoBehaviour
     {
         try
         {
-            string imagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new user image", "", "png,jpg,jpeg,gif,bmp");
+            userImagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new user image", "", "png,jpg,jpeg,gif,bmp");
 
-            if (!string.IsNullOrEmpty(imagePath))
+            if (!string.IsNullOrEmpty(userImagePath))
             {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
+                byte[] imageBytes = System.IO.File.ReadAllBytes(userImagePath);
 
                 Texture2D texture = new Texture2D(2, 2);
                 texture.LoadImage(imageBytes);
@@ -77,7 +82,7 @@ public class signUpSceneScript : MonoBehaviour
             }
         } catch
         {
-            Debug.LogError("Something went wrong loading the selected user image. Image selected: " + imgUserName);
+            Debug.LogError("Something went wrong loading the selected user image. Image selected: " + userImagePath);
         }
     }
 
@@ -85,11 +90,11 @@ public class signUpSceneScript : MonoBehaviour
     {
         try
         {
-            string imagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new ship image", "", "png,jpg,jpeg,gif,bmp");
+            shipImagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new ship image", "", "png,jpg,jpeg,gif,bmp");
 
-            if (!string.IsNullOrEmpty(imagePath))
+            if (!string.IsNullOrEmpty(shipImagePath))
             {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
+                byte[] imageBytes = System.IO.File.ReadAllBytes(shipImagePath);
 
                 Texture2D texture = new Texture2D(2, 2);
                 texture.LoadImage(imageBytes);
@@ -100,7 +105,7 @@ public class signUpSceneScript : MonoBehaviour
         catch
         {
 
-            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + imgShipName);
+            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + shipImagePath);
         }
     }
 
@@ -126,6 +131,9 @@ public class signUpSceneScript : MonoBehaviour
             user.email = inpEmail.text;
             user.username = inpUsername.text;
             user.password = inpPassword.text;
+            user.userImage = userImagePath;
+            user.shipImage = shipImagePath;
+            user.scoreRecord = new int[5];
 
             if (emailIsUnique(user.email) && usernameIsUnique(user.username) && passwordIsValid(user.password))
             {
@@ -151,6 +159,9 @@ public class signUpSceneScript : MonoBehaviour
             user.email = inpEmail.text;
             user.username = inpUsername.text;
             user.password = inpPassword.text;
+            user.userImage = userImagePath;
+            user.shipImage = shipImagePath;
+            user.scoreRecord = new int[5];
 
             if (passwordIsValid(user.password))
             {

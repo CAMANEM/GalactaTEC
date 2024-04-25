@@ -30,6 +30,11 @@ public class mainMenuScript : MonoBehaviour
         SceneManager.LoadScene("ConfigureGameScene");
     }
 
+    public void editProfileButtonOnClick()
+    {
+        SceneManager.LoadScene("EditProfileScene");
+    }
+
     public void ExitButtonOnClick()
     {
         Application.Quit();

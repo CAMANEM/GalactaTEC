@@ -33,6 +33,12 @@ namespace GameManager
         public string validResetPasswordCode = null;
         public string emailRecoveringPassword = "";
 
+        public bool isUserEditingProfileInformation = false;
+        public string playerEditingInformation = "";
+
+        // Paths
+        public string usersPath = Application.dataPath + "/Data/users.json";
+
         private void Awake()
         {
             if(instance == null)
