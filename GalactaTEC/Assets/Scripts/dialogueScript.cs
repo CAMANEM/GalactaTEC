@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+using GameManager;
+
 namespace dialogueManager
 {
     public class dialogueScript : MonoBehaviour
@@ -12,8 +14,10 @@ namespace dialogueManager
         [SerializeField] GameObject pnlDialogue;
         [SerializeField] GameObject sceneLoader;
         [SerializeField] TextMeshProUGUI txtDialogueTitle;
-        [SerializeField] Button btnPlayer;
-        [SerializeField] Button btnPlayers;
+        [SerializeField] TextMeshProUGUI txtOption1ButtonText;
+        [SerializeField] TextMeshProUGUI txtOption2ButtonText;
+        [SerializeField] Button btnOption1;
+        [SerializeField] Button btnOption2;
         [SerializeField] Button btnCloseDialogue;
 
         public string optionMenu;
@@ -66,10 +70,30 @@ namespace dialogueManager
         {
             this.optionMenu = "StartGame";
             this.txtDialogueTitle.text = "Game for:";
+            this.txtOption1ButtonText.text = "1 Player";
+            this.txtOption2ButtonText.text = "2 Players";
             ShowDialogue();
         }
 
-        public void PlayerButtonOnClick()
+        public void editPlayerButtonOnClick()
+        {
+            if (gameManager.getInstance().cuantityOfPlayers == 2)
+            {
+                this.optionMenu = "editProfile";
+                this.txtDialogueTitle.text = "Profile to edit:";
+                this.txtOption1ButtonText.fontSize = 30;
+                this.txtOption2ButtonText.fontSize = 30;
+                this.txtOption1ButtonText.text = gameManager.getInstance().player1Username;
+                this.txtOption2ButtonText.text = gameManager.getInstance().player2Username;
+                ShowDialogue();
+            } else
+            {
+                gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player1Username;
+                SceneManager.LoadScene("EditProfileScene");
+            }
+        }
+
+        public void Option1ButtonOnClick()
         {
             if (optionMenu == "StartGame")
             {
@@ -93,15 +117,27 @@ namespace dialogueManager
                 {
                     Debug.LogError("The GameObject sceneLoader has not been assigned in the Inspector.");
                 }
-            } 
+            } else if (optionMenu == "editProfile")
+            {
+                gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player1Username;
+                SceneManager.LoadScene("EditProfileScene");
+            }
+
+            HideDialogue();
         }
 
-        public void PlayersButtonOnClick()
+        public void Option2ButtonOnClick()
         {
             if (optionMenu == "StartGame")
             {
                 SceneManager.LoadScene("PickerWheelScene");
             }
+            else if (optionMenu == "editProfile")
+            {
+                gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player2Username;
+                SceneManager.LoadScene("EditProfileScene");
+            }
+            HideDialogue();
         }
 
         public void ShowDialogue()
@@ -114,6 +150,10 @@ namespace dialogueManager
             pnlDialogue.SetActive(false);
             this.optionMenu = "";
             this.txtDialogueTitle.text = "";
+            this.txtOption1ButtonText.text = "";
+            this.txtOption2ButtonText.text = "";
+            this.txtOption1ButtonText.fontSize = 40;
+            this.txtOption2ButtonText.fontSize = 40;
         }
     }
 }
