@@ -1,31 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BGScroll : MonoBehaviour
 {
 
-    public float scrollSpeed = 0.1f;
-    private MeshRenderer meshRenderer;
-    private float yScroll;
+    [SerializeField] private RawImage image;
+    [SerializeField] private float xScroll, yScroll;
 
-    
-    void Awake()
-    {
-        meshRenderer = GetComponent<MeshRenderer>();
-    }
 
     // Update is called once per frame
     void Update()
     {
-        
+        image.uvRect = new Rect(image.uvRect.position + new Vector2(xScroll, yScroll) * Time.deltaTime, image.uvRect.size);
     }
 
-    void Scroll(){
-
-        yScroll = Time.time * scrollSpeed;
-
-        Vector2 offset = new Vector2(yScroll, 0f);
-        //meshRenderer.sharedMaterial.setTextureOffset("_MainTex", offset);
-    }
+    
 }

@@ -67,7 +67,9 @@ public class GameSceneScript : MonoBehaviour
         }
         else
         {
-            User user = getUserByUsername(gameManager.getInstance().playerToPlay);
+            //User user = getUserByUsername(gameManager.getInstance().playerToPlay);
+            // txtUsername1.text = user.username;
+            User user = getUserByUsername("joseandres216");
             txtUsername1.text = user.username;
 
             // Load player image from specified path
