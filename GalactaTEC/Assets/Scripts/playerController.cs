@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
+
 {
+    private PlayerLives playerLives;
+
     float maxSpeed = 150f;
 
     [SerializeField]
@@ -35,12 +38,17 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        playerLives = GetComponent<PlayerLives>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.B)) 
+        {
+            playerLives.AddLife();        // Llamar a AddLife() en el script PlayerLives
+        }
+
         Move();
         Attack();
 
