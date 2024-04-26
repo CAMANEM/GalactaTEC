@@ -32,6 +32,8 @@ namespace GameManager
         public string player1Username = "";
         public string player2Username = "";
 
+        public string playerToPlay = "";
+
         public string validResetPasswordCode = null;
         public string emailRecoveringPassword = "";
 

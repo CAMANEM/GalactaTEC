@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 
 using GameManager;
 
+[System.Serializable]
 public class editProfileScript : MonoBehaviour { 
 
     // GUI elements
@@ -25,6 +26,8 @@ public class editProfileScript : MonoBehaviour {
     // Variables
     string userImagePath = "";
     string shipImagePath = "";
+
+    byte[] imageBytesUser;
 
     // Start is called before the first frame update
     void Start()
@@ -40,12 +43,11 @@ public class editProfileScript : MonoBehaviour {
             inpUsername.text = user.username;
 
             // Loads user image
-
             try
             {
                 if (!string.IsNullOrEmpty(user.userImage))
                 {
-                    byte[] imageBytes = System.IO.File.ReadAllBytes(user.userImage);
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(Application.dataPath + user.userImage);
 
                     Texture2D texture = new Texture2D(2, 2);
                     texture.LoadImage(imageBytes);
@@ -56,16 +58,15 @@ public class editProfileScript : MonoBehaviour {
             catch
             {
 
-                Debug.LogError("Something went wrong loading the selected user image: " + user.userImage);
+                Debug.LogError("Something went wrong loading the selected user image: " + Application.dataPath + user.userImage);
             }
 
             // Loads ship image
-
             try
             {
                 if (!string.IsNullOrEmpty(user.shipImage))
                 {
-                    byte[] imageBytes = System.IO.File.ReadAllBytes(user.shipImage);
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(Application.dataPath + user.shipImage);
 
                     Texture2D texture = new Texture2D(2, 2);
                     texture.LoadImage(imageBytes);
@@ -75,11 +76,9 @@ public class editProfileScript : MonoBehaviour {
             }
             catch
             {
-
-                Debug.LogError("Something went wrong loading the selected ship image: " + user.shipImage);
+                Debug.LogError("Something went wrong loading the selected ship image: " + Application.dataPath + user.shipImage);
             }
         }
-
     }
 
     // Update is called once per frame
@@ -128,10 +127,10 @@ public class editProfileScript : MonoBehaviour {
 
             if (!string.IsNullOrEmpty(userImagePath))
             {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(userImagePath);
+                imageBytesUser = System.IO.File.ReadAllBytes(userImagePath);
 
                 Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(imageBytes);
+                texture.LoadImage(imageBytesUser);
 
                 imgUserName.texture = texture;
             }
@@ -167,7 +166,11 @@ public class editProfileScript : MonoBehaviour {
 
     public void applyChangesButtonOnClick()
     {
-        List<User> users = getSignedUsers();
+        //List<User> users = getSignedUsers();
+
+        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+
+        Users users = JsonUtility.FromJson<Users>(usersJSON);
 
         foreach (User user in users)
         {
@@ -176,7 +179,25 @@ public class editProfileScript : MonoBehaviour {
                 user.name = inpName.text;
                 user.email = inpEmail.text;
                 user.username = inpUsername.text;
-                user.userImage = userImagePath;
+
+                string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
+                if (userImagePath != "" && user.userImage != newUserImage)
+                {
+                    // Delete previous user image
+                    if (!string.IsNullOrEmpty(user.userImage) && File.Exists(Application.dataPath + user.userImage))
+                    {
+                        System.IO.File.Delete(Application.dataPath + user.userImage);
+                    }
+
+                    // Update user image
+                    user.userImage = newUserImage;
+
+                    // Copy and paste the new user image in ../Data/UserPhotos
+                    string savePath = Application.dataPath + newUserImage;
+                    File.WriteAllBytes(savePath, imageBytesUser);
+                }
+
+                // Do the same for shipImage
                 user.shipImage = shipImagePath;
 
                 /*if (emailIsUnique(user.email) && usernameIsUnique(user.username))
@@ -195,6 +216,10 @@ public class editProfileScript : MonoBehaviour {
                         goToLoginScene();
                     }
                 }*/
+
+                // After finish validations
+                string updatedJSON = JsonUtility.ToJson(users);
+                File.WriteAllText(gameManager.getInstance().usersPath, updatedJSON);
             }
             else
             {

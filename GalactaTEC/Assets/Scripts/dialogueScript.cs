@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
 using GameManager;
 
 namespace dialogueManager
@@ -25,7 +24,7 @@ namespace dialogueManager
         // Start is called before the first frame update
         void Start()
         {
-
+            gameManager.getInstance().playerToPlay = "";
         }
 
         // Update is called once per frame
@@ -103,7 +102,6 @@ namespace dialogueManager
             {
                 loadGameScene();
             }
-            
         }
 
         public void editPlayerButtonOnClick()
@@ -139,20 +137,22 @@ namespace dialogueManager
             {
                 if (gameManager.getInstance().cuantityOfPlayers == 2)
                 {
-                    Debug.Log("Showing player selection");
                     selectPlayerToPlay();
                 }
                 else
                 {
                     loadGameScene();
                 }
-            } else if (optionMenu == "editProfile")
+            } 
+            else if (optionMenu == "editProfile")
             {
                 gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player1Email;
                 SceneManager.LoadScene("EditProfileScene");
                 HideDialogue();
-            } else if (optionMenu == "playerPlayingSelection")
+            } 
+            else if (optionMenu == "playerPlayingSelection")
             {
+                gameManager.getInstance().playerToPlay = gameManager.getInstance().player1Username;
                 loadGameScene();
                 HideDialogue();
             }
@@ -168,8 +168,14 @@ namespace dialogueManager
             {
                 gameManager.getInstance().playerEditingInformation = gameManager.getInstance().player2Email;
                 SceneManager.LoadScene("EditProfileScene");
+                HideDialogue();
             }
-            HideDialogue();
+            else if (optionMenu == "playerPlayingSelection")
+            {
+                gameManager.getInstance().playerToPlay = gameManager.getInstance().player2Username;
+                loadGameScene();
+                HideDialogue();
+            }
         }
 
         public void ShowDialogue()

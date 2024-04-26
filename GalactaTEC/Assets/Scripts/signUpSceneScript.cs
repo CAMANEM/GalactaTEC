@@ -27,10 +27,20 @@ public class User
 }
 
 [System.Serializable]
-public class Users
+public class Users : IEnumerable<User>
 {
     public List<User> users;
     public int cuantity;
+
+    public IEnumerator<User> GetEnumerator()
+    {
+        return users.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }
 
 [System.Serializable]
@@ -49,9 +59,7 @@ public class signUpSceneScript : MonoBehaviour
     string userImagePath = "";
     string shipImagePath = "";
 
-
     string usersPath = Application.dataPath + "/Data/users.json";
-
 
     // Start is called before the first frame update
     void Start()
@@ -131,7 +139,7 @@ public class signUpSceneScript : MonoBehaviour
             user.email = inpEmail.text;
             user.username = inpUsername.text;
             user.password = inpPassword.text;
-            user.userImage = userImagePath;
+            user.userImage = userImagePath == "" ? "/Data/UserPhotos/default-avatar.png" : userImagePath;
             user.shipImage = shipImagePath;
             user.scoreRecord = new int[5];
 

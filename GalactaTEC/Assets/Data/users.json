@@ -5,8 +5,8 @@
             "email": "joseandres216@gmail.com",
             "username": "joseandres216",
             "password": "Ja_Rr1234",
-            "userImage": "C:/Users/josea/Downloads/defaultUserImage2.png",
-            "shipImage": "C:/Users/josea/Downloads/1970267.png",
+            "userImage": "/Data/UserPhotos/andres.png",
+            "shipImage": "",
             "scoreRecord": [
                 0,
                 0,
@@ -20,7 +20,22 @@
             "email": "joseandres1606@hotmail.com",
             "username": "arod16",
             "password": "Ja_Rr1234",
-            "userImage": "",
+            "userImage": "/Data/UserPhotos/default-avatar.png",
+            "shipImage": "",
+            "scoreRecord": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        {
+            "name": "Emanuel Marin Gutierrez",
+            "email": "emarints@gmail.com",
+            "username": "MarinGE23",
+            "password": "Em@rinTEC2024",
+            "userImage": "/Data/UserPhotos/emanuel.png",
             "shipImage": "",
             "scoreRecord": [
                 0,
@@ -31,5 +46,5 @@
             ]
         }
     ],
-    "cuantity": 2
+    "cuantity": 3
 }

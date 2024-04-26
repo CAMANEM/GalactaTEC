@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using EasyUI.PickerWheelUI;
 using TMPro;
 using System.IO;
+using GameManager;
 
 public class spinScript : MonoBehaviour
 {
@@ -19,33 +20,8 @@ public class spinScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Tests
         wheelPieces = pickerWheel.GetWheelPieces();
-        PlayerPrefs.SetString("username" + 0, "Emarin19");
-        PlayerPrefs.SetString("photoPath" + 0, "/Data/UserPhotos/emanuel.png");
-
-        PlayerPrefs.SetString("username" + 1, "Jose216");
-        PlayerPrefs.SetString("photoPath" + 1, "/Data/UserPhotos/andres.png");
-
-        PlayerPrefs.Save();
-
-        for (int i = 0; i < wheelPieces.Length; i++)
-        {
-            wheelPieces[i].Label = PlayerPrefs.GetString("username" + i);
-
-            // Load player image from specified path
-            if (File.Exists(Application.dataPath + PlayerPrefs.GetString("photoPath" + i)))
-            {
-                byte[] imageData = File.ReadAllBytes(Application.dataPath + PlayerPrefs.GetString("photoPath" + i));
-                Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(imageData);
-                wheelPieces[i].Icon = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            }
-            else
-            {
-                Debug.LogWarning("Could not find player image: " + PlayerPrefs.GetString("photoPath" + i));
-            }
-        }
+        loadPickerWheelInfo();
 
         btnSpin.onClick.AddListener(() =>
         {
@@ -98,5 +74,64 @@ public class spinScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void loadPickerWheelInfo()
+    {
+        Debug.Log("Player1: " + gameManager.getInstance().player1Username);
+        Debug.Log("Player2: " + gameManager.getInstance().player2Username);
+        User user1 = getUserByUsername(gameManager.getInstance().player1Username);
+        User user2 = getUserByUsername(gameManager.getInstance().player2Username);
+
+        wheelPieces[0].Label = user1.username;
+        wheelPieces[1].Label = user2.username;
+
+        // Load player image from specified path
+        if (File.Exists(Application.dataPath + user1.userImage))
+        {
+            byte[] imageData1 = File.ReadAllBytes(Application.dataPath + user1.userImage);
+            Texture2D texture1 = new Texture2D(2, 2);
+            texture1.LoadImage(imageData1);
+            wheelPieces[0].Icon = Sprite.Create(texture1, new Rect(0, 0, texture1.width, texture1.height), new Vector2(0.5f, 0.5f));
+        }
+        else
+        {
+            Debug.LogWarning("Could not find player image: " + Application.dataPath + user1.userImage);
+        }
+
+        if (File.Exists(Application.dataPath + user2.userImage))
+        {
+            byte[] imageData2 = File.ReadAllBytes(Application.dataPath + user2.userImage);
+            Texture2D texture2 = new Texture2D(2, 2);
+            texture2.LoadImage(imageData2);
+            wheelPieces[1].Icon = Sprite.Create(texture2, new Rect(0, 0, texture2.width, texture2.height), new Vector2(0.5f, 0.5f));
+        }
+        else
+        {
+            Debug.LogWarning("Could not find player image: " + Application.dataPath + user2.userImage);
+        }
+    }
+
+    private User getUserByUsername(string username)
+    {
+        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+        Debug.Log(usersJSON);
+        Users users = JsonUtility.FromJson<Users>(usersJSON);
+
+        User foundUser = null;
+
+        foreach (User user in users.users)
+        {
+            if (user.username == username)
+            {
+                foundUser = user;
+            }
+            else
+            {
+                Debug.Log("Something went wrong loading player information");
+            }
+        }
+
+        return foundUser;
     }
 }
