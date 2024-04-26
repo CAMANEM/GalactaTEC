@@ -38,6 +38,9 @@ namespace GameManager
         public bool isUserEditingProfileInformation = false;
         public string playerEditingInformation = "";
 
+        // Defines the dictionary to store attack levels and patterns
+        private Dictionary<int, int> levelAttackPatterns = new Dictionary<int, int>();
+
         // Paths
         public string usersPath = Application.dataPath + "/Data/users.json";
 
@@ -57,6 +60,50 @@ namespace GameManager
         public void setCuantityOfPlayers(int cuantityOfPlayers)
         {
             this.cuantityOfPlayers = cuantityOfPlayers;
+        }
+
+        public int getAttackPatternForLevel(int level)
+        {
+            int attackPattern;
+            // Try to get the attack pattern for the given level
+            if (levelAttackPatterns.TryGetValue(level, out attackPattern))
+            {
+                return attackPattern;
+            }
+            else
+            {
+                Debug.LogError("The specified level does not have an attack pattern assigned.");
+                return -1;
+            }
+        }
+
+        public void setAttackPatternForLevel(int level, int attackPattern)
+        {
+            // Check if the level exists in the dictionary
+            if (levelAttackPatterns.ContainsKey(level))
+            {
+                // Modify the attack pattern for the given level
+                levelAttackPatterns[level] = attackPattern;
+            }
+            else
+            {
+                Debug.LogError("The specified level does not exist in the dictionary.");
+            }
+        }
+
+        public void addLevelAttackPattern(int level, int attackPattern)
+        {
+            // Check if the level does not exist in the dictionary
+            if (!levelAttackPatterns.ContainsKey(level))
+            {
+                // Add a new level and attack pattern
+                levelAttackPatterns.Add(level, attackPattern);
+            }
+        }
+
+        public Dictionary<int, int> getlevelAttackPatterns()
+        {
+            return levelAttackPatterns;
         }
     }
 }

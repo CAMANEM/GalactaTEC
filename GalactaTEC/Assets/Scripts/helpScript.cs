@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class helpScript : MonoBehaviour
 {
@@ -14,5 +15,19 @@ public class helpScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void backButtonOnClick()
+    {
+        string scene = PlayerPrefs.GetString("HelpScene");
+
+        if (scene == "TitleScene")
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
+        else if (scene == "MainMenuScene")
+        {
+            SceneManager.LoadScene("MainMenuScene");
+        }
     }
 }

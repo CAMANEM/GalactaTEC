@@ -2482,7 +2482,7 @@ MonoBehaviour:
   - {fileID: 1099237420}
   - {fileID: 565478990}
   - {fileID: 1426698966}
-  levelPrefix: 
+  level: 0
 --- !u!1 &1081764204
 GameObject:
   m_ObjectHideFlags: 0
@@ -3545,6 +3545,18 @@ PrefabInstance:
     - target: {fileID: 7918266052181647191, guid: b0475114e32612342ab39684acee6277, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7973615313632423091, guid: b0475114e32612342ab39684acee6277, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1036632888}
+    - target: {fileID: 7973615313632423091, guid: b0475114e32612342ab39684acee6277, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: closeButtonOnClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7973615313632423091, guid: b0475114e32612342ab39684acee6277, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: patternSelectionScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8231540745900674987, guid: b0475114e32612342ab39684acee6277, type: 3}
       propertyPath: m_SizeDelta.x

@@ -47,4 +47,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PickerWheelScene.unity
     guid: eaceecafda97bb24e8dec7cdb7c67af1
+  - enabled: 1
+    path: Assets/Scenes/HelpScene.unity
+    guid: fa8a10b210fcfcf489e137510e9700e1
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: ecbcbf7fa2036f542bc6cfbc928aeef2
   m_configObjects: {}
