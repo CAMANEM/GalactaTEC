@@ -23,7 +23,7 @@ public class mainMenuScript : MonoBehaviour
         }
     }
 
-    public void HallofFameButtonOnClick()
+    public void HallOfFameButtonOnClick()
     {
         SceneManager.LoadScene("HallOfFameScene");
     }
@@ -38,8 +38,9 @@ public class mainMenuScript : MonoBehaviour
         SceneManager.LoadScene("EditProfileScene");
     }
 
-    public void ExitButtonOnClick()
+    public void BackButtonOnClick()
     {
-        Application.Quit();
+        // Agregar ventana emergente indicando si está seguro que quiere regresar y de ser así se eliminará el/los inicios de sesión
+        SceneManager.LoadScene("TitleScene");
     }
 }

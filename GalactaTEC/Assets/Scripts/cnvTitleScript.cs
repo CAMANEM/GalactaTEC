@@ -38,14 +38,13 @@ public class cnvTitleScript : MonoBehaviour
         SceneManager.LoadScene("2PLoginScene");
     }
 
+    public void helpButtonOnClick()
+    {
+        SceneManager.LoadScene("1PLoginScene");
+    }
+
     public void closeButtonOnClick()
     {
         Application.Quit();
-    }
-
-    public void helpButtonOnClick()
-    {
-        // ToDo: Opens help window
-        Debug.Log("Opens help window");
     }
 }

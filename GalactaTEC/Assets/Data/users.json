@@ -1,1 +1,35 @@
-{"users":[{"name":"Jose Andres Rodriguez Rojas","email":"joseandres216@gmail.com","username":"joseandres216","password":"Ja_Rr1234","userImage":"C:/Users/josea/Downloads/defaultUserImage2.png","shipImage":"C:/Users/josea/Downloads/1970267.png","scoreRecord":[0,0,0,0,0]},{"name":"Andres Rojas","email":"joseandres1606@hotmail.com","username":"arod16","password":"Ja_Rr1234","userImage":"","shipImage":"","scoreRecord":[0,0,0,0,0]}],"cuantity":2}
+{
+    "users": [
+        {
+            "name": "Jose Andres Rodriguez Rojas",
+            "email": "joseandres216@gmail.com",
+            "username": "joseandres216",
+            "password": "Ja_Rr1234",
+            "userImage": "C:/Users/josea/Downloads/defaultUserImage2.png",
+            "shipImage": "C:/Users/josea/Downloads/1970267.png",
+            "scoreRecord": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        {
+            "name": "Andres Rojas",
+            "email": "joseandres1606@hotmail.com",
+            "username": "arod16",
+            "password": "Ja_Rr1234",
+            "userImage": "",
+            "shipImage": "",
+            "scoreRecord": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    ],
+    "cuantity": 2
+}

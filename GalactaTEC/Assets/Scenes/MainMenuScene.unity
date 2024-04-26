@@ -924,7 +924,7 @@ GameObject:
   - component: {fileID: 1804855151}
   - component: {fileID: 1804855154}
   m_Layer: 5
-  m_Name: btnExit
+  m_Name: btnBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -995,7 +995,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1804855154}
         m_TargetAssemblyTypeName: mainMenuScript, Assembly-CSharp
-        m_MethodName: ExitButtonOnClick
+        m_MethodName: BackButtonOnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1025,7 +1025,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit
+  m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d8f7ecb132d0a924da74e31d6a4beaa8, type: 2}
   m_sharedMaterial: {fileID: -1059792908536846297, guid: d8f7ecb132d0a924da74e31d6a4beaa8, type: 2}
@@ -1462,9 +1462,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 372043003}
+      - m_Target: {fileID: 372043006}
         m_TargetAssemblyTypeName: mainMenuScript, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: HallOfFameButtonOnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
