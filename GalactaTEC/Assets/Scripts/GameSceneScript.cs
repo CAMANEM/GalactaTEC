@@ -6,6 +6,7 @@ using GameManager;
 using System;
 using System.IO;
 using TMPro;
+using UnityEngine.Audio;
 
 public class GameSceneScript : MonoBehaviour
 {
@@ -21,9 +22,17 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI txtScore1;
     [SerializeField] TMPro.TextMeshProUGUI txtScore2;
 
+    [SerializeField] private AudioMixer myMixer;
+    public AudioSource source;
+    public AudioClip bgMusic;
+    float volume = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
+        source.clip = bgMusic;
+        source.Play();
+
         if (gameManager.getInstance().cuantityOfPlayers == 1)
         {
             User user = getUserByUsername(gameManager.getInstance().player1Username);
@@ -86,7 +95,21 @@ public class GameSceneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        changeVolume();
+    }
 
+    void changeVolume(){
+
+        if(Input.GetKeyDown(KeyCode.W)) {
+            
+            volume += 0.1f;
+            myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            volume -= 0.1f;
+            myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
+        }
     }
 
     private User getUserByEmail(string email)
