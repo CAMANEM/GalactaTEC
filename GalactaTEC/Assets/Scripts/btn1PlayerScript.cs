@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class btn1PlayerScript : MonoBehaviour
 {
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +15,6 @@ public class btn1PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void _1PlayerButtonOnClick()
