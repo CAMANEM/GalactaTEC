@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 
 using GameManager;
-using alertsManager;
+using alerts_manager;
 
 public class loginSceneScript : MonoBehaviour
 {
@@ -30,6 +30,7 @@ public class loginSceneScript : MonoBehaviour
     void Start()
     {
         Debug.Log("Cuantity of players selected: " + gameManager.getInstance().cuantityOfPlayers);
+        AlertsManager.getInstance().test();
     }
 
     // Update is called once per frame

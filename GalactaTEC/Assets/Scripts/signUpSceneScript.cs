@@ -12,8 +12,6 @@ using UnityEngine.SceneManagement;
 
 using GameManager;
 
-using alertsManager;
-
 [System.Serializable]
 public class User
 {
@@ -58,6 +56,9 @@ public class signUpSceneScript : MonoBehaviour
     // Variables
     string userImagePath = "";
     string shipImagePath = "";
+
+    byte[] imageBytesUser;
+    byte[] imageBytesShip;
 
     string usersPath = Application.dataPath + "/Data/users.json";
 
@@ -130,23 +131,44 @@ public class signUpSceneScript : MonoBehaviour
     {
         if (File.Exists(usersPath))
         {
-            string usersJSON = File.ReadAllText(usersPath);
-
-            Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-            User user = new User();
-            user.name = inpName.text;
-            user.email = inpEmail.text;
-            user.username = inpUsername.text;
-            user.password = inpPassword.text;
-            user.userImage = userImagePath == "" ? "/Data/UserPhotos/default-avatar.png" : userImagePath;
-            user.shipImage = shipImagePath;
-            user.scoreRecord = new int[5];
-
-            if (emailIsUnique(user.email) && usernameIsUnique(user.username) && passwordIsValid(user.password))
+            if (emailIsUnique(inpEmail.text) && usernameIsUnique(inpUsername.text) && passwordIsValid(inpPassword.text))
             {
-                if (emailExists(user.email))
+                if (emailExists(inpEmail.text))
                 {
+                    string usersJSON = File.ReadAllText(usersPath);
+
+                    Users users = JsonUtility.FromJson<Users>(usersJSON);
+
+                    User user = new User();
+                    user.name = inpName.text;
+                    user.email = inpEmail.text;
+                    user.username = inpUsername.text;
+                    user.password = inpPassword.text;
+
+                    string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
+                    if (userImagePath != "" && user.userImage != newUserImage)
+                    {
+                        // Update user image
+                        user.userImage = newUserImage;
+
+                        // Copy and paste the new user image in ../Data/UserPhotos
+                        string savePath = Application.dataPath + newUserImage;
+                        File.WriteAllBytes(savePath, imageBytesUser);
+                    }
+
+                    // Do the same for shipImage
+                    string newShipImage = "/Data/ShipPhotos/" + Path.GetFileName(shipImagePath);
+                    if (shipImagePath != "" && user.shipImage != newShipImage)
+                    {
+                        // Update ship image
+                        user.shipImage = newShipImage;
+
+                        // Copy and paste the new ship image in ../Data/ShipPhotos
+                        string savePath = Application.dataPath + newShipImage;
+                        File.WriteAllBytes(savePath, imageBytesShip);
+                    }
+                    user.scoreRecord = new int[5];
+
                     users.users.Add(user);
                     users.cuantity += 1;
 
@@ -162,19 +184,41 @@ public class signUpSceneScript : MonoBehaviour
         }
         else
         {
-            User user = new User();
-            user.name = inpName.text;
-            user.email = inpEmail.text;
-            user.username = inpUsername.text;
-            user.password = inpPassword.text;
-            user.userImage = userImagePath;
-            user.shipImage = shipImagePath;
-            user.scoreRecord = new int[5];
-
-            if (passwordIsValid(user.password))
+            if (passwordIsValid(inpPassword.text))
             {
-                if (emailExists(user.email))
+                if (emailExists(inpEmail.text))
                 {
+                    User user = new User();
+                    user.name = inpName.text;
+                    user.email = inpEmail.text;
+                    user.username = inpUsername.text;
+                    user.password = inpPassword.text;
+
+                    string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
+                    if (userImagePath != "" && user.userImage != newUserImage)
+                    {
+                        // Update user image
+                        user.userImage = newUserImage;
+
+                        // Copy and paste the new user image in ../Data/UserPhotos
+                        string savePath = Application.dataPath + newUserImage;
+                        File.WriteAllBytes(savePath, imageBytesUser);
+                    }
+
+                    // Do the same for shipImage
+                    string newShipImage = "/Data/ShipPhotos/" + Path.GetFileName(shipImagePath);
+                    if (shipImagePath != "" && user.shipImage != newShipImage)
+                    {
+                        // Update ship image
+                        user.shipImage = newShipImage;
+
+                        // Copy and paste the new ship image in ../Data/ShipPhotos
+                        string savePath = Application.dataPath + newShipImage;
+                        File.WriteAllBytes(savePath, imageBytesShip);
+                    }
+
+                    user.scoreRecord = new int[5];
+
                     List<User> userList = new List<User>();
                     userList.Add(user);
                     Users users = new Users();
