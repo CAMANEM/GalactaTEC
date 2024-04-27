@@ -15,16 +15,24 @@ public class PlayerLives : MonoBehaviour
     // Método para añadir una vida
     public void AddLife()
     {
-        if (lives < maxLives)   // Verificar si es posible añadir una vida
+        AddLives(1);  // Añadir una vida
+    }
+
+    // Método para añadir múltiples vidas
+    public void AddLives(int amount)
+    {
+        int newLives = lives + amount;
+        if (newLives > maxLives)
         {
-            lives++;            // Incrementar el contador de vidas
-            UpdateLivesDisplay(); // Actualizar la UI de vidas
-            Debug.Log("Vida añadida: " + lives);  // Imprimir mensaje en la consola
+            lives = maxLives;
+            Debug.Log("No se puede añadir más vidas. Máximo alcanzado.");
         }
         else
         {
-            Debug.Log("No se puede añadir más vidas. Máximo alcanzado.");  // Imprimir si se alcanza el máximo
+            lives = newLives;
+            Debug.Log("Vidas añadidas: " + amount + ", Total vidas: " + lives);
         }
+        UpdateLivesDisplay();  // Actualizar la UI de vidas
     }
 
     // Actualizar la UI basada en la cantidad de vidas actuales
