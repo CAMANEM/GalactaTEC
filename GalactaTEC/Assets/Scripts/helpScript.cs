@@ -8,7 +8,7 @@ public class helpScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -28,6 +28,10 @@ public class helpScript : MonoBehaviour
         else if (scene == "MainMenuScene")
         {
             SceneManager.LoadScene("MainMenuScene");
+        }
+        else if (scene == "GameScene")
+        {
+            SceneManager.LoadScene("GameScene");
         }
     }
 }

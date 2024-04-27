@@ -7,9 +7,16 @@ using System;
 using System.IO;
 using TMPro;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class GameSceneScript : MonoBehaviour
 {
+    [SerializeField] GameObject pnlPauseDialogue;
+    [SerializeField] Button btnOption1;
+    [SerializeField] Button btnOption2;
+    [SerializeField] Button btnOption3;
+    [SerializeField] Button btnClosePauseDialogue;
+
     [SerializeField] GameObject playerPos1;
     [SerializeField] GameObject playerPos2;
 
@@ -76,10 +83,10 @@ public class GameSceneScript : MonoBehaviour
         }
         else
         {
-            //User user = getUserByUsername(gameManager.getInstance().playerToPlay);
-            // txtUsername1.text = user.username;
-            User user = getUserByUsername("joseandres216");
+            User user = getUserByUsername(gameManager.getInstance().playerToPlay);
             txtUsername1.text = user.username;
+            //User user = getUserByUsername("joseandres216");
+            //txtUsername1.text = user.username;
 
             // Load player image from specified path
             if (!string.IsNullOrEmpty(user.userImage) && File.Exists(Application.dataPath + user.userImage))
@@ -96,9 +103,10 @@ public class GameSceneScript : MonoBehaviour
     void Update()
     {
         changeVolume();
+        pauseMenu();
     }
 
-    void changeVolume(){
+    private void changeVolume(){
 
         if(Input.GetKeyDown(KeyCode.W)) {
             
@@ -110,6 +118,73 @@ public class GameSceneScript : MonoBehaviour
             volume -= 0.1f;
             myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
         }
+    }
+
+    private void pauseMenu()
+    {
+        // Detect if the "P" key is pressed
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (!pnlPauseDialogue.activeSelf)
+            {
+                // Activate the pause panel
+                pnlPauseDialogue.SetActive(true);
+
+                // Pause game time and music
+                Time.timeScale = 0f;
+                source.Pause();
+            }
+        }
+    }
+
+    public void option1ButtonOnClick()
+    {
+        
+    }
+
+    public void option2ButtonOnClick()
+    {
+        PlayerPrefs.SetString("HelpScene", "GameScene");
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("HelpScene");
+    }
+
+    public void option3ButtonOnClick()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
+    public void closePauseDialogueButtonOnClick()
+    {
+        if (pnlPauseDialogue.activeSelf)
+        {
+            // Deactivate the pause panel
+            pnlPauseDialogue.SetActive(false);
+
+            // Resume game and music
+            Time.timeScale = 1f;
+            source.UnPause();
+        }
+    }
+
+    public void ShowPlayerPos2()
+    {
+        playerPos2.SetActive(true);
+    }
+
+    public void HidePlayerPos2()
+    {
+        playerPos2.SetActive(false);
+    }
+
+    public void showPnlPauseDialogue()
+    {
+        pnlPauseDialogue.SetActive(true);
+    }
+
+    public void hidePnlPauseDialogue()
+    {
+        pnlPauseDialogue.SetActive(false);
     }
 
     private User getUserByEmail(string email)
@@ -156,15 +231,5 @@ public class GameSceneScript : MonoBehaviour
         }
 
         return foundUser;
-    }
-
-    public void ShowPlayerPos2()
-    {
-        playerPos2.SetActive(true);
-    }
-
-    public void HidePlayerPos2()
-    {
-        playerPos2.SetActive(false);
     }
 }
