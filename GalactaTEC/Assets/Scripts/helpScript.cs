@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class helpScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void backButtonOnClick()
+    {
+        string scene = PlayerPrefs.GetString("HelpScene");
+
+        if (scene == "TitleScene")
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
+        else if (scene == "MainMenuScene")
+        {
+            SceneManager.LoadScene("MainMenuScene");
+        }
+        else if (scene == "GameScene")
+        {
+            SceneManager.LoadScene("GameScene");
+        }
+    }
+}
