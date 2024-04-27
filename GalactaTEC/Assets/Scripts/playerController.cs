@@ -13,7 +13,13 @@ public class PlayerController : MonoBehaviour
     private GameObject normalShot;
 
     [SerializeField]
-    private GameObject explosiveShot;
+    private GameObject expansiveBullet;
+
+    [SerializeField]
+    private GameObject chaserBullet;
+
+    [SerializeField]
+    private GameObject shieldPower;
 
     [SerializeField]
     private Transform attack_Point;
@@ -39,6 +45,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerLives = GetComponent<PlayerLives>();
+        Instantiate(shieldPower, attack_Point.position, Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -141,7 +148,7 @@ public class PlayerController : MonoBehaviour
                     chaserShot = false;
                     ChaserItem chaserScript = GameObject.Find("ChaserShot").GetComponent<ChaserItem>();
                     chaserScript.Desactivate();
-                    Instantiate(explosiveShot, attack_Point.position, Quaternion.identity);
+                    Instantiate(chaserBullet, attack_Point.position, Quaternion.identity);
                     Debug.Log("Chaser used and deactivated");
                 }
                 break;
@@ -151,7 +158,7 @@ public class PlayerController : MonoBehaviour
                     expansiveShot = false;
                     ExpansiveItem expansiveScript = GameObject.Find("ExpansiveShot").GetComponent<ExpansiveItem>();
                     expansiveScript.Desactivate();
-                    Instantiate(explosiveShot, attack_Point.position, Quaternion.identity);
+                    Instantiate(expansiveBullet, attack_Point.position, Quaternion.identity);
                     Debug.Log("Expansive Shot used and deactivated");
                 }
                 break;
@@ -161,7 +168,7 @@ public class PlayerController : MonoBehaviour
                     x2Pts = false;
                     x2PtItem x2PtsScript = GameObject.Find("x2ptShot").GetComponent<x2PtItem>();
                     x2PtsScript.Desactivate();
-                    Instantiate(explosiveShot, attack_Point.position, Quaternion.identity);
+                    Instantiate(normalShot, attack_Point.position, Quaternion.identity);
                     Debug.Log("x2Pts Shot used and deactivated");
                 }
                 break;
@@ -171,7 +178,7 @@ public class PlayerController : MonoBehaviour
                     shield = false;
                     ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
                     shieldScript.Desactivate();
-                    Instantiate(explosiveShot, attack_Point.position, Quaternion.identity);
+                    Instantiate(shieldPower, attack_Point.position, Quaternion.identity);
                     Debug.Log("Shield Shot used and deactivated");
                 }
                 break;
