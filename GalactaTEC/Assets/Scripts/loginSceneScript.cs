@@ -29,8 +29,7 @@ public class loginSceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Cuantity of players selected: " + gameManager.getInstance().cuantityOfPlayers);
-        AlertsManager.getInstance().test();
+        
     }
 
     // Update is called once per frame
@@ -55,7 +54,7 @@ public class loginSceneScript : MonoBehaviour
             }
             else
             {
-                Debug.Log("Something went wrong loading player information");
+                Debug.Log("Something went wrong loading player information. Debug code: 0.");
             }
         }
 
@@ -94,7 +93,7 @@ public class loginSceneScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("Username or password are incorrect. Please try again.");
+            AlertsManager.getInstance().showAlert("Invalid credentials", "Username or password are incorrect. Please try again.", "Retry");
             player1isLoggedIn = false;
         }
     }
@@ -117,7 +116,7 @@ public class loginSceneScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("Username or password are incorrect. Please try again.");
+            AlertsManager.getInstance().showAlert("Invalid credentials", "Username or password are incorrect. Please try again.", "Retry");
             player2isLoggedIn = false;
         }
     }

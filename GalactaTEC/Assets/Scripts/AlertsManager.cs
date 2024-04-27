@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using GameManager;
 
 namespace alerts_manager
 {
     public class AlertsManager : MonoBehaviour
     {
         [SerializeField] GameObject pnlAlert;
-        [SerializeField] GameObject sceneLoader;
         [SerializeField] TextMeshProUGUI txtAlertTitle;
         [SerializeField] TextMeshProUGUI txtAlertBody;
         [SerializeField] Button btnCloseAlert;
@@ -18,7 +19,7 @@ namespace alerts_manager
         // Start is called before the first frame update
         void Start()
         {
-
+            pnlAlert.SetActive(false);
         }
 
         // Update is called once per frame
@@ -36,7 +37,7 @@ namespace alerts_manager
                 instance = FindObjectOfType<AlertsManager>();
                 if (instance == null)
                 {
-                    GameObject obj = new GameObject("dialogueManager");
+                    GameObject obj = new GameObject("alerts_manager");
                     instance = obj.AddComponent<AlertsManager>();
                 }
             }
@@ -59,15 +60,11 @@ namespace alerts_manager
             btnCloseAlert.onClick.AddListener(hideAlert);
         }
 
-        public void test()
+        public void showAlert(string alertTitle, string alertBody, string closeAlertText)
         {
-            this.txtAlertTitle.text = "Test title";
-            this.txtAlertBody.text = "Test body";
-            this.txtCloseAlert.text = "Close";
-        }
-
-        public void showAlert()
-        {
+            this.txtAlertTitle.text = alertTitle;
+            this.txtAlertBody.text = alertBody;
+            this.txtCloseAlert.text = closeAlertText;
             pnlAlert.SetActive(true);
         }
 

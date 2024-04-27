@@ -2790,15 +2790,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1019496370127568428, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1019496370127568428, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1019496370127568428, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1019496370127568428, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2823,7 +2823,7 @@ PrefabInstance:
     - target: {fileID: 9058239568011944761, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1172663466}
+      objectReference: {fileID: 0}
     - target: {fileID: 9058239568011944761, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: hideAlert
@@ -2838,7 +2838,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9147366099921391837, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2846,7 +2846,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 9147366099921391837, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1172663466}
+      addedObject: {fileID: 1775004167}
   m_SourcePrefab: {fileID: 100100000, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
 --- !u!224 &1172663459 stripped
 RectTransform:
@@ -2897,34 +2897,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1172663464 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 17805483316400339, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
-  m_PrefabInstance: {fileID: 1172663458}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1172663465 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9147366099921391837, guid: 3ba66b295a0ea2e4a8a7cd51329c0dbb, type: 3}
   m_PrefabInstance: {fileID: 1172663458}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1172663466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172663465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7766085c895101248ace59cebc68d5e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pnlAlert: {fileID: 1172663464}
-  sceneLoader: {fileID: 0}
-  txtAlertTitle: {fileID: 1172663463}
-  txtAlertBody: {fileID: 1172663462}
-  btnCloseAlert: {fileID: 1172663461}
-  txtCloseAlert: {fileID: 1172663460}
 --- !u!1 &1266085720
 GameObject:
   m_ObjectHideFlags: 0
@@ -3193,6 +3170,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308435427}
   m_CullTransparentMesh: 1
+--- !u!114 &1775004167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172663465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7766085c895101248ace59cebc68d5e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pnlAlert: {fileID: 1172663465}
+  txtAlertTitle: {fileID: 1172663463}
+  txtAlertBody: {fileID: 1172663462}
+  btnCloseAlert: {fileID: 1172663461}
+  txtCloseAlert: {fileID: 1172663460}
 --- !u!1 &1962437853
 GameObject:
   m_ObjectHideFlags: 0

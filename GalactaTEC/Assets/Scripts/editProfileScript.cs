@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 using GameManager;
+using alerts_manager;
 
 [System.Serializable]
 public class editProfileScript : MonoBehaviour { 
@@ -59,7 +60,7 @@ public class editProfileScript : MonoBehaviour {
             catch
             {
 
-                Debug.LogError("Something went wrong loading the selected user image: " + Application.dataPath + user.userImage);
+                Debug.LogError("Something went wrong loading the selected user image: " + Application.dataPath + user.userImage + ". Debug code: 4.");
             }
 
             // Loads ship image
@@ -77,7 +78,7 @@ public class editProfileScript : MonoBehaviour {
             }
             catch
             {
-                Debug.LogError("Something went wrong loading the selected ship image: " + Application.dataPath + user.shipImage);
+                Debug.LogError("Something went wrong loading the selected ship image: " + Application.dataPath + user.shipImage + ". Debug code: 5.");
             }
         }
     }
@@ -113,7 +114,7 @@ public class editProfileScript : MonoBehaviour {
             }
             else
             {
-                Debug.Log("Something went wrong loading player information");
+                Debug.Log("Something went wrong loading player information. Debug code: 6.");
             }
         }
 
@@ -138,7 +139,7 @@ public class editProfileScript : MonoBehaviour {
         }
         catch
         {
-            Debug.LogError("Something went wrong loading the selected user image. Image selected: " + userImagePath);
+            Debug.LogError("Something went wrong loading the selected user image. Image selected: " + userImagePath + ". Debug code: 7");
         }
     }
 
@@ -161,7 +162,7 @@ public class editProfileScript : MonoBehaviour {
         catch
         {
 
-            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + shipImagePath);
+            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + shipImagePath + ". Debug code: 8.");
         }
     }
 
@@ -227,14 +228,13 @@ public class editProfileScript : MonoBehaviour {
 
                         File.WriteAllText(gameManager.getInstance().usersPath, updatedJSON);
 
-                        //MessageBox.Show("What are you waiting for? Let's play!", "Account created succesfully!");
-                        Debug.Log("Account updated succesfully!");
+                        AlertsManager.getInstance().showAlert("Great!", "Account updated succesfully", "Awesome!");
                     }
                 }
             }
             else
             {
-                Debug.Log("Something went wrong loading player information");
+                Debug.Log("Something went wrong loading player information. Debug code: 9.");
             }
         }
     }
@@ -245,8 +245,7 @@ public class editProfileScript : MonoBehaviour {
 
         if (users.Exists(user => user.username == username) || username == "")
         {
-            //MessageBox.Show("The given username is already used", "Try another username please.");
-            Debug.Log("The given username is not available");
+            AlertsManager.getInstance().showAlert("Wait", "The given username is empty or not available", "Retry");
             return false;
         }
         else
@@ -261,8 +260,7 @@ public class editProfileScript : MonoBehaviour {
 
         if (users.Exists(user => user.email == email) || email == "")
         {
-            //MessageBox.Show("The given email is already used", "Try another email please.");
-            Debug.Log("The given email is not available");
+            AlertsManager.getInstance().showAlert("Wait", "The given email is empty or not available", "Retry");
             return false;
         }
         else
@@ -284,15 +282,13 @@ public class editProfileScript : MonoBehaviour {
             }
             else
             {
-                /*MessageBox.Show("Wrong email domain", "The given email domain does not exist");*/
-                Debug.Log("The given email domain does not exist");
+                AlertsManager.getInstance().showAlert("Wait", "The given email domain does not exist", "Retry");
                 return false;
             }
         }
         else
         {
-            //MessageBox.Show("Wrong email", "The given email does not exist");
-            Debug.Log("The given email does not exist");
+            AlertsManager.getInstance().showAlert("Wait", "The given email does not exist", "Retry");
             return false;
         }
     }
@@ -360,7 +356,7 @@ public class editProfileScript : MonoBehaviour {
         catch
         {
             //MessageBox.Show("Wrong email", "We have troubles to confirm your email address, please, check your email and try again");
-            Debug.Log("We have troubles to confirm your email address, please, check your email and try again");
+            Debug.Log("We have troubles to confirm your email address, please, check your email and try again. Debug code: 10.");
             return false;
         }
     }

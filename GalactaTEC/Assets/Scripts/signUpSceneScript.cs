@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 using GameManager;
+using alerts_manager;
 
 [System.Serializable]
 public class User
@@ -91,7 +92,7 @@ public class signUpSceneScript : MonoBehaviour
             }
         } catch
         {
-            Debug.LogError("Something went wrong loading the selected user image. Image selected: " + userImagePath);
+            Debug.LogError("Something went wrong loading the selected user image. Image selected: " + userImagePath + ". Debug code: 1.");
         }
     }
 
@@ -114,7 +115,7 @@ public class signUpSceneScript : MonoBehaviour
         catch
         {
 
-            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + shipImagePath);
+            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + shipImagePath + ". Debug code: 2.");
         }
     }
 
@@ -176,9 +177,7 @@ public class signUpSceneScript : MonoBehaviour
 
                     File.WriteAllText(usersPath, updatedJSON);
 
-                    //MessageBox.Show("What are you waiting for? Let's play!", "Account created succesfully!");
-                    Debug.Log("Account created succesfully!");
-                    goToLoginScene();
+                    AlertsManager.getInstance().showAlert("Welcome!", "Account created succesfully", "Awesome!");
                 }
             }
         }
@@ -228,9 +227,7 @@ public class signUpSceneScript : MonoBehaviour
                     string userJson = JsonUtility.ToJson(users);
 
                     File.WriteAllText(usersPath, userJson);
-                    //MessageBox.Show("What are you waiting for? Let's play!", "Account created succesfully!");
-                    Debug.Log("Account created succesfully!");
-                    goToLoginScene();
+                    AlertsManager.getInstance().showAlert("Welcome!", "Account created succesfully", "Awesome!");
                 }
             }     
         }
@@ -242,8 +239,7 @@ public class signUpSceneScript : MonoBehaviour
 
         if(users.Exists(user => user.username == username) || username == "")
         {
-            //MessageBox.Show("The given username is already used", "Try another username please.");
-            Debug.Log("The given username is not available");
+            AlertsManager.getInstance().showAlert("Wait", "The given username is empty or not available", "Retry");
             return false;
         }
         else
@@ -258,8 +254,7 @@ public class signUpSceneScript : MonoBehaviour
 
         if(users.Exists(user => user.email == email) || email == "")
         {
-            //MessageBox.Show("The given email is already used", "Try another email please.");
-            Debug.Log("The given email is not available");
+            AlertsManager.getInstance().showAlert("Wait", "The given email is empty or not available", "Retry");
             return false;
         }
         else
@@ -288,7 +283,7 @@ public class signUpSceneScript : MonoBehaviour
                                 "- At least 7 characters\n- At least one uppercase character\n- At least one lowercase character\n" +
                                 "- At least one number\n- At least one special character\n\n" +
                                 "The given password does not have enough special characters");*/
-                            Debug.Log("The given password does not have enough special characters");
+                            AlertsManager.getInstance().showAlert("Wait", "The given password does not match the required conditions: At least one special character", "Retry");
                             return false;
                         }
                     }
@@ -298,7 +293,7 @@ public class signUpSceneScript : MonoBehaviour
                                 "- At least 7 characters\n- At least one uppercase character\n- At least one lowercase character\n" +
                                 "- At least one number\n- At least one special character\n\n" +
                                 "The given password does not have enough numbers");*/
-                        Debug.Log("The given password does not have enough numbers");
+                        AlertsManager.getInstance().showAlert("Wait", "The given password does not match the required conditions: At least one number", "Retry");
                         return false;
                     }
                 }
@@ -308,7 +303,7 @@ public class signUpSceneScript : MonoBehaviour
                                 "- At least 7 characters\n- At least one uppercase character\n- At least one lowercase character\n" +
                                 "- At least one number\n- At least one special character\n\n" +
                                 "The given password does not have enough lowercase characters");*/
-                    Debug.Log("The given password does not have enough lowercase characters");
+                    AlertsManager.getInstance().showAlert("Wait", "The given password does not match the required conditions: At least one lowercase character", "Retry");
                     return false;
                 }
             }
@@ -318,7 +313,7 @@ public class signUpSceneScript : MonoBehaviour
                                 "- At least 7 characters\n- At least one uppercase character\n- At least one lowercase character\n" +
                                 "- At least one number\n- At least one special character\n\n" +
                                 "The given password does not have enough uppercase characters");*/
-                Debug.Log("The given password does not have enough uppercase characters");
+                AlertsManager.getInstance().showAlert("Wait", "The given password does not match the required conditions: At least one uppercase character", "Retry");
                 return false;
             }
         }
@@ -328,7 +323,7 @@ public class signUpSceneScript : MonoBehaviour
                                 "- At least 7 characters\n- At least one uppercase character\n- At least one lowercase character\n" +
                                 "- At least one number\n- At least one special character\n\n" +
                                 "The given password does not have enough characters");*/
-            Debug.Log("The given password does not have enough characters");
+            AlertsManager.getInstance().showAlert("Wait", "The given password does not match the required conditions: At least 7 characters", "Retry");
             return false;
         }
     }
@@ -346,15 +341,13 @@ public class signUpSceneScript : MonoBehaviour
             }
             else
             {
-                /*MessageBox.Show("Wrong email domain", "The given email domain does not exist");*/
-                Debug.Log("The given email domain does not exist");
+                AlertsManager.getInstance().showAlert("Wait", "The given email domain does not exist", "Retry");
                 return false;
             }
         }
         else
         {
-            //MessageBox.Show("Wrong email", "The given email does not exist");
-            Debug.Log("The given email does not exist");
+            AlertsManager.getInstance().showAlert("Wait", "The given email does not exist", "Retry");
             return false;
         }
     }
@@ -422,7 +415,7 @@ public class signUpSceneScript : MonoBehaviour
         catch
         {
             //MessageBox.Show("Wrong email", "We have troubles to confirm your email address, please, check your email and try again");
-            Debug.Log("We have troubles to confirm your email address, please, check your email and try again");
+            Debug.Log("We have troubles to confirm your email address. Debug code: 3.");
             return false;
         }
     }
