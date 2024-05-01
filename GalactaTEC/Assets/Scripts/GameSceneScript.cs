@@ -6,8 +6,9 @@ using GameManager;
 using System;
 using System.IO;
 using TMPro;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+
+using audio_manager;
 
 public class GameSceneScript : MonoBehaviour
 {
@@ -29,16 +30,10 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI txtScore1;
     [SerializeField] TMPro.TextMeshProUGUI txtScore2;
 
-    [SerializeField] private AudioMixer myMixer;
-    public AudioSource source;
-    public AudioClip bgMusic;
-    float volume = 1f;
-
     // Start is called before the first frame update
     void Start()
     {
-        source.clip = bgMusic;
-        source.Play();
+        AudioManager.getInstance().playGameSoundtrack();
 
         if (gameManager.getInstance().cuantityOfPlayers == 1)
         {
@@ -102,22 +97,7 @@ public class GameSceneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        changeVolume();
         pauseMenu();
-    }
-
-    private void changeVolume(){
-
-        if(Input.GetKeyDown(KeyCode.W)) {
-            
-            volume += 0.1f;
-            myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            volume -= 0.1f;
-            myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
-        }
     }
 
     private void pauseMenu()
@@ -132,7 +112,7 @@ public class GameSceneScript : MonoBehaviour
 
                 // Pause game time and music
                 Time.timeScale = 0f;
-                source.Pause();
+                AudioManager.getInstance().isAudioPaused = true;
             }
         }
     }
@@ -163,7 +143,7 @@ public class GameSceneScript : MonoBehaviour
 
             // Resume game and music
             Time.timeScale = 1f;
-            source.UnPause();
+            AudioManager.getInstance().isAudioPaused = false;
         }
     }
 

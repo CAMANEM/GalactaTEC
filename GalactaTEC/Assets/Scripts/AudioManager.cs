@@ -10,8 +10,17 @@ namespace audio_manager
     {
         [SerializeField] private AudioMixer myMixer;
         public AudioSource source;
-        public AudioClip bgMusic;
+        public AudioClip clip;
         float volume = 1f;
+
+        private string[] backgroundSoundtracksPaths = { "Audio/moveSound", "Audio/bonusSound" };
+        private string[] gameSoundtracksPaths = { "Audio/BGMusic1" };
+
+        private string[] currentPlaylist;
+
+        private string clipPath;
+
+        public bool isAudioPaused = false;
 
         // Start is called before the first frame update
         void Start()
@@ -23,6 +32,8 @@ namespace audio_manager
         void Update()
         {
             changeVolume();
+
+            checkSoundtrackActivity();
         }
 
         private static AudioManager instance;
@@ -70,10 +81,35 @@ namespace audio_manager
             }
         }
 
-        public void playTitleSoundtrack()
+        public void playBackgroundSoundtrack()
         {
-            source.clip = bgMusic;
-            source.Play();
+            this.currentPlaylist = this.backgroundSoundtracksPaths;
+
+            this.source.Stop();
+        }
+
+        public void playGameSoundtrack()
+        {
+            this.currentPlaylist = this.gameSoundtracksPaths;
+
+            this.source.Stop();
+        }
+
+        // Verifies if there are soundtracks playing, if there are, does nothing, if not, play a random soundtrack of currentPlaylist array
+        private void checkSoundtrackActivity()
+        {
+            if (!source.isPlaying && !this.isAudioPaused)
+            {
+                int index = UnityEngine.Random.Range(0, this.currentPlaylist.Length);
+
+                this.clipPath = this.currentPlaylist[index];
+
+                this.clip = (AudioClip)Resources.Load(this.clipPath, typeof(AudioClip));
+
+                source.clip = this.clip;
+
+                source.Play();
+            }
         }
     }
 }

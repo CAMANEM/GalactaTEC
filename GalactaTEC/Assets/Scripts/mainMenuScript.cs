@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using GameManager;
 
+using audio_manager;
+
 public class mainMenuScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-
+        AudioManager.getInstance().playBackgroundSoundtrack();
     }
 
     // Update is called once per frame

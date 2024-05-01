@@ -13,7 +13,7 @@ public class cnvTitleScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AudioManager.getInstance().playTitleSoundtrack();
+        AudioManager.getInstance().playBackgroundSoundtrack();
     }
 
     // Update is called once per frame
