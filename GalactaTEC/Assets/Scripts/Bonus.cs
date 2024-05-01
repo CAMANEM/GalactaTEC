@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using audio_manager;
+
 public class Bonus : MonoBehaviour
 {
-    //public AudioSource source;
-    //public AudioClip audioClip;
-    //public float volume=0.5f;
-
     void Start()
     {
         int randNum = Random.Range(0, 2);
@@ -39,7 +37,7 @@ public class Bonus : MonoBehaviour
 
     void OnTriggerEnter2D(){
 
-        //source.PlayOneShot(audioClip, volume);
+        AudioManager.getInstance().playBonusEffect();
         Debug.Log("Trigger");
         AddBonus();
         Destroy(gameObject);

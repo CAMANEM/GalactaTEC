@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using audio_manager;
+
 public class PlayerController : MonoBehaviour
 
 {
@@ -84,7 +86,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void MoveAux(){
-        //source.PlayOneShot(audioClip, volume);
+        AudioManager.getInstance().playMovementEffect();
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         // Calculate the movement direction
