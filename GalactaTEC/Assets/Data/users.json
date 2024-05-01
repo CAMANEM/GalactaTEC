@@ -1,21 +1,6 @@
 {
     "users": [
         {
-            "name": "Jose Andres Rodriguez",
-            "email": "joseandres216@gmail.com",
-            "username": "joseandres216",
-            "password": "Ja_Rr1234",
-            "userImage": "/Data/UserPhotos/andres.png",
-            "shipImage": "",
-            "scoreRecord": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ]
-        },
-        {
             "name": "Andres Rojas",
             "email": "joseandres1606@hotmail.com",
             "username": "arod16",
