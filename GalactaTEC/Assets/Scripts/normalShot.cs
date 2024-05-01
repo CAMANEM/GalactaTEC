@@ -8,10 +8,10 @@ public class NormalShot : MonoBehaviour
     public float speed = 500f;
     public float deactivateTimer = 5f;
 
-    public AudioSource source;
-    public AudioClip audioClip;
+    //public AudioSource source;
+    //public AudioClip audioClip;
 
-    public float volume=0.5f;
+    //public float volume=0.5f;
     private PointManager pointManager;
 
 
@@ -19,7 +19,7 @@ public class NormalShot : MonoBehaviour
     void Start()
     {
         // Invoke("DeactivateGameObject", deactivateTimer);
-        source.PlayOneShot(audioClip, volume);
+        // source.PlayOneShot(audioClip, volume);
 
         //vea esto mae XD es para el puntaje
         //  pointManager = GameObject.Find("PointMananger").GetComponent<PointManager>();

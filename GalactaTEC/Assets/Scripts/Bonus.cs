@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Bonus : MonoBehaviour
 {
-    public AudioSource source;
-    public AudioClip audioClip;
-    public float volume=0.5f;
+    //public AudioSource source;
+    //public AudioClip audioClip;
+    //public float volume=0.5f;
 
     void Start()
     {
@@ -39,7 +39,7 @@ public class Bonus : MonoBehaviour
 
     void OnTriggerEnter2D(){
 
-        source.PlayOneShot(audioClip, volume);
+        //source.PlayOneShot(audioClip, volume);
         Debug.Log("Trigger");
         AddBonus();
         Destroy(gameObject);

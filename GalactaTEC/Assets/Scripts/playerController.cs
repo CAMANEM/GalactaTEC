@@ -26,9 +26,9 @@ public class PlayerController : MonoBehaviour
 
 
 
-    public AudioSource source;
-    public AudioClip audioClip;
-    public AudioClip bonusSound;
+    //public AudioSource source;
+    //public AudioClip audioClip;
+    //public AudioClip bonusSound;
     public float volume=0.5f;
     public float minY = 350f;
     public float maxY = 910f;
@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void MoveAux(){
-        source.PlayOneShot(audioClip, volume);
+        //source.PlayOneShot(audioClip, volume);
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         // Calculate the movement direction
@@ -110,28 +110,28 @@ public class PlayerController : MonoBehaviour
     }
 
     public void ActivateChaser(){
-        source.PlayOneShot(bonusSound, volume);
+        //source.PlayOneShot(bonusSound, volume);
         chaserShot = true;
         ChaserItem chaserScript = GameObject.Find("ChaserShot").GetComponent<ChaserItem>();
         chaserScript.Activate();
     }
 
     public void ActivateExpansive(){
-        source.PlayOneShot(bonusSound, volume);
+        //source.PlayOneShot(bonusSound, volume);
         expansiveShot = true;
         ExpansiveItem expansiveScript = GameObject.Find("ExpansiveShot").GetComponent<ExpansiveItem>();
         expansiveScript.Activate();
     }
 
     public void ActivateShield(){
-        source.PlayOneShot(bonusSound, volume);
+        //source.PlayOneShot(bonusSound, volume);
         shield = true;
         ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
         shieldScript.Activate();
     }
 
     public void ActivateX2Pts(){
-        source.PlayOneShot(bonusSound, volume);
+        //source.PlayOneShot(bonusSound, volume);
         x2Pts = true;
         x2PtItem x2PtsScript = GameObject.Find("x2ptShot").GetComponent<x2PtItem>();
         x2PtsScript.Activate();

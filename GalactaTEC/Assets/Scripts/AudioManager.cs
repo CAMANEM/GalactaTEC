@@ -9,9 +9,14 @@ namespace audio_manager
     public class AudioManager : MonoBehaviour
     {
         [SerializeField] private AudioMixer myMixer;
-        public AudioSource source;
-        public AudioClip clip;
-        float volume = 1f;
+        [SerializeField] public AudioSource musicSource;
+        [SerializeField] public AudioSource sfxSource;
+        [SerializeField] public AudioClip clip;
+        [SerializeField] public AudioClip movementClip;
+        [SerializeField] public AudioClip bonusClip;
+        [SerializeField] public AudioClip shotClip;
+        [SerializeField] public AudioClip shipDestructionClip;
+        [SerializeField] float volume = 1f;
 
         private string[] backgroundSoundtracksPaths = { "Audio/moveSound", "Audio/bonusSound" };
         private string[] gameSoundtracksPaths = { "Audio/BGMusic1" };
@@ -63,7 +68,7 @@ namespace audio_manager
             {
                 Destroy(gameObject);
             }
-        }
+        }   
 
         private void changeVolume()
         {
@@ -85,20 +90,20 @@ namespace audio_manager
         {
             this.currentPlaylist = this.backgroundSoundtracksPaths;
 
-            this.source.Stop();
+            this.musicSource.Stop();
         }
 
         public void playGameSoundtrack()
         {
             this.currentPlaylist = this.gameSoundtracksPaths;
 
-            this.source.Stop();
+            this.musicSource.Stop();
         }
 
         // Verifies if there are soundtracks playing, if there are, does nothing, if not, play a random soundtrack of currentPlaylist array
         private void checkSoundtrackActivity()
         {
-            if (!source.isPlaying && !this.isAudioPaused)
+            if (!musicSource.isPlaying && !this.isAudioPaused)
             {
                 int index = UnityEngine.Random.Range(0, this.currentPlaylist.Length);
 
@@ -106,10 +111,34 @@ namespace audio_manager
 
                 this.clip = (AudioClip)Resources.Load(this.clipPath, typeof(AudioClip));
 
-                source.clip = this.clip;
+                musicSource.clip = this.clip;
 
-                source.Play();
+                musicSource.Play();
             }
+        }
+
+        public void playShotEffect()
+        {
+            this.sfxSource.clip = this.shotClip;
+            this.sfxSource.Play();
+        }
+
+        public void playMovementEffect()
+        {
+            this.sfxSource.clip = this.movementClip;
+            this.sfxSource.Play();
+        }
+
+        public void playBonusEffect()
+        {
+            this.sfxSource.clip = this.bonusClip;
+            this.sfxSource.Play();
+        }
+
+        public void playShipDestructionEffect()
+        {
+            this.sfxSource.clip = this.shipDestructionClip;
+            this.sfxSource.Play();
         }
     }
 }
