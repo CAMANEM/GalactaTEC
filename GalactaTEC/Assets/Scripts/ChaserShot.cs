@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using audio_manager;
+
 public class ChaserShot : MonoBehaviour
 {
 
