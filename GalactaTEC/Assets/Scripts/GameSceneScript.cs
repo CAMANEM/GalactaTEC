@@ -33,7 +33,7 @@ public class GameSceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AudioManager.getInstance().playGameSoundtrack();
+        AudioManager.getInstance().playLevel1Soundtrack();
 
         if (gameManager.getInstance().cuantityOfPlayers == 1)
         {

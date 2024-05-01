@@ -18,8 +18,26 @@ namespace audio_manager
         [SerializeField] public AudioClip shipDestructionClip;
         [SerializeField] float volume = 1f;
 
-        private string[] backgroundSoundtracksPaths = { "Audio/moveSound", "Audio/bonusSound" };
-        private string[] gameSoundtracksPaths = { "Audio/BGMusic1" };
+        private string[] backgroundSoundtracksPaths = { "Audio/Soundtracks/Menu/Menu - Anarchic Starport", "Audio/Soundtracks/Menu/Menu - Blaze Your Own Trail",
+                                                        "Audio/Soundtracks/Menu/Menu - Coma Berenices", "Audio/Soundtracks/Menu/Menu - Delta Phoenicis",
+                                                        "Audio/Soundtracks/Menu/Menu - Draco", "Audio/Soundtracks/Menu/Menu - Fawoal",
+                                                        "Audio/Soundtracks/Menu/Menu - Imperial Starport", "Audio/Soundtracks/Menu/Menu - Neutral Blue Giant",
+                                                        "Audio/Soundtracks/Menu/Menu - Neutral Magnetar", "Audio/Soundtracks/Menu/Menu - New Alliance",
+                                                        "Audio/Soundtracks/Menu/Menu - Quator", "Audio/Soundtracks/Menu/Menu - Tarach Tor",
+                                                        "Audio/Soundtracks/Menu/Menu - Ursa Major", "Audio/Soundtracks/Menu/Menu - Virgo",
+                                                        "Audio/Soundtracks/Menu/Menu - Zelada" };
+
+        private string[] level1SoundtracksPaths = { "Audio/Soundtracks/Level/Level - Section 100", "Audio/Soundtracks/Level/Level - Section 101",
+                                                    "Audio/Soundtracks/Level/Level - Section 102", "Audio/Soundtracks/Level/Level - Section 103",
+                                                    "Audio/Soundtracks/Level/Level - Section 104" };
+
+        private string[] level2SoundtracksPaths = { "Audio/Soundtracks/Level/Level - Section 200", "Audio/Soundtracks/Level/Level - Section 201",
+                                                    "Audio/Soundtracks/Level/Level - Section 202", "Audio/Soundtracks/Level/Level - Section 203",
+                                                    "Audio/Soundtracks/Level/Level - Section 204" };
+
+        private string[] level3SoundtracksPaths = { "Audio/Soundtracks/Level/Level - Section 300", "Audio/Soundtracks/Level/Level - Section 301",
+                                                    "Audio/Soundtracks/Level/Level - Section 302", "Audio/Soundtracks/Level/Level - Section 303",
+                                                    "Audio/Soundtracks/Level/Level - Section 304", "Audio/Soundtracks/Level/Level - Section 305" };
 
         private string[] currentPlaylist;
 
@@ -88,17 +106,44 @@ namespace audio_manager
 
         public void playBackgroundSoundtrack()
         {
-            this.currentPlaylist = this.backgroundSoundtracksPaths;
+            if(this.currentPlaylist != this.backgroundSoundtracksPaths)
+            {
+                this.currentPlaylist = this.backgroundSoundtracksPaths;
 
-            this.musicSource.Stop();
+                this.musicSource.Stop();
+            }
         }
 
-        public void playGameSoundtrack()
+        public void playLevel1Soundtrack()
         {
-            this.currentPlaylist = this.gameSoundtracksPaths;
+            if (this.currentPlaylist != this.level1SoundtracksPaths)
+            {
+                this.currentPlaylist = this.level1SoundtracksPaths;
 
-            this.musicSource.Stop();
+                this.musicSource.Stop();
+            }
         }
+
+        public void playLevel2Soundtrack()
+        {
+            if (this.currentPlaylist != this.level2SoundtracksPaths)
+            {
+                this.currentPlaylist = this.level2SoundtracksPaths;
+
+                this.musicSource.Stop();
+            }
+        }
+
+        public void playLevel3Soundtrack()
+        {
+            if (this.currentPlaylist != this.level3SoundtracksPaths)
+            {
+                this.currentPlaylist = this.level3SoundtracksPaths;
+
+                this.musicSource.Stop();
+            }
+        }
+
 
         // Verifies if there are soundtracks playing, if there are, does nothing, if not, play a random soundtrack of currentPlaylist array
         private void checkSoundtrackActivity()

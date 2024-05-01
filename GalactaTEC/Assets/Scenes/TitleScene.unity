@@ -513,7 +513,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 763703488}
-  - component: {fileID: 763703487}
+  - component: {fileID: 763703489}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -521,28 +521,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &763703487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763703486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38647c2398e4e9f46b55b07b86452629, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myMixer: {fileID: 24100000, guid: 593037b71ba0f6044acf6250e0c8b768, type: 2}
-  musicSource: {fileID: 1617298552}
-  sfxSource: {fileID: 501981731}
-  clip: {fileID: 0}
-  movementClip: {fileID: 8300000, guid: 049e40540ce43344ca80f8e373d2e366, type: 3}
-  bonusClip: {fileID: 8300000, guid: ed89db0c23c75a945bbbe98a68343e72, type: 3}
-  shotClip: {fileID: 8300000, guid: 8acae26c2c8432f47968a259178203e3, type: 3}
-  shipDestructionClip: {fileID: 8300000, guid: 8ab9f96308f525a49a7ac7a50256d6ed, type: 3}
-  volume: 1
-  isAudioPaused: 0
 --- !u!4 &763703488
 Transform:
   m_ObjectHideFlags: 0
@@ -560,6 +538,28 @@ Transform:
   - {fileID: 501981730}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &763703489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763703486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38647c2398e4e9f46b55b07b86452629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myMixer: {fileID: 24100000, guid: 593037b71ba0f6044acf6250e0c8b768, type: 2}
+  musicSource: {fileID: 1617298552}
+  sfxSource: {fileID: 501981731}
+  clip: {fileID: 0}
+  movementClip: {fileID: 8300000, guid: 238b7940cfda27a44834f7c4460f3a27, type: 3}
+  bonusClip: {fileID: 8300000, guid: aed99e32e78677a43ab203f52801c1bf, type: 3}
+  shotClip: {fileID: 8300000, guid: b1709a6ce73146b44bd96a78d7f869c2, type: 3}
+  shipDestructionClip: {fileID: 0}
+  volume: 1
+  isAudioPaused: 0
 --- !u!1 &801093888
 GameObject:
   m_ObjectHideFlags: 0
