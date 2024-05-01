@@ -43,11 +43,12 @@ public class PlayerController : MonoBehaviour
     public bool x2Pts = false;
     public bool shield = false;
 
+    int chaserShotsCounter = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         playerLives = GetComponent<PlayerLives>();
-        Instantiate(shieldPower, attack_Point.position, Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -147,11 +148,16 @@ public class PlayerController : MonoBehaviour
             case 0:
                 if (chaserShot)
                 {
-                    chaserShot = false;
-                    ChaserItem chaserScript = GameObject.Find("ChaserShot").GetComponent<ChaserItem>();
-                    chaserScript.Desactivate();
+                    if (chaserShotsCounter == 2)
+                    {
+                        chaserShot = false;
+                        ChaserItem chaserScript = GameObject.Find("ChaserShot").GetComponent<ChaserItem>();
+                        chaserScript.Desactivate();
+                        chaserShotsCounter = 0;
+                    }
                     Instantiate(chaserBullet, attack_Point.position, Quaternion.identity);
                     Debug.Log("Chaser used and deactivated");
+                    chaserShotsCounter++;
                 }
                 break;
             case 1:

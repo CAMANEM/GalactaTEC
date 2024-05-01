@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 48845830}
   - component: {fileID: 48845829}
   - component: {fileID: 48845828}
+  - component: {fileID: 48845831}
   m_Layer: 0
   m_Name: ChaserShot_0
   m_TagString: Untagged
@@ -335,6 +336,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &48845831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48845827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58be328d0584b284db24079acf7c3c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedY: 500
+  speedX: 300
+  deactivateTimer: 5
 --- !u!1 &67565608
 GameObject:
   m_ObjectHideFlags: 0
@@ -2738,7 +2754,6 @@ MonoBehaviour:
   txtUsername2: {fileID: 1980136909}
   txtScore1: {fileID: 1607222116744419178}
   txtScore2: {fileID: 246778749}
-  source: {fileID: 653870827}
 --- !u!82 &653870827
 AudioSource:
   m_ObjectHideFlags: 0
