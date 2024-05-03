@@ -30,6 +30,8 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI txtScore1;
     [SerializeField] TMPro.TextMeshProUGUI txtScore2;
 
+    [SerializeField] int score = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -211,5 +213,12 @@ public class GameSceneScript : MonoBehaviour
         }
 
         return foundUser;
+    }
+
+
+    public void updateScore(int points){
+
+        score += points;
+        txtScore1.text = score.ToString();
     }
 }
