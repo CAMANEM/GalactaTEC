@@ -25,7 +25,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Transform attack_Point;
+    public GameObject ExpansiveShot_0;
 
+    public GameObject explosion;
 
 
     //public AudioSource source;
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ActivateExpansive();
         playerLives = GetComponent<PlayerLives>();
     }
 
@@ -166,7 +169,7 @@ public class PlayerController : MonoBehaviour
                     expansiveShot = false;
                     ExpansiveItem expansiveScript = GameObject.Find("ExpansiveShot").GetComponent<ExpansiveItem>();
                     expansiveScript.Desactivate();
-                    Instantiate(expansiveBullet, attack_Point.position, Quaternion.identity);
+                    Instantiate(ExpansiveShot_0, attack_Point.position, Quaternion.identity);
                     Debug.Log("Expansive Shot used and deactivated");
                 }
                 break;
@@ -192,4 +195,6 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
+
+
 }

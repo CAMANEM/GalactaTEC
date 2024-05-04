@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2463d5f5eb73b804389ba684ede08520
+guid: edccc1904ce4eda4587e48df6dafb510
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -95,91 +95,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: x2ptsShot_0
-      rect:
-        serializedVersion: 2
-        x: 11
-        y: 7
-        width: 10
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7de3b6957fd6c85428e2e36434957faa
-      internalID: -857934123
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: x2ptsShot_1
-      rect:
-        serializedVersion: 2
-        x: 43
-        y: 7
-        width: 10
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0180ecc5ecf14294a9b21dbe76dae384
-      internalID: -853368821
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: x2ptsShot_2
-      rect:
-        serializedVersion: 2
-        x: 75
-        y: 7
-        width: 10
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 172fd502d1db744489a6f5ba0bf3114b
-      internalID: -689871256
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: x2ptsShot_3
-      rect:
-        serializedVersion: 2
-        x: 107
-        y: 7
-        width: 10
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7c5797d7fed2de24b96d04ce1ae8edf9
-      internalID: 2144052050
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -190,11 +106,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      x2ptsShot_0: -857934123
-      x2ptsShot_1: -853368821
-      x2ptsShot_2: -689871256
-      x2ptsShot_3: 2144052050
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

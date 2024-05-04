@@ -40,7 +40,7 @@ public class NormalShot : MonoBehaviour
             //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
             GameSceneScript gameSceneScriptScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
-            gameSceneScriptScript.updateScore(50);
+            gameSceneScriptScript.updateScore(200);
             Destroy(gameObject);
         }
     }
