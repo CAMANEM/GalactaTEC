@@ -24,6 +24,12 @@ public class PlayerController : MonoBehaviour
     private GameObject shieldPower;
 
     [SerializeField]
+    private GameObject shieldMidPower;
+
+    [SerializeField]
+    private GameObject shieldMinPower;
+
+    [SerializeField]
     private Transform attack_Point;
     public GameObject ExpansiveShot_0;
 
@@ -50,7 +56,10 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ActivateX2Pts();
+        shieldPower.SetActive(false);
+        shieldMidPower.SetActive(false);
+        shieldMinPower.SetActive(false);
+        ActivateShield();
         playerLives = GetComponent<PlayerLives>();
     }
 
@@ -90,7 +99,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void MoveAux(){
-        AudioManager.getInstance().playMovementEffect();
+        //AudioManager.getInstance().playMovementEffect();
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         // Calculate the movement direction
@@ -190,7 +199,7 @@ public class PlayerController : MonoBehaviour
                     shield = false;
                     ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
                     shieldScript.Desactivate();
-                    Instantiate(shieldPower, attack_Point.position, Quaternion.identity);
+                    shieldPower.SetActive(true);
                     Debug.Log("Shield Shot used and deactivated");
                 }
                 break;
