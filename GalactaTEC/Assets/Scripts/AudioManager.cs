@@ -18,7 +18,7 @@ namespace audio_manager
         [SerializeField] public AudioClip shipDestructionClip;
         [SerializeField] float volume = 1f;
 
-        private string[] backgroundSoundtracksPaths = { "Audio/Soundtracks/Menu/Menu - Anarchic Starport", "Audio/Soundtracks/Menu/Menu - Blaze Your Own Trail",
+        public string[] backgroundSoundtracksPaths = { "Audio/Soundtracks/Menu/Menu - Anarchic Starport", "Audio/Soundtracks/Menu/Menu - Blaze Your Own Trail",
                                                         "Audio/Soundtracks/Menu/Menu - Coma Berenices", "Audio/Soundtracks/Menu/Menu - Delta Phoenicis",
                                                         "Audio/Soundtracks/Menu/Menu - Draco", "Audio/Soundtracks/Menu/Menu - Fawoal",
                                                         "Audio/Soundtracks/Menu/Menu - Imperial Starport", "Audio/Soundtracks/Menu/Menu - Neutral Blue Giant",
@@ -27,15 +27,15 @@ namespace audio_manager
                                                         "Audio/Soundtracks/Menu/Menu - Ursa Major", "Audio/Soundtracks/Menu/Menu - Virgo",
                                                         "Audio/Soundtracks/Menu/Menu - Zelada" };
 
-        private string[] level1SoundtracksPaths = { "Audio/Soundtracks/Level/Level - Section 100", "Audio/Soundtracks/Level/Level - Section 101",
+        public string[] level1SoundtracksPaths = { "Audio/Soundtracks/Level/Level - Section 100", "Audio/Soundtracks/Level/Level - Section 101",
                                                     "Audio/Soundtracks/Level/Level - Section 102", "Audio/Soundtracks/Level/Level - Section 103",
                                                     "Audio/Soundtracks/Level/Level - Section 104" };
 
-        private string[] level2SoundtracksPaths = { "Audio/Soundtracks/Level/Level - Section 200", "Audio/Soundtracks/Level/Level - Section 201",
+        public string[] level2SoundtracksPaths = { "Audio/Soundtracks/Level/Level - Section 200", "Audio/Soundtracks/Level/Level - Section 201",
                                                     "Audio/Soundtracks/Level/Level - Section 202", "Audio/Soundtracks/Level/Level - Section 203",
                                                     "Audio/Soundtracks/Level/Level - Section 204" };
 
-        private string[] level3SoundtracksPaths = { "Audio/Soundtracks/Level/Level - Section 300", "Audio/Soundtracks/Level/Level - Section 301",
+        public string[] level3SoundtracksPaths = { "Audio/Soundtracks/Level/Level - Section 300", "Audio/Soundtracks/Level/Level - Section 301",
                                                     "Audio/Soundtracks/Level/Level - Section 302", "Audio/Soundtracks/Level/Level - Section 303",
                                                     "Audio/Soundtracks/Level/Level - Section 304", "Audio/Soundtracks/Level/Level - Section 305" };
 
@@ -184,6 +184,24 @@ namespace audio_manager
         {
             this.sfxSource.clip = this.shipDestructionClip;
             this.sfxSource.Play();
+        }
+
+        public void playSpecificSoundtrack(string soundtrack)
+        {
+            this.musicSource.Stop();
+
+            this.clipPath = soundtrack;
+
+            this.clip = (AudioClip)Resources.Load(this.clipPath, typeof(AudioClip));
+
+            musicSource.clip = this.clip;
+
+            musicSource.Play();
+        }
+
+        public void stopSoundtrack()
+        {
+            this.musicSource.Stop();
         }
     }
 }

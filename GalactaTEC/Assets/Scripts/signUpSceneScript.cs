@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
@@ -12,6 +13,7 @@ using UnityEngine.SceneManagement;
 
 using GameManager;
 using alerts_manager;
+using audio_manager;
 
 [System.Serializable]
 public class User
@@ -53,20 +55,35 @@ public class signUpSceneScript : MonoBehaviour
     public TMP_InputField inpEmail;
     public TMP_InputField inpUsername;
     public TMP_InputField inpPassword;
+    public TMP_Text txtSoundtrack;
+
+    public Button btnIsInFavorites;
+    public Button btnisNotInFavoritesButton;
+    public Button btnAddTofavorites;
+    public Button btnRemoveFromFavorites;
+    public Button btnPlaySoundtrack;
+    public Button btnStopSoundtrack;
 
     // Variables
-    string userImagePath = "";
-    string shipImagePath = "";
+    private string userImagePath = "";
+    private string shipImagePath = "";
 
-    byte[] imageBytesUser;
-    byte[] imageBytesShip;
+    private byte[] imageBytesUser;
+    private byte[] imageBytesShip;
 
-    string usersPath = Application.dataPath + "/Data/users.json";
+    private string[] soundtracks;
+    private string[] showableSoundtracks;
+    private int soundtrackIndex;
+
+    private string usersPath = Application.dataPath + "/Data/users.json";
 
     // Start is called before the first frame update
     void Start()
     {
-        // alertsScript.getInstance().setTitle("Testing title").setBody("Testing body").showAlert();
+        AudioManager.getInstance().playBackgroundSoundtrack();
+        this.loadSountracks();
+        txtSoundtrack.text = this.showableSoundtracks[0];
+        this.soundtrackIndex = 0;
     }
 
     // Update is called once per frame
@@ -126,6 +143,56 @@ public class signUpSceneScript : MonoBehaviour
         Users users = JsonUtility.FromJson<Users>(usersJSON);
 
         return users.users;
+    }
+
+    public void addToFavoritesButtonOnClick()
+    {
+
+    }
+
+    public void removeFromFavoritesButtonOnClick()
+    {
+
+    }
+
+    public void playNextSoundtrackButtonOnClick()
+    {
+        this.soundtrackIndex++;
+
+        if (this.soundtrackIndex >= this.soundtracks.Length)
+        {
+            this.soundtrackIndex = 0;
+        }
+
+        txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+        this.playSoundtrackButtonOnClick();
+    }
+
+    public void playPreviousSoundtrackButtonOnClick()
+    {
+        this.soundtrackIndex--;
+
+        if (this.soundtrackIndex < 0)
+        {
+            this.soundtrackIndex = this.soundtracks.Length-1;
+        }
+
+        txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+        this.playSoundtrackButtonOnClick();
+    }
+
+    public void playSoundtrackButtonOnClick()
+    {
+        AudioManager.getInstance().playSpecificSoundtrack(this.soundtracks[this.soundtrackIndex]);
+        this.btnPlaySoundtrack.gameObject.SetActive(false);
+        this.btnStopSoundtrack.gameObject.SetActive(true);
+    }
+
+    public void stopSoundtrackButtonOnClick()
+    {
+        AudioManager.getInstance().stopSoundtrack();
+        this.btnPlaySoundtrack.gameObject.SetActive(true);
+        this.btnStopSoundtrack.gameObject.SetActive(false);
     }
 
     public void createAccountButtonOnClick()
@@ -430,6 +497,12 @@ public class signUpSceneScript : MonoBehaviour
         {
             SceneManager.LoadScene("2PLoginScene");
         }
+    }
+
+    private void loadSountracks()
+    {
+        this.soundtracks = AudioManager.getInstance().backgroundSoundtracksPaths.Concat(AudioManager.getInstance().level1SoundtracksPaths).Concat(AudioManager.getInstance().level2SoundtracksPaths).Concat(AudioManager.getInstance().level3SoundtracksPaths).ToArray();
+        this.showableSoundtracks = this.soundtracks.Select(s => s.Split('/').Last()).ToArray();
     }
 
     public void backButtonOnClik()
