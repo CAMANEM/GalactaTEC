@@ -32,6 +32,9 @@ public class GameSceneScript : MonoBehaviour
 
     [SerializeField] int score = 0;
 
+    public float x2PtsDuration = 5f;
+    public bool x2PtsIsActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -215,9 +218,21 @@ public class GameSceneScript : MonoBehaviour
         return foundUser;
     }
 
+    public void activateX2Pts(){
+        x2PtsIsActive = true;
+        Invoke("desactivateX2Pts", x2PtsDuration);
+    }
+
+    public void desactivateX2Pts(){
+        x2PtsIsActive = false;
+    }
 
     public void updateScore(int points){
 
+        if (x2PtsIsActive)
+        {
+            points *= 2;
+        }
         score += points;
         txtScore1.text = score.ToString();
     }

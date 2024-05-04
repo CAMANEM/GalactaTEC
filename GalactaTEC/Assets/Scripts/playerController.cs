@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ActivateExpansive();
+        ActivateX2Pts();
         playerLives = GetComponent<PlayerLives>();
     }
 
@@ -179,7 +179,8 @@ public class PlayerController : MonoBehaviour
                     x2Pts = false;
                     x2PtItem x2PtsScript = GameObject.Find("x2ptShot").GetComponent<x2PtItem>();
                     x2PtsScript.Desactivate();
-                    Instantiate(normalShot, attack_Point.position, Quaternion.identity);
+                    GameSceneScript gameSceneScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
+                    gameSceneScript.activateX2Pts();
                     Debug.Log("x2Pts Shot used and deactivated");
                 }
                 break;
