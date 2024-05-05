@@ -121,29 +121,6 @@ public class signUpSceneScript : MonoBehaviour
         }
     }
 
-    public void changeShipButtonOnClick()
-    {
-        try
-        {
-            shipImagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new ship image", "", "png,jpg,jpeg,gif,bmp");
-
-            if (!string.IsNullOrEmpty(shipImagePath))
-            {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(shipImagePath);
-
-                Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(imageBytes);
-
-                imgShipName.texture = texture;
-            }
-        }
-        catch
-        {
-
-            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + shipImagePath + ". Debug code: 2.");
-        }
-    }
-
     private List<User> getSignedUsers()
     {
         string usersJSON = File.ReadAllText(usersPath);

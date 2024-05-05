@@ -4030,6 +4030,8 @@ MonoBehaviour:
   - Audio/Soundtracks/Level/Level - Section 303
   - Audio/Soundtracks/Level/Level - Section 304
   - Audio/Soundtracks/Level/Level - Section 305
+  loggedUserFavoriteSoundtracks: []
+  clipPath: 
   isAudioPaused: 0
 --- !u!4 &1026997777
 Transform:
