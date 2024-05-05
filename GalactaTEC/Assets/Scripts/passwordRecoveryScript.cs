@@ -10,8 +10,8 @@ using System.Security.Cryptography.X509Certificates;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-
 using GameManager;
+using audio_manager;
 
 public class passwordRecoveryScript : MonoBehaviour
 {
@@ -26,6 +26,8 @@ public class passwordRecoveryScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.getInstance().playBackgroundSoundtrack();
+
         if (gameManager.getInstance().emailRecoveringPassword != "")
         {
             inpEmail.text = gameManager.getInstance().emailRecoveringPassword;

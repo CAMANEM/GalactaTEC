@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 
+using audio_manager;
+
 [System.Serializable]
 public class HallOfFameEntry
 {
@@ -33,6 +35,8 @@ public class hallOfFameScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.getInstance().playBackgroundSoundtrack();
+
         // Load JSON from file
         string jsonString = File.ReadAllText(jsonFilePath);
 

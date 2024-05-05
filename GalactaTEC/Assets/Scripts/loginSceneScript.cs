@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 
 using GameManager;
 using alerts_manager;
+using audio_manager;
 
 public class loginSceneScript : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class loginSceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        AudioManager.getInstance().playBackgroundSoundtrack();
     }
 
     // Update is called once per frame

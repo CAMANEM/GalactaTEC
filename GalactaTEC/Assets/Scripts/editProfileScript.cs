@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 
 using GameManager;
 using alerts_manager;
+using audio_manager;
 
 [System.Serializable]
 public class editProfileScript : MonoBehaviour { 
@@ -34,6 +35,8 @@ public class editProfileScript : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.getInstance().playBackgroundSoundtrack();
+
         gameManager.getInstance().isUserEditingProfileInformation = true;
 
         User user = getUserInformation();

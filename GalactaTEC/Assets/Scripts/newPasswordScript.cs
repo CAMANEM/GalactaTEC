@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 
 using GameManager;
+using audio_manager;
 
 public class newPasswordScript : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class newPasswordScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.getInstance().playBackgroundSoundtrack();
         txtEmail.text = gameManager.getInstance().emailRecoveringPassword;
     }
 
