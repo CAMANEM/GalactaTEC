@@ -25,6 +25,7 @@ public class User
     public string userImage;
     public string shipImage;
     public int[] scoreRecord;
+    public string[] favoriteSoundtracks;
 }
 
 [System.Serializable]
@@ -73,6 +74,7 @@ public class signUpSceneScript : MonoBehaviour
 
     private string[] soundtracks;
     private string[] showableSoundtracks;
+    private string[] userFavoriteSoundtracks;
     private int soundtrackIndex;
 
     private string usersPath = Application.dataPath + "/Data/users.json";
@@ -82,8 +84,12 @@ public class signUpSceneScript : MonoBehaviour
     {
         AudioManager.getInstance().playBackgroundSoundtrack();
         this.loadSountracks();
-        txtSoundtrack.text = this.showableSoundtracks[0];
+        this.userFavoriteSoundtracks = this.soundtracks;
+
         this.soundtrackIndex = 0;
+        txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+
+        updateFavoriteSoundtracksUI();
     }
 
     // Update is called once per frame
@@ -147,12 +153,52 @@ public class signUpSceneScript : MonoBehaviour
 
     public void addToFavoritesButtonOnClick()
     {
+        int indexToAdd = Array.IndexOf(this.userFavoriteSoundtracks, this.soundtracks[this.soundtrackIndex]);
+        if (indexToAdd == -1)
+        {
+            Array.Resize(ref this.userFavoriteSoundtracks, this.userFavoriteSoundtracks.Length + 1);
+            this.userFavoriteSoundtracks[this.userFavoriteSoundtracks.Length - 1] = this.soundtracks[this.soundtrackIndex];
+        }
 
+        updateFavoriteSoundtracksUI();
+
+        Debug.Log("Contents of userFavoriteSoundtracks array:");
+        foreach (string item in userFavoriteSoundtracks)
+        {
+            Debug.Log(item);
+        }
+
+        Debug.Log("Contents of soundtracks array:");
+        foreach (string item in soundtracks)
+        {
+            Debug.Log(item);
+        }
+
+        Debug.Log("Contents of showableSoundtracks array:");
+        foreach (string item in showableSoundtracks)
+        {
+            Debug.Log(item);
+        }
     }
 
     public void removeFromFavoritesButtonOnClick()
     {
+        int indexToRemove = Array.IndexOf(this.userFavoriteSoundtracks, this.soundtracks[this.soundtrackIndex]);
+        if (indexToRemove != -1)
+        {
+            string[] copyUserFavoriteSoundtracks = new string[this.userFavoriteSoundtracks.Length];
+            Array.Copy(this.userFavoriteSoundtracks, copyUserFavoriteSoundtracks, this.userFavoriteSoundtracks.Length);
 
+            for (int i = indexToRemove; i < copyUserFavoriteSoundtracks.Length - 1; i++)
+            {
+                copyUserFavoriteSoundtracks[i] = copyUserFavoriteSoundtracks[i + 1];
+            }
+            Array.Resize(ref copyUserFavoriteSoundtracks, copyUserFavoriteSoundtracks.Length - 1);
+
+            this.userFavoriteSoundtracks = copyUserFavoriteSoundtracks;
+        }
+
+        updateFavoriteSoundtracksUI();
     }
 
     public void playNextSoundtrackButtonOnClick()
@@ -165,6 +211,9 @@ public class signUpSceneScript : MonoBehaviour
         }
 
         txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+
+        updateFavoriteSoundtracksUI();
+
         this.playSoundtrackButtonOnClick();
     }
 
@@ -178,6 +227,9 @@ public class signUpSceneScript : MonoBehaviour
         }
 
         txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+
+        updateFavoriteSoundtracksUI();
+
         this.playSoundtrackButtonOnClick();
     }
 
@@ -193,6 +245,38 @@ public class signUpSceneScript : MonoBehaviour
         AudioManager.getInstance().stopSoundtrack();
         this.btnPlaySoundtrack.gameObject.SetActive(true);
         this.btnStopSoundtrack.gameObject.SetActive(false);
+    }
+
+    private void updateFavoriteSoundtracksUI()
+    {
+        if (isSounditrackInUserFavorites(this.soundtracks[this.soundtrackIndex]))
+        {
+        btnIsInFavorites.gameObject.SetActive(true);
+        btnisNotInFavoritesButton.gameObject.SetActive(false);
+
+        btnRemoveFromFavorites.gameObject.SetActive(true);
+        btnAddTofavorites.gameObject.SetActive(false);
+    }
+        else
+        {
+        btnIsInFavorites.gameObject.SetActive(false);
+        btnisNotInFavoritesButton.gameObject.SetActive(true);
+
+        btnRemoveFromFavorites.gameObject.SetActive(false);
+        btnAddTofavorites.gameObject.SetActive(true);
+    }
+    }
+
+    private bool isSounditrackInUserFavorites(string soundtrack)
+    {
+        foreach (string str in this.userFavoriteSoundtracks)
+        {
+            if (str == soundtrack)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void createAccountButtonOnClick()
@@ -212,6 +296,7 @@ public class signUpSceneScript : MonoBehaviour
                     user.email = inpEmail.text;
                     user.username = inpUsername.text;
                     user.password = inpPassword.text;
+                    user.favoriteSoundtracks = this.userFavoriteSoundtracks;
 
                     string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
                     if (userImagePath != "" && user.userImage != newUserImage)
@@ -259,6 +344,7 @@ public class signUpSceneScript : MonoBehaviour
                     user.email = inpEmail.text;
                     user.username = inpUsername.text;
                     user.password = inpPassword.text;
+                    user.favoriteSoundtracks = this.userFavoriteSoundtracks;
 
                     string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
                     if (userImagePath != "" && user.userImage != newUserImage)
