@@ -56,6 +56,7 @@ public class signUpSceneScript : MonoBehaviour
     public TMP_InputField inpEmail;
     public TMP_InputField inpUsername;
     public TMP_InputField inpPassword;
+
     public TMP_Text txtSoundtrack;
 
     public Button btnIsInFavorites;
@@ -83,6 +84,7 @@ public class signUpSceneScript : MonoBehaviour
     void Start()
     {
         AudioManager.getInstance().playBackgroundSoundtrack();
+
         this.loadSountracks();
         this.userFavoriteSoundtracks = this.soundtracks;
 
@@ -161,24 +163,6 @@ public class signUpSceneScript : MonoBehaviour
         }
 
         updateFavoriteSoundtracksUI();
-
-        Debug.Log("Contents of userFavoriteSoundtracks array:");
-        foreach (string item in userFavoriteSoundtracks)
-        {
-            Debug.Log(item);
-        }
-
-        Debug.Log("Contents of soundtracks array:");
-        foreach (string item in soundtracks)
-        {
-            Debug.Log(item);
-        }
-
-        Debug.Log("Contents of showableSoundtracks array:");
-        foreach (string item in showableSoundtracks)
-        {
-            Debug.Log(item);
-        }
     }
 
     public void removeFromFavoritesButtonOnClick()
@@ -214,7 +198,10 @@ public class signUpSceneScript : MonoBehaviour
 
         updateFavoriteSoundtracksUI();
 
-        this.playSoundtrackButtonOnClick();
+        if (btnStopSoundtrack.gameObject.activeSelf)
+        {
+            this.playSoundtrackButtonOnClick();
+        }
     }
 
     public void playPreviousSoundtrackButtonOnClick()
@@ -230,7 +217,10 @@ public class signUpSceneScript : MonoBehaviour
 
         updateFavoriteSoundtracksUI();
 
-        this.playSoundtrackButtonOnClick();
+        if (btnStopSoundtrack.gameObject.activeSelf)
+        {
+            this.playSoundtrackButtonOnClick();
+        }
     }
 
     public void playSoundtrackButtonOnClick()
@@ -279,11 +269,46 @@ public class signUpSceneScript : MonoBehaviour
         return false;
     }
 
+    private bool CheckFavoriteSoundtracks()
+    {
+        int menuSoundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Menu/"));
+        int level1Soundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Level/Level - Section 1"));
+        int level2Soundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Level/Level - Section 2"));
+        int level3Soundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Level/Level - Section 3"));
+
+
+        if (menuSoundtracks < 5 || level1Soundtracks < 2 || level2Soundtracks < 2 || level3Soundtracks < 2)
+        {
+            if (menuSoundtracks < 5)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 5 soundtracks for menus", "Retry");
+            }else if (level1Soundtracks < 2)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 2 soundtracks for sections 100", "Retry");
+            }
+            else if (level2Soundtracks < 2)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 2 soundtracks for sections 200", "Retry");
+            }
+            else if (level3Soundtracks < 2)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 2 soundtracks for sections 300", "Retry");
+            }
+            
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+    }
+
     public void createAccountButtonOnClick()
     {
         if (File.Exists(usersPath))
         {
-            if (emailIsUnique(inpEmail.text) && usernameIsUnique(inpUsername.text) && passwordIsValid(inpPassword.text))
+            if (emailIsUnique(inpEmail.text) && usernameIsUnique(inpUsername.text) && passwordIsValid(inpPassword.text) && CheckFavoriteSoundtracks())
             {
                 if (emailExists(inpEmail.text))
                 {
@@ -335,7 +360,7 @@ public class signUpSceneScript : MonoBehaviour
         }
         else
         {
-            if (passwordIsValid(inpPassword.text))
+            if (passwordIsValid(inpPassword.text) && CheckFavoriteSoundtracks())
             {
                 if (emailExists(inpEmail.text))
                 {
@@ -593,6 +618,11 @@ public class signUpSceneScript : MonoBehaviour
 
     public void backButtonOnClik()
     {
+        if (AudioManager.getInstance().clipPath.StartsWith("Audio/Soundtracks/Level/Level - Section "))
+        {
+            AudioManager.getInstance().stopSoundtrack();
+        }
+
         goToLoginScene();
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using GameManager;
 
+using GameManager;
 using audio_manager;
 
 public class mainMenuScript : MonoBehaviour
@@ -48,6 +49,13 @@ public class mainMenuScript : MonoBehaviour
     public void BackButtonOnClick()
     {
         // Agregar ventana emergente indicando si está seguro que quiere regresar y de ser así se eliminará el/los inicios de sesión
+
+        gameManager.getInstance().cuantityOfPlayers = 0;
+        gameManager.getInstance().player1Email = "";
+        gameManager.getInstance().player2Email = "";
+        gameManager.getInstance().player1Username = "";
+        gameManager.getInstance().player2Username = "";
+
         SceneManager.LoadScene("TitleScene");
     }
 }

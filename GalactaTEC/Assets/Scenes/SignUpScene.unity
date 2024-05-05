@@ -2028,6 +2028,7 @@ MonoBehaviour:
   - Audio/Soundtracks/Level/Level - Section 303
   - Audio/Soundtracks/Level/Level - Section 304
   - Audio/Soundtracks/Level/Level - Section 305
+  loggedUserFavoriteSoundtracks: []
   isAudioPaused: 0
 --- !u!4 &509735197
 Transform:
@@ -5219,7 +5220,7 @@ GameObject:
   - component: {fileID: 1289666638}
   - component: {fileID: 1289666637}
   m_Layer: 5
-  m_Name: txtThemes
+  m_Name: txtSoundtracks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

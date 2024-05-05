@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using UnityEngine.Audio;
 
+using GameManager;
+
 namespace audio_manager
 {
     public class AudioManager : MonoBehaviour
@@ -41,7 +43,9 @@ namespace audio_manager
 
         private string[] currentPlaylist;
 
-        private string clipPath;
+        public string[] loggedUserFavoriteSoundtracks;
+
+        public string clipPath;
 
         public bool isAudioPaused = false;
 
@@ -148,7 +152,21 @@ namespace audio_manager
         // Verifies if there are soundtracks playing, if there are, does nothing, if not, play a random soundtrack of currentPlaylist array
         private void checkSoundtrackActivity()
         {
-            if (!musicSource.isPlaying && !this.isAudioPaused)
+            if (!musicSource.isPlaying && !this.isAudioPaused && gameManager.getInstance().player1Email != "")
+            {
+                int index = UnityEngine.Random.Range(0, this.currentPlaylist.Length);
+
+                if (isSounditrackInUserFavorites(this.currentPlaylist[index]))
+                {
+                    this.clipPath = this.currentPlaylist[index];
+
+                    this.clip = (AudioClip)Resources.Load(this.clipPath, typeof(AudioClip));
+
+                    musicSource.clip = this.clip;
+
+                    musicSource.Play();
+                }
+            } else if (!musicSource.isPlaying && !this.isAudioPaused)
             {
                 int index = UnityEngine.Random.Range(0, this.currentPlaylist.Length);
 
@@ -160,6 +178,18 @@ namespace audio_manager
 
                 musicSource.Play();
             }
+        }
+
+        private bool isSounditrackInUserFavorites(string soundtrack)
+        {
+            foreach (string str in this.loggedUserFavoriteSoundtracks)
+            {
+                if (str == soundtrack)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void playShotEffect()

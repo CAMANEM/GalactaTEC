@@ -82,10 +82,11 @@ public class loginSceneScript : MonoBehaviour
 
         if(users.Exists(user => (user.email == inpUsernameEmailP1.text && user.password == inpPasswordP1.text)))
         {
-            gameManager.getInstance().player1Email = inpUsernameEmailP1.text;
-
             player1isLoggedIn = true;
+            gameManager.getInstance().player1Email = inpUsernameEmailP1.text;
             gameManager.getInstance().player1Username = getUserByEmail(inpUsernameEmailP1.text).username;
+            AudioManager.getInstance().loggedUserFavoriteSoundtracks = getUserByEmail(inpUsernameEmailP1.text).favoriteSoundtracks;
+            AudioManager.getInstance().stopSoundtrack();
 
             if ((gameManager.getInstance().cuantityOfPlayers == 1) || (gameManager.getInstance().cuantityOfPlayers == 2 && player2isLoggedIn))
             {

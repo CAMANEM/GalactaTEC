@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
@@ -25,6 +26,15 @@ public class editProfileScript : MonoBehaviour {
     public TMP_InputField inpEmail;
     public TMP_InputField inpUsername;
 
+    public TMP_Text txtSoundtrack;
+
+    public Button btnIsInFavorites;
+    public Button btnisNotInFavoritesButton;
+    public Button btnAddToFavorites;
+    public Button btnRemoveFromFavorites;
+    public Button btnPlaySoundtrack;
+    public Button btnStopSoundtrack;
+
     // Variables
     string userImagePath = "";
     string shipImagePath = "";
@@ -32,10 +42,22 @@ public class editProfileScript : MonoBehaviour {
     byte[] imageBytesUser;
     byte[] imageBytesShip;
 
+    private string[] soundtracks;
+    private string[] showableSoundtracks;
+    private string[] userFavoriteSoundtracks;
+    private int soundtrackIndex;
+
+    private bool isChange = false;
+
     // Start is called before the first frame update
     void Start()
     {
         AudioManager.getInstance().playBackgroundSoundtrack();
+
+        this.loadSountracks();
+
+        this.soundtrackIndex = 0;
+        txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
 
         gameManager.getInstance().isUserEditingProfileInformation = true;
 
@@ -46,6 +68,9 @@ public class editProfileScript : MonoBehaviour {
             inpName.text = user.name;
             inpEmail.text = user.email;
             inpUsername.text = user.username;
+            this.userFavoriteSoundtracks = user.favoriteSoundtracks;
+
+            this.updateFavoriteSoundtracksUI();
 
             // Loads user image
             try
@@ -84,6 +109,8 @@ public class editProfileScript : MonoBehaviour {
                 Debug.LogError("Something went wrong loading the selected ship image: " + Application.dataPath + user.shipImage + ". Debug code: 5.");
             }
         }
+
+        this.isChange = false;
     }
 
     // Update is called once per frame
@@ -122,6 +149,158 @@ public class editProfileScript : MonoBehaviour {
         }
 
         return foundUser;
+    }
+
+    public void addToFavoritesButtonOnClick()
+    {
+        int indexToAdd = Array.IndexOf(this.userFavoriteSoundtracks, this.soundtracks[this.soundtrackIndex]);
+        if (indexToAdd == -1)
+        {
+            Array.Resize(ref this.userFavoriteSoundtracks, this.userFavoriteSoundtracks.Length + 1);
+            this.userFavoriteSoundtracks[this.userFavoriteSoundtracks.Length - 1] = this.soundtracks[this.soundtrackIndex];
+        }
+
+        updateFavoriteSoundtracksUI();
+    }
+
+    public void removeFromFavoritesButtonOnClick()
+    {
+        int indexToRemove = Array.IndexOf(this.userFavoriteSoundtracks, this.soundtracks[this.soundtrackIndex]);
+        if (indexToRemove != -1)
+        {
+            string[] copyUserFavoriteSoundtracks = new string[this.userFavoriteSoundtracks.Length];
+            Array.Copy(this.userFavoriteSoundtracks, copyUserFavoriteSoundtracks, this.userFavoriteSoundtracks.Length);
+
+            for (int i = indexToRemove; i < copyUserFavoriteSoundtracks.Length - 1; i++)
+            {
+                copyUserFavoriteSoundtracks[i] = copyUserFavoriteSoundtracks[i + 1];
+            }
+            Array.Resize(ref copyUserFavoriteSoundtracks, copyUserFavoriteSoundtracks.Length - 1);
+
+            this.userFavoriteSoundtracks = copyUserFavoriteSoundtracks;
+        }
+
+        updateFavoriteSoundtracksUI();
+    }
+
+    public void playNextSoundtrackButtonOnClick()
+    {
+        this.soundtrackIndex++;
+
+        if (this.soundtrackIndex >= this.soundtracks.Length)
+        {
+            this.soundtrackIndex = 0;
+        }
+
+        txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+
+        updateFavoriteSoundtracksUI();
+
+        if (btnStopSoundtrack.gameObject.activeSelf)
+        {
+            this.playSoundtrackButtonOnClick();
+        }
+    }
+
+    public void playPreviousSoundtrackButtonOnClick()
+    {
+        this.soundtrackIndex--;
+
+        if (this.soundtrackIndex < 0)
+        {
+            this.soundtrackIndex = this.soundtracks.Length - 1;
+        }
+
+        txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+
+        updateFavoriteSoundtracksUI();
+
+        if (btnStopSoundtrack.gameObject.activeSelf)
+        {
+            this.playSoundtrackButtonOnClick();
+        }
+    }
+
+    public void playSoundtrackButtonOnClick()
+    {
+        AudioManager.getInstance().playSpecificSoundtrack(this.soundtracks[this.soundtrackIndex]);
+        this.btnPlaySoundtrack.gameObject.SetActive(false);
+        this.btnStopSoundtrack.gameObject.SetActive(true);
+    }
+
+    public void stopSoundtrackButtonOnClick()
+    {
+        AudioManager.getInstance().stopSoundtrack();
+        this.btnPlaySoundtrack.gameObject.SetActive(true);
+        this.btnStopSoundtrack.gameObject.SetActive(false);
+    }
+
+    private void updateFavoriteSoundtracksUI()
+    {
+        if (isSounditrackInUserFavorites(this.soundtracks[this.soundtrackIndex]))
+        {
+            btnIsInFavorites.gameObject.SetActive(true);
+            btnisNotInFavoritesButton.gameObject.SetActive(false);
+
+            btnRemoveFromFavorites.gameObject.SetActive(true);
+            btnAddToFavorites.gameObject.SetActive(false);
+        }
+        else
+        {
+            btnIsInFavorites.gameObject.SetActive(false);
+            btnisNotInFavoritesButton.gameObject.SetActive(true);
+
+            btnRemoveFromFavorites.gameObject.SetActive(false);
+            btnAddToFavorites.gameObject.SetActive(true);
+        }
+    }
+
+    private bool isSounditrackInUserFavorites(string soundtrack)
+    {
+        foreach (string str in this.userFavoriteSoundtracks)
+        {
+            if (str == soundtrack)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool CheckFavoriteSoundtracks()
+    {
+        int menuSoundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Menu/"));
+        int level1Soundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Level/Level - Section 1"));
+        int level2Soundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Level/Level - Section 2"));
+        int level3Soundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Level/Level - Section 3"));
+
+
+        if (menuSoundtracks < 5 || level1Soundtracks < 2 || level2Soundtracks < 2 || level3Soundtracks < 2)
+        {
+            if (menuSoundtracks < 5)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 5 soundtracks for menus", "Retry");
+            }
+            else if (level1Soundtracks < 2)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 2 soundtracks for sections 100", "Retry");
+            }
+            else if (level2Soundtracks < 2)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 2 soundtracks for sections 200", "Retry");
+            }
+            else if (level3Soundtracks < 2)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 2 soundtracks for sections 300", "Retry");
+            }
+
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
     }
 
     public void changeImageButtonOnClick()
@@ -185,6 +364,9 @@ public class editProfileScript : MonoBehaviour {
                 user.name = inpName.text;
                 user.email = inpEmail.text;
                 user.username = inpUsername.text;
+                user.favoriteSoundtracks = this.userFavoriteSoundtracks;
+
+                AudioManager.getInstance().loggedUserFavoriteSoundtracks = this.userFavoriteSoundtracks;
 
                 string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
                 if (userImagePath != "" && user.userImage != newUserImage)
@@ -223,7 +405,7 @@ public class editProfileScript : MonoBehaviour {
                     File.WriteAllBytes(savePath, imageBytesShip);
                 }
 
-                if ((emailIsUnique(user.email) || user.email == previousEmail) && (usernameIsUnique(user.username) || user.username == previousUsername))
+                if ((emailIsUnique(user.email) || user.email == previousEmail) && (usernameIsUnique(user.username) || user.username == previousUsername) && CheckFavoriteSoundtracks())
                 {
                     if (emailExists(user.email))
                     {
@@ -364,6 +546,12 @@ public class editProfileScript : MonoBehaviour {
         }
     }
 
+    private void loadSountracks()
+    {
+        this.soundtracks = AudioManager.getInstance().backgroundSoundtracksPaths.Concat(AudioManager.getInstance().level1SoundtracksPaths).Concat(AudioManager.getInstance().level2SoundtracksPaths).Concat(AudioManager.getInstance().level3SoundtracksPaths).ToArray();
+        this.showableSoundtracks = this.soundtracks.Select(s => s.Split('/').Last()).ToArray();
+    }
+
     public void changePasswordButtonOnClick()
     {
         gameManager.getInstance().emailRecoveringPassword = gameManager.getInstance().playerEditingInformation;
@@ -373,6 +561,10 @@ public class editProfileScript : MonoBehaviour {
     public void backButtonOnClick()
     {
         gameManager.getInstance().isUserEditingProfileInformation = false;
+        if (this.isChange || AudioManager.getInstance().clipPath.StartsWith("Audio/Soundtracks/Level/Level - Section ") || btnisNotInFavoritesButton.gameObject.activeSelf)
+        {
+            AudioManager.getInstance().stopSoundtrack();
+        }
         SceneManager.LoadScene("MainMenuScene");
     }
 }
