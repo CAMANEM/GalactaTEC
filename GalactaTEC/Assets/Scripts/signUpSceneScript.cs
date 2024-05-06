@@ -23,7 +23,7 @@ public class User
     public string username;
     public string password;
     public string userImage;
-    public string shipImage;
+    public int ship;
     public int[] scoreRecord;
     public string[] favoriteSoundtracks;
 }
@@ -50,13 +50,13 @@ public class signUpSceneScript : MonoBehaviour
 {
     // GUI elements
     public RawImage imgUserName;
-    public RawImage imgShipName;
 
     public TMP_InputField inpName;
     public TMP_InputField inpEmail;
     public TMP_InputField inpUsername;
     public TMP_InputField inpPassword;
 
+    public TMP_Text txtShipName;
     public TMP_Text txtSoundtrack;
 
     public Button btnIsInFavorites;
@@ -66,12 +66,29 @@ public class signUpSceneScript : MonoBehaviour
     public Button btnPlaySoundtrack;
     public Button btnStopSoundtrack;
 
+    public Transform pntShipGenerator;
+    public GameObject sprKlaedFighterPrefab;
+    public GameObject sprKlaedScoutPrefab;
+    public GameObject sprNairanFighterPrefab;
+    public GameObject sprNairanScoutPrefab;
+    public GameObject sprNautolanBomberPrefab;
+    public GameObject sprNautolanScoutPrefab;
+    public GameObject sprPipOpsMarauderPrefab;
+
     // Variables
     private string userImagePath = "";
     private string shipImagePath = "";
 
     private byte[] imageBytesUser;
-    private byte[] imageBytesShip;
+
+    private GameObject sprKlaedFighter;
+    private GameObject sprKlaedScout;
+    private GameObject sprNairanFighter;
+    private GameObject sprNairanScout;
+    private GameObject sprNautolanBomber;
+    private GameObject sprNautolanScout;
+    private GameObject sprPipOpsMarauder;
+    private int shipIndex;
 
     private string[] soundtracks;
     private string[] showableSoundtracks;
@@ -83,6 +100,11 @@ public class signUpSceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.sprPipOpsMarauder = Instantiate(this.sprPipOpsMarauderPrefab, this.pntShipGenerator.position, Quaternion.identity);
+        this.sprPipOpsMarauder.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
+        this.txtShipName.text = "PipOps\nMarauder";
+        this.shipIndex = 0;
+
         AudioManager.getInstance().playBackgroundSoundtrack();
 
         this.loadSountracks();
@@ -98,6 +120,223 @@ public class signUpSceneScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void loadShipSprite()
+    {
+        switch (this.shipIndex)
+        {
+            case 0:
+                if (this.sprNautolanScout != null)
+                {
+                    Destroy(this.sprNautolanScout.gameObject);
+                }
+                else if (this.sprKlaedFighter != null)
+                {
+                    Destroy(this.sprKlaedFighter.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprNautolanScout.gameObject);
+                        Destroy(this.sprKlaedFighter.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading PipOps Marauder Ship. Debug log: 11");
+                    }
+                }
+
+                this.sprPipOpsMarauder = Instantiate(this.sprPipOpsMarauderPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprPipOpsMarauder.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
+                this.txtShipName.text = "PipOps\nMarauder";
+
+                break;
+            case 1:
+                if (this.sprPipOpsMarauder != null)
+                {
+                    Destroy(this.sprPipOpsMarauder.gameObject);
+                }
+                else if (this.sprKlaedScout != null)
+                {
+                    Destroy(this.sprKlaedScout.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprPipOpsMarauder.gameObject);
+                        Destroy(this.sprKlaedScout.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Kla'ed Fighter Ship. Debug log: 12");
+                    }
+                }
+
+                this.sprKlaedFighter = Instantiate(this.sprKlaedFighterPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprKlaedFighter.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
+                this.txtShipName.text = "Kla'ed\nFighter";
+
+                break;
+            case 2:
+                if (this.sprKlaedFighter != null)
+                {
+                    Destroy(this.sprKlaedFighter.gameObject);
+                }
+                else if (this.sprNairanFighter != null)
+                {
+                    Destroy(this.sprNairanFighter.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprKlaedFighter.gameObject);
+                        Destroy(this.sprNairanFighter.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Kla'ed Scout Ship. Debug log: 13");
+                    }
+                }
+
+                this.sprKlaedScout = Instantiate(this.sprKlaedScoutPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprKlaedScout.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
+                this.txtShipName.text = "Kla'ed\nScout";
+                break;
+            case 3:
+                if (this.sprKlaedScout != null)
+                {
+                    Destroy(this.sprKlaedScout.gameObject);
+                }
+                else if (this.sprNairanScout != null)
+                {
+                    Destroy(this.sprNairanScout.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprKlaedScout.gameObject);
+                        Destroy(this.sprNairanScout.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Nairan Fighter Ship. Debug log: 14");
+                    }
+                }
+
+                this.sprNairanFighter = Instantiate(this.sprNairanFighterPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprNairanFighter.transform.localScale = new Vector3(6f, 6f, 6f);
+                this.txtShipName.text = "Nairan\nFighter";
+
+                break;
+            case 4:
+                if (this.sprNairanFighter != null)
+                {
+                    Destroy(this.sprNairanFighter.gameObject);
+                }
+                else if (this.sprNautolanBomber != null)
+                {
+                    Destroy(this.sprNautolanBomber.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprNairanFighter.gameObject);
+                        Destroy(this.sprNautolanBomber.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Nairan Scout Ship. Debug log: 15");
+                    }
+                }
+
+                this.sprNairanScout = Instantiate(this.sprNairanScoutPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprNairanScout.transform.localScale = new Vector3(6f, 6f, 6f);
+                this.txtShipName.text = "Nairan\nScout";
+
+                break;
+            case 5:
+                if (this.sprNairanScout != null)
+                {
+                    Destroy(this.sprNairanScout.gameObject);
+                } else if (this.sprNautolanScout != null)
+                {
+                    Destroy(this.sprNautolanScout.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprNairanScout.gameObject);
+                        Destroy(this.sprNautolanScout.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Nautolan Bomber Ship. Debug log: 16");
+                    }
+                }
+
+                this.sprNautolanBomber = Instantiate(this.sprNautolanBomberPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprNautolanBomber.transform.localScale = new Vector3(6f, 6f, 6f);
+                this.txtShipName.text = "Nautolan\nBomber";
+
+                break;
+            case 6:
+                if (this.sprNautolanBomber != null)
+                {
+                    Destroy(this.sprNautolanBomber.gameObject);
+                }
+                else if (this.sprPipOpsMarauder != null)
+                {
+                    Destroy(this.sprPipOpsMarauder.gameObject);
+                } else
+                {
+                    try
+                    {
+                        Destroy(this.sprNautolanBomber.gameObject);
+                        Destroy(this.sprPipOpsMarauder.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Nautolan Scout Ship. Debug log: 17");
+                    }
+                }
+
+                this.sprNautolanScout = Instantiate(this.sprNautolanScoutPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprNautolanScout.transform.localScale = new Vector3(6f, 6f, 6f);
+                this.txtShipName.text = "Nautolan\nScout";
+
+                break;
+        }
+    }
+
+    public void nextShipButtonOnClick()
+    {
+        this.shipIndex++;
+
+        if(this.shipIndex > 6)
+        {
+            this.shipIndex = 0;
+        }
+
+        this.loadShipSprite();
+    }
+
+    public void previousShipButtonOnClick() 
+    {
+        this.shipIndex--;
+
+        if (this.shipIndex < 0)
+        {
+            this.shipIndex = 6;
+        }
+
+        this.loadShipSprite();
     }
 
     public void changeImageButtonOnClick()
@@ -298,6 +537,7 @@ public class signUpSceneScript : MonoBehaviour
                     user.email = inpEmail.text;
                     user.username = inpUsername.text;
                     user.password = inpPassword.text;
+                    user.ship = this.shipIndex;
                     user.favoriteSoundtracks = this.userFavoriteSoundtracks;
 
                     string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
@@ -311,17 +551,6 @@ public class signUpSceneScript : MonoBehaviour
                         File.WriteAllBytes(savePath, imageBytesUser);
                     }
 
-                    // Do the same for shipImage
-                    string newShipImage = "/Data/ShipPhotos/" + Path.GetFileName(shipImagePath);
-                    if (shipImagePath != "" && user.shipImage != newShipImage)
-                    {
-                        // Update ship image
-                        user.shipImage = newShipImage;
-
-                        // Copy and paste the new ship image in ../Data/ShipPhotos
-                        string savePath = Application.dataPath + newShipImage;
-                        File.WriteAllBytes(savePath, imageBytesShip);
-                    }
                     user.scoreRecord = new int[5];
 
                     users.users.Add(user);
@@ -346,6 +575,7 @@ public class signUpSceneScript : MonoBehaviour
                     user.email = inpEmail.text;
                     user.username = inpUsername.text;
                     user.password = inpPassword.text;
+                    user.ship = this.shipIndex;
                     user.favoriteSoundtracks = this.userFavoriteSoundtracks;
 
                     string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
@@ -357,18 +587,6 @@ public class signUpSceneScript : MonoBehaviour
                         // Copy and paste the new user image in ../Data/UserPhotos
                         string savePath = Application.dataPath + newUserImage;
                         File.WriteAllBytes(savePath, imageBytesUser);
-                    }
-
-                    // Do the same for shipImage
-                    string newShipImage = "/Data/ShipPhotos/" + Path.GetFileName(shipImagePath);
-                    if (shipImagePath != "" && user.shipImage != newShipImage)
-                    {
-                        // Update ship image
-                        user.shipImage = newShipImage;
-
-                        // Copy and paste the new ship image in ../Data/ShipPhotos
-                        string savePath = Application.dataPath + newShipImage;
-                        File.WriteAllBytes(savePath, imageBytesShip);
                     }
 
                     user.scoreRecord = new int[5];
