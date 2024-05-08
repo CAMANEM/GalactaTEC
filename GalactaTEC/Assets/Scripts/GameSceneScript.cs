@@ -24,6 +24,8 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] UnityEngine.UI.Image imgUser1;
     [SerializeField] UnityEngine.UI.Image imgUser2;
 
+    [SerializeField] TMPro.TextMeshProUGUI txtLevel;
+
     [SerializeField] TMPro.TextMeshProUGUI txtUsername1;
     [SerializeField] TMPro.TextMeshProUGUI txtUsername2;
 

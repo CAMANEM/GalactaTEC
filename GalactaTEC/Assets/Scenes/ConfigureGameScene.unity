@@ -3406,6 +3406,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: txtPatternSelectionTitle
       objectReference: {fileID: 0}
+    - target: {fileID: 7477581626570625445, guid: b0475114e32612342ab39684acee6277, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7918266052181647191, guid: b0475114e32612342ab39684acee6277, type: 3}
       propertyPath: m_Name
       value: pnlPatternSelection
