@@ -233,5 +233,17 @@ namespace audio_manager
         {
             this.musicSource.Stop();
         }
+
+        public void pauseSoundtrack()
+        {
+            isAudioPaused = true;
+            this.musicSource.Pause();
+        }
+
+        public void unPauseSoundtrack()
+        {
+            isAudioPaused = false;
+            this.musicSource.UnPause();
+        }
     }
 }

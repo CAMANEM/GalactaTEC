@@ -119,7 +119,7 @@ public class GameSceneScript : MonoBehaviour
 
                 // Pause game time and music
                 Time.timeScale = 0f;
-                AudioManager.getInstance().isAudioPaused = true;
+                AudioManager.getInstance().pauseSoundtrack();
             }
         }
     }
@@ -150,7 +150,7 @@ public class GameSceneScript : MonoBehaviour
 
             // Resume game and music
             Time.timeScale = 1f;
-            AudioManager.getInstance().isAudioPaused = false;
+            AudioManager.getInstance().unPauseSoundtrack();
         }
     }
 
