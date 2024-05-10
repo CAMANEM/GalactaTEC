@@ -64,6 +64,7 @@ public class editProfileScript : MonoBehaviour {
     private string[] userFavoriteSoundtracks;
     private int soundtrackIndex;
 
+    private User previousUser;
     private bool isChange = false;
 
     // Start is called before the first frame update
@@ -78,24 +79,24 @@ public class editProfileScript : MonoBehaviour {
 
         gameManager.getInstance().isUserEditingProfileInformation = true;
 
-        User user = getUserInformation();
+        this.previousUser = getUserInformation();
 
-        if (user != null)
+        if (this.previousUser != null)
         {
-            inpName.text = user.name;
-            inpEmail.text = user.email;
-            inpUsername.text = user.username;
-            this.shipIndex = user.ship;
-            this.userFavoriteSoundtracks = user.favoriteSoundtracks;
+            inpName.text = this.previousUser.name;
+            inpEmail.text = this.previousUser.email;
+            inpUsername.text = this.previousUser.username;
+            this.shipIndex = this.previousUser.ship;
+            this.userFavoriteSoundtracks = this.previousUser.favoriteSoundtracks;
 
             this.updateFavoriteSoundtracksUI();
 
             // Loads user image
             try
             {
-                if (!string.IsNullOrEmpty(user.userImage))
+                if (!string.IsNullOrEmpty(this.previousUser.userImage))
                 {
-                    byte[] imageBytes = System.IO.File.ReadAllBytes(Application.dataPath + user.userImage);
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(Application.dataPath + this.previousUser.userImage);
 
                     Texture2D texture = new Texture2D(2, 2);
                     texture.LoadImage(imageBytes);
@@ -106,7 +107,7 @@ public class editProfileScript : MonoBehaviour {
             catch
             {
 
-                Debug.LogError("Something went wrong loading the selected user image: " + Application.dataPath + user.userImage + ". Debug code: 4.");
+                Debug.LogError("Something went wrong loading the selected user image: " + Application.dataPath + this.previousUser.userImage + ". Debug code: 4.");
             }
 
             this.loadShipSprite();
