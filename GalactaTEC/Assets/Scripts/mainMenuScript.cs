@@ -39,13 +39,6 @@ public class mainMenuScript : MonoBehaviour
         SceneManager.LoadScene("EditProfileScene");
     }
 
-    public void helpButtonOnClick()
-    {
-        PlayerPrefs.SetString("HelpScene", "MainMenuScene");
-        PlayerPrefs.Save();
-        SceneManager.LoadScene("HelpScene");
-    }
-
     public void BackButtonOnClick()
     {
         // Agregar ventana emergente indicando si está seguro que quiere regresar y de ser así se eliminará el/los inicios de sesión
