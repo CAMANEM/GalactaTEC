@@ -68,6 +68,9 @@ public class signUpSceneScript : MonoBehaviour
     public Button btnPlaySoundtrack;
     public Button btnStopSoundtrack;
 
+    public Button btnShowPassword;
+    public Button btnHidePassword;
+
     public Transform pntShipGenerator;
     public GameObject sprKlaedFighterPrefab;
     public GameObject sprKlaedScoutPrefab;
@@ -809,6 +812,25 @@ public class signUpSceneScript : MonoBehaviour
 
             return stringBuilder.ToString();
         }
+    }
+
+    public void showPasswordButtonOnClick()
+    {
+        this.inpPassword.contentType = TMP_InputField.ContentType.Standard;
+        this.btnShowPassword.gameObject.SetActive(false);
+        this.btnHidePassword.gameObject.SetActive(true);
+        this.inpPassword.gameObject.SetActive(false);
+        this.inpPassword.gameObject.SetActive(true);
+    }
+
+    public void hidePasswordButtonOnClick()
+    {
+        this.inpPassword.contentType = TMP_InputField.ContentType.Password;
+        this.btnHidePassword.gameObject.SetActive(false);
+        this.btnShowPassword.gameObject.SetActive(true);
+        this.inpPassword.gameObject.SetActive(false);
+        this.inpPassword.gameObject.SetActive(true);
+
     }
 
     private void goToLoginScene()

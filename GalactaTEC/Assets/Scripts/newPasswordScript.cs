@@ -20,6 +20,9 @@ public class newPasswordScript : MonoBehaviour
     public TMP_InputField inpNewPassword;
     public TMP_Text txtEmail;
 
+    public Button btnShowPassword;
+    public Button btnHidePassword;
+
     string usersPath = Application.dataPath + "/Data/users.json";
 
 
@@ -171,6 +174,25 @@ public class newPasswordScript : MonoBehaviour
 
             return stringBuilder.ToString();
         }
+    }
+
+    public void showPasswordButtonOnClick()
+    {
+        this.inpNewPassword.contentType = TMP_InputField.ContentType.Standard;
+        this.btnShowPassword.gameObject.SetActive(false);
+        this.btnHidePassword.gameObject.SetActive(true);
+        this.inpNewPassword.gameObject.SetActive(false);
+        this.inpNewPassword.gameObject.SetActive(true);
+    }
+
+    public void hidePasswordButtonOnClick()
+    {
+        this.inpNewPassword.contentType = TMP_InputField.ContentType.Password;
+        this.btnHidePassword.gameObject.SetActive(false);
+        this.btnShowPassword.gameObject.SetActive(true);
+        this.inpNewPassword.gameObject.SetActive(false);
+        this.inpNewPassword.gameObject.SetActive(true);
+
     }
 
     public void backButtonOnClick()

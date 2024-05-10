@@ -29,6 +29,11 @@ public class loginSceneScript : MonoBehaviour
     public Button btnLogoutP1;
     public Button btnLogoutP2;
 
+    public Button btnShowPasswordP1;
+    public Button btnHidePasswordP1;
+    public Button btnShowPasswordP2;
+    public Button btnHidePasswordP2;
+
     public TMP_Text txtUserP1;
     public TMP_Text txtUserP2;
 
@@ -235,14 +240,42 @@ public class loginSceneScript : MonoBehaviour
         this.btnLogoutP2.gameObject.SetActive(false);
     }
 
-    public void changePasswordButtonOnClick()
+    public void showPasswordP1ButtonOnClick()
     {
-        SceneManager.LoadScene("PasswordRecoveryScene");
+        this.inpPasswordP1.contentType = TMP_InputField.ContentType.Standard;
+        this.btnShowPasswordP1.gameObject.SetActive(false);
+        this.btnHidePasswordP1.gameObject.SetActive(true);
+        this.inpPasswordP1.gameObject.SetActive(false);
+        this.inpPasswordP1.gameObject.SetActive(true);
     }
 
-    public void backButtonOnClik()
+    public void hidePasswordP1ButtonOnClick()
     {
-        SceneManager.LoadScene("TitleScene");
+        this.inpPasswordP1.contentType = TMP_InputField.ContentType.Password;
+        this.btnHidePasswordP1.gameObject.SetActive(false);
+        this.btnShowPasswordP1.gameObject.SetActive(true);
+        this.inpPasswordP1.gameObject.SetActive(false);
+        this.inpPasswordP1.gameObject.SetActive(true);
+
+    }
+
+    public void showPasswordP2ButtonOnClick()
+    {
+        this.inpPasswordP2.contentType = TMP_InputField.ContentType.Standard;
+        this.btnShowPasswordP2.gameObject.SetActive(false);
+        this.btnHidePasswordP2.gameObject.SetActive(true);
+        this.inpPasswordP2.gameObject.SetActive(false);
+        this.inpPasswordP2.gameObject.SetActive(true);
+    }
+
+    public void hidePasswordP2ButtonOnClick()
+    {
+        this.inpPasswordP2.contentType = TMP_InputField.ContentType.Password;
+        this.btnHidePasswordP2.gameObject.SetActive(false);
+        this.btnShowPasswordP2.gameObject.SetActive(true);
+        this.inpPasswordP2.gameObject.SetActive(false);
+        this.inpPasswordP2.gameObject.SetActive(true);
+
     }
 
     private bool areDifferentUsers()
@@ -262,5 +295,15 @@ public class loginSceneScript : MonoBehaviour
         {
             return true;
         }
+    }
+
+    public void changePasswordButtonOnClick()
+    {
+        SceneManager.LoadScene("PasswordRecoveryScene");
+    }
+
+    public void backButtonOnClik()
+    {
+        SceneManager.LoadScene("TitleScene");
     }
 }
