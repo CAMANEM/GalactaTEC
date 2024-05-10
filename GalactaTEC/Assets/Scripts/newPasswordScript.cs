@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -120,7 +122,7 @@ public class newPasswordScript : MonoBehaviour
             {
                 if (user.email == gameManager.getInstance().emailRecoveringPassword)
                 {
-                    user.password = inpNewPassword.text;
+                    user.password = this.generatePasswordHashKey(inpNewPassword.text);
                 }
             }
             Users updatedUsers = new Users();
@@ -152,6 +154,22 @@ public class newPasswordScript : MonoBehaviour
         else
         {
             Debug.Log("There was a problem changing your password, please try again.");
+        }
+    }
+
+    private string generatePasswordHashKey(string password)
+    {
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (byte b in hashedBytes)
+            {
+                stringBuilder.Append(b.ToString("x2"));
+            }
+
+            return stringBuilder.ToString();
         }
     }
 
