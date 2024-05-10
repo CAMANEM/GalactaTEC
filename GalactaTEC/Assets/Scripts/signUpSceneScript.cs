@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -536,7 +538,7 @@ public class signUpSceneScript : MonoBehaviour
                     user.name = inpName.text;
                     user.email = inpEmail.text;
                     user.username = inpUsername.text;
-                    user.password = inpPassword.text;
+                    user.password = this.generatePasswordHashKey(inpPassword.text);
                     user.ship = this.shipIndex;
                     user.favoriteSoundtracks = this.userFavoriteSoundtracks;
 
@@ -574,7 +576,7 @@ public class signUpSceneScript : MonoBehaviour
                     user.name = inpName.text;
                     user.email = inpEmail.text;
                     user.username = inpUsername.text;
-                    user.password = inpPassword.text;
+                    user.password = this.generatePasswordHashKey(inpPassword.text);
                     user.ship = this.shipIndex;
                     user.favoriteSoundtracks = this.userFavoriteSoundtracks;
 
@@ -790,6 +792,22 @@ public class signUpSceneScript : MonoBehaviour
             //MessageBox.Show("Wrong email", "We have troubles to confirm your email address, please, check your email and try again");
             Debug.Log("We have troubles to confirm your email address. Debug code: 3.");
             return false;
+        }
+    }
+
+    private string generatePasswordHashKey(string password)
+    {
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (byte b in hashedBytes)
+            {
+                stringBuilder.Append(b.ToString("x2"));
+            }
+
+            return stringBuilder.ToString();
         }
     }
 
