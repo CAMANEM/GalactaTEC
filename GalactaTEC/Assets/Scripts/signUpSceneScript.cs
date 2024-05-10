@@ -349,10 +349,10 @@ public class signUpSceneScript : MonoBehaviour
 
             if (!string.IsNullOrEmpty(userImagePath))
             {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(userImagePath);
+                imageBytesUser = System.IO.File.ReadAllBytes(userImagePath);
 
                 Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(imageBytes);
+                texture.LoadImage(imageBytesUser);
 
                 imgUserName.texture = texture;
             }
