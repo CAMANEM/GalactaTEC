@@ -67,11 +67,11 @@ public class GameState
     // Metodo para restaurar el estado del juego
     public void Restore(Memento memento)
     {
-        Player = memento.Player;
-        Score = memento.Score;
-        Level = memento.Level;
-        Ship = memento.Ship;
-        Lifes = memento.Lifes;
+        Player = memento.player;
+        Score = memento.score;
+        Level = memento.level;
+        Ship = memento.ship;
+        Lifes = memento.lifes;
     }
 }
 
@@ -100,7 +100,6 @@ public class PlayerContext
     private PlayerState state;
     private GameState gameState;
     private Memento memento;
-    private static bool start = false;
 
     public PlayerContext(PlayerState initialState, string player, int score, int level, int ship, float lifes)
     {
