@@ -35,6 +35,8 @@ public class editProfileScript : MonoBehaviour {
     public Button btnPlaySoundtrack;
     public Button btnStopSoundtrack;
 
+    public Button btnApplyChanges;
+
     public Transform pntShipGenerator;
     public GameObject sprKlaedFighterPrefab;
     public GameObject sprKlaedScoutPrefab;
@@ -66,6 +68,8 @@ public class editProfileScript : MonoBehaviour {
 
     private User previousUser;
     private bool isChange = false;
+    private bool userChangedImage = false;
+    private bool userChangedSoundtracks = false;
 
     // Start is called before the first frame update
     void Start()
@@ -114,12 +118,25 @@ public class editProfileScript : MonoBehaviour {
         }
 
         this.isChange = false;
+        this.btnApplyChanges.interactable = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        this.areSoundtracksEqual();
+
+        if(this.previousUser.name != this.inpName.text || this.previousUser.email != this.inpEmail.text || this.previousUser.username != this.inpUsername.text || 
+            this.previousUser.ship != this.shipIndex || this.userChangedSoundtracks || this.userChangedImage)
+        {
+            this.isChange = true;
+        }
+        else
+        {
+            this.isChange = false;
+        }
+
+        this.btnApplyChanges.interactable = this.isChange;
     }
 
     private List<User> getSignedUsers()
@@ -539,6 +556,8 @@ public class editProfileScript : MonoBehaviour {
                 texture.LoadImage(imageBytesUser);
 
                 imgUserName.texture = texture;
+
+                this.userChangedImage = true;
             }
         }
         catch
@@ -568,35 +587,47 @@ public class editProfileScript : MonoBehaviour {
 
                 AudioManager.getInstance().loggedUserFavoriteSoundtracks = this.userFavoriteSoundtracks;
 
-                string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
-                if (userImagePath != "" && user.userImage != newUserImage)
+                if (this.userChangedImage)
                 {
-                    // Delete previous user image
-                    if (!string.IsNullOrEmpty(user.userImage) && File.Exists(Application.dataPath + user.userImage))
+                    string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
+                    if (userImagePath != "" && user.userImage != newUserImage)
                     {
-                        System.IO.File.Delete(Application.dataPath + user.userImage);
+                        // Delete previous user image
+                        if (!string.IsNullOrEmpty(user.userImage) && File.Exists(Application.dataPath + user.userImage))
+                        {
+                            System.IO.File.Delete(Application.dataPath + user.userImage);
+                        }
+
+                        // Update user image
+                        user.userImage = newUserImage;
+
+                        // Copy and paste the new user image in ../Data/UserPhotos
+                        string savePath = Application.dataPath + newUserImage;
+                        File.WriteAllBytes(savePath, imageBytesUser);
                     }
-
-                    // Update user image
-                    user.userImage = newUserImage;
-
-                    // Copy and paste the new user image in ../Data/UserPhotos
-                    string savePath = Application.dataPath + newUserImage;
-                    File.WriteAllBytes(savePath, imageBytesUser);
                 }
 
-                Debug.Log("Updated user image path: " + user.userImage);
-
-                if ((emailIsUnique(user.email) || user.email == previousEmail) && (usernameIsUnique(user.username) || user.username == previousUsername) && CheckFavoriteSoundtracks())
+                if (this.previousUser.email != inpEmail.text)
                 {
-                    if (emailExists(user.email))
+                    if ((emailIsUnique(user.email) || user.email == previousEmail) && (usernameIsUnique(user.username) || user.username == previousUsername) && CheckFavoriteSoundtracks())
                     {
-                        string updatedJSON = JsonUtility.ToJson(users);
+                        if (emailExists(user.email))
+                        {
+                            string updatedJSON = JsonUtility.ToJson(users);
 
-                        File.WriteAllText(gameManager.getInstance().usersPath, updatedJSON);
+                            File.WriteAllText(gameManager.getInstance().usersPath, updatedJSON);
 
-                        AlertsManager.getInstance().showAlert("Great!", "Account updated succesfully", "Awesome!");
+                            AlertsManager.getInstance().showAlert("Great!", "Account updated succesfully", "Awesome!");
+                        }
                     }
+                }
+                else
+                {
+                    string updatedJSON = JsonUtility.ToJson(users);
+
+                    File.WriteAllText(gameManager.getInstance().usersPath, updatedJSON);
+
+                    AlertsManager.getInstance().showAlert("Great!", "Account updated succesfully", "Awesome!");
                 }
             }
             else
@@ -726,6 +757,22 @@ public class editProfileScript : MonoBehaviour {
             Debug.Log("We have troubles to confirm your email address, please, check your email and try again. Debug code: 10.");
             return false;
         }
+    }
+    
+    public void areSoundtracksEqual()
+    {
+        if (this.previousUser.favoriteSoundtracks.Length != this.userFavoriteSoundtracks.Length)
+        {
+            this.userChangedSoundtracks = true;
+        }
+
+        List<string> list1 = this.previousUser.favoriteSoundtracks.ToList();
+        List<string> list2 = this.userFavoriteSoundtracks.ToList();
+
+        list1.Sort();
+        list2.Sort();
+
+        this.userChangedSoundtracks = !list1.SequenceEqual(list2);
     }
 
     private void loadSountracks()

@@ -5435,6 +5435,7 @@ MonoBehaviour:
   btnRemoveFromFavorites: {fileID: 1478164236}
   btnPlaySoundtrack: {fileID: 1247952079}
   btnStopSoundtrack: {fileID: 425873672}
+  btnApplyChanges: {fileID: 2047586023}
   pntShipGenerator: {fileID: 1907604475}
   sprKlaedFighterPrefab: {fileID: 4501265654196545681, guid: ad359f4bc4ba9c74d9c74a2faf356a45, type: 3}
   sprKlaedScoutPrefab: {fileID: 6593500426176210749, guid: 60fe1ed7467dd094695b57fc964402c1, type: 3}
