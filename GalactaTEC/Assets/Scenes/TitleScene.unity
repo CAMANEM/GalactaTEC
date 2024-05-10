@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 76706757}
   - component: {fileID: 76706756}
   - component: {fileID: 76706760}
+  - component: {fileID: 76706761}
   m_Layer: 5
   m_Name: cnvTitle
   m_TagString: Untagged
@@ -224,6 +225,7 @@ RectTransform:
   - {fileID: 801093889}
   - {fileID: 829825562}
   - {fileID: 474827854}
+  - {fileID: 708164028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -243,6 +245,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9d5840280655b8448fd5f2a9984851f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &76706761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76706755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b9238c99b9ef5f4bbfe64bfb7325675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pnlHelp: {fileID: 1749518378}
+  btnCloseHelp: {fileID: 708164029}
 --- !u!1 &474827853
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,9 +342,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 76706760}
-        m_TargetAssemblyTypeName: cnvTitleScript, Assembly-CSharp
-        m_MethodName: helpButtonOnClick
+      - m_Target: {fileID: 76706761}
+        m_TargetAssemblyTypeName: helpManager.helpScript, Assembly-CSharp
+        m_MethodName: ShowDialogue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -504,6 +520,123 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1001 &708164027
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 76706759}
+    m_Modifications:
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655301321494099945, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_Name
+      value: pnlHelp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655301321494099945, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+--- !u!224 &708164028 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6843939127576915501, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+  m_PrefabInstance: {fileID: 708164027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &708164029 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3564049413639131770, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+  m_PrefabInstance: {fileID: 708164027}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &763703486
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,6 +692,43 @@ MonoBehaviour:
   shotClip: {fileID: 8300000, guid: b1709a6ce73146b44bd96a78d7f869c2, type: 3}
   shipDestructionClip: {fileID: 0}
   volume: 1
+  backgroundSoundtracksPaths:
+  - Audio/Soundtracks/Menu/Menu - Anarchic Starport
+  - Audio/Soundtracks/Menu/Menu - Blaze Your Own Trail
+  - Audio/Soundtracks/Menu/Menu - Coma Berenices
+  - Audio/Soundtracks/Menu/Menu - Delta Phoenicis
+  - Audio/Soundtracks/Menu/Menu - Draco
+  - Audio/Soundtracks/Menu/Menu - Fawoal
+  - Audio/Soundtracks/Menu/Menu - Imperial Starport
+  - Audio/Soundtracks/Menu/Menu - Neutral Blue Giant
+  - Audio/Soundtracks/Menu/Menu - Neutral Magnetar
+  - Audio/Soundtracks/Menu/Menu - New Alliance
+  - Audio/Soundtracks/Menu/Menu - Quator
+  - Audio/Soundtracks/Menu/Menu - Tarach Tor
+  - Audio/Soundtracks/Menu/Menu - Ursa Major
+  - Audio/Soundtracks/Menu/Menu - Virgo
+  - Audio/Soundtracks/Menu/Menu - Zelada
+  level1SoundtracksPaths:
+  - Audio/Soundtracks/Level/Level - Section 100
+  - Audio/Soundtracks/Level/Level - Section 101
+  - Audio/Soundtracks/Level/Level - Section 102
+  - Audio/Soundtracks/Level/Level - Section 103
+  - Audio/Soundtracks/Level/Level - Section 104
+  level2SoundtracksPaths:
+  - Audio/Soundtracks/Level/Level - Section 200
+  - Audio/Soundtracks/Level/Level - Section 201
+  - Audio/Soundtracks/Level/Level - Section 202
+  - Audio/Soundtracks/Level/Level - Section 203
+  - Audio/Soundtracks/Level/Level - Section 204
+  level3SoundtracksPaths:
+  - Audio/Soundtracks/Level/Level - Section 300
+  - Audio/Soundtracks/Level/Level - Section 301
+  - Audio/Soundtracks/Level/Level - Section 302
+  - Audio/Soundtracks/Level/Level - Section 303
+  - Audio/Soundtracks/Level/Level - Section 304
+  - Audio/Soundtracks/Level/Level - Section 305
+  loggedUserFavoriteSoundtracks: []
+  clipPath: 
   isAudioPaused: 0
 --- !u!1 &801093888
 GameObject:
@@ -2005,6 +2175,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1695015791}
   m_CullTransparentMesh: 1
+--- !u!1 &1749518378 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7655301321494099945, guid: 6ee93c78d95b3ed47bead566321b8b31, type: 3}
+  m_PrefabInstance: {fileID: 708164027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

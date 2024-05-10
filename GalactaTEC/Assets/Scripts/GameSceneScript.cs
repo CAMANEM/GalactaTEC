@@ -129,13 +129,6 @@ public class GameSceneScript : MonoBehaviour
         
     }
 
-    public void option2ButtonOnClick()
-    {
-        PlayerPrefs.SetString("HelpScene", "GameScene");
-        PlayerPrefs.Save();
-        SceneManager.LoadScene("HelpScene");
-    }
-
     public void option3ButtonOnClick()
     {
         SceneManager.LoadScene("MainMenuScene");

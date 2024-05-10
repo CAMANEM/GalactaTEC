@@ -39,13 +39,6 @@ public class cnvTitleScript : MonoBehaviour
         SceneManager.LoadScene("2PLoginScene");
     }
 
-    public void helpButtonOnClick()
-    {
-        PlayerPrefs.SetString("HelpScene", "TitleScene");
-        PlayerPrefs.Save();
-        SceneManager.LoadScene("HelpScene");
-    }
-
     public void closeButtonOnClick()
     {
         Application.Quit();
