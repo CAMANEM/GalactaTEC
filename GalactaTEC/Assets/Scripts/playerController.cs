@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerLives playerLives;
 
-    float maxSpeed = 150f;
+    public float maxSpeed = 0.2f;
 
     [SerializeField]
     private GameObject normalShot;
@@ -62,9 +62,7 @@ public class PlayerController : MonoBehaviour
         shieldPower.SetActive(false);
         shieldMidPower.SetActive(false);
         shieldMinPower.SetActive(false);
-        ActivateShield();
         playerLives = GetComponent<PlayerLives>();
-        generateBonus();
 
     }
 

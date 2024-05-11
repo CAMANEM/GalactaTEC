@@ -19,8 +19,8 @@ TagManager:
   - Bonus
   - PlayerShot
   - EnemyShot
-  - 
-  - 
+  - InnerBoundary
+  - OuterBoundary
   - 
   - 
   - 

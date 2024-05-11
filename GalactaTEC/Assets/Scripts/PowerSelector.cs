@@ -21,15 +21,15 @@ public class PowerSelector : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.N)) {
             
             Vector3 pos = GetComponent<RectTransform>().anchoredPosition;
-            if (pos.x <= 600f)
+            if (pos.x < 415.2f)
             {
-                pos.x += 116.6f;
+                pos.x += 120f;
                 GetComponent<RectTransform>().anchoredPosition = pos;
                 powerSelected++;
             }
             else
             {
-                pos.x = 306.4f;
+                pos.x = 55.2f;
                 GetComponent<RectTransform>().anchoredPosition = pos;
                 powerSelected = 0;
             }
