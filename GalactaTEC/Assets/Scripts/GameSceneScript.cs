@@ -37,6 +37,9 @@ public class GameSceneScript : MonoBehaviour
     public float x2PtsDuration = 5f;
     public bool x2PtsIsActive = false;
 
+    [SerializeField] GameObject bonus;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -87,8 +90,6 @@ public class GameSceneScript : MonoBehaviour
         {
             User user = getUserByUsername(gameManager.getInstance().playerToPlay);
             txtUsername1.text = user.username;
-            //User user = getUserByUsername("joseandres216");
-            //txtUsername1.text = user.username;
 
             // Load player image from specified path
             if (!string.IsNullOrEmpty(user.userImage) && File.Exists(Application.dataPath + user.userImage))
@@ -99,6 +100,8 @@ public class GameSceneScript : MonoBehaviour
                 imgUser1.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
         }
+
+        generateBonus();
     }
 
     // Update is called once per frame
@@ -230,5 +233,14 @@ public class GameSceneScript : MonoBehaviour
         }
         score += points;
         txtScore1.text = score.ToString();
+    }
+
+/*
+    Generates a bonus in the game
+*/
+    public void generateBonus(){
+        Debug.Log("Something went wrong loading player information");
+
+        Instantiate(bonus, transform.position, Quaternion.identity);
     }
 }

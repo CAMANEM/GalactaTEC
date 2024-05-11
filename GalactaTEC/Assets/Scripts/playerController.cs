@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
     public GameObject explosion;
 
 
+    public GameObject bonus;
+
+
     //public AudioSource source;
     //public AudioClip audioClip;
     //public AudioClip bonusSound;
@@ -61,6 +64,8 @@ public class PlayerController : MonoBehaviour
         shieldMinPower.SetActive(false);
         ActivateShield();
         playerLives = GetComponent<PlayerLives>();
+        generateBonus();
+
     }
 
     // Update is called once per frame
@@ -206,5 +211,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void instanciateBonus(){
+        Vector3 pos =  new Vector3(300f, 1100f, 10f); 
+        int randX = Random.Range(300, 1600);
+        pos.x = (float)randX;
+        Instantiate(bonus, pos, Quaternion.identity);
+
+    }
+
+    /*
+        randomizes if a bonus should generate. And invoke its generation
+    */
+    public void generateBonus(){
+        int randNum = Random.Range(0, 2);
+        if (randNum == 1)
+        {
+            Invoke("instanciateBonus", 2f);
+        }
+    }
 
 }

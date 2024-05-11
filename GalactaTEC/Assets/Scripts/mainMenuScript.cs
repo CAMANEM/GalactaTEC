@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using GameManager;
-
-using GameManager;
 using audio_manager;
 
 public class mainMenuScript : MonoBehaviour
@@ -41,7 +39,7 @@ public class mainMenuScript : MonoBehaviour
 
     public void BackButtonOnClick()
     {
-        // Agregar ventana emergente indicando si está seguro que quiere regresar y de ser así se eliminará el/los inicios de sesión
+        // Agregar ventana emergente indicando si estï¿½ seguro que quiere regresar y de ser asï¿½ se eliminarï¿½ el/los inicios de sesiï¿½n
 
         gameManager.getInstance().cuantityOfPlayers = 0;
         gameManager.getInstance().player1Email = "";
