@@ -57,7 +57,7 @@ public class spinScript : MonoBehaviour
             // Calls the LoadScene method of the loadingSceneScript script
             if (loadingScript != null)
             {
-                loadingScript.LoadScene(10); // Load GameScene
+                loadingScript.LoadScene("GameScene");
             }
             else
             {
