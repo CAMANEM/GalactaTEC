@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
+using System.Windows.Forms;
 using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -61,15 +62,15 @@ public class signUpSceneScript : MonoBehaviour
     public TMP_Text txtShipName;
     public TMP_Text txtSoundtrack;
 
-    public Button btnIsInFavorites;
-    public Button btnisNotInFavoritesButton;
-    public Button btnAddTofavorites;
-    public Button btnRemoveFromFavorites;
-    public Button btnPlaySoundtrack;
-    public Button btnStopSoundtrack;
+    public UnityEngine.UI.Button btnIsInFavorites;
+    public UnityEngine.UI.Button btnisNotInFavoritesButton;
+    public UnityEngine.UI.Button btnAddTofavorites;
+    public UnityEngine.UI.Button btnRemoveFromFavorites;
+    public UnityEngine.UI.Button btnPlaySoundtrack;
+    public UnityEngine.UI.Button btnStopSoundtrack;
 
-    public Button btnShowPassword;
-    public Button btnHidePassword;
+    public UnityEngine.UI.Button btnShowPassword;
+    public UnityEngine.UI.Button btnHidePassword;
 
     public Transform pntShipGenerator;
     public GameObject sprKlaedFighterPrefab;
@@ -100,7 +101,7 @@ public class signUpSceneScript : MonoBehaviour
     private string[] userFavoriteSoundtracks;
     private int soundtrackIndex;
 
-    private string usersPath = Application.dataPath + "/Data/users.json";
+    private string usersPath = UnityEngine.Application.dataPath + "/Data/users.json";
 
     // Start is called before the first frame update
     void Start()
@@ -348,7 +349,22 @@ public class signUpSceneScript : MonoBehaviour
     {
         try
         {
-            userImagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new user image", "", "png,jpg,jpeg,gif,bmp");
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Title = "Select a profile image";
+            openFileDialog.Filter = "Image files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+            DialogResult result = openFileDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                this.userImagePath = openFileDialog.FileName;
+            }
+            else
+            {
+                this.userImagePath = "";
+            }
 
             if (!string.IsNullOrEmpty(userImagePath))
             {
@@ -552,7 +568,7 @@ public class signUpSceneScript : MonoBehaviour
                         user.userImage = newUserImage;
 
                         // Copy and paste the new user image in ../Data/UserPhotos
-                        string savePath = Application.dataPath + newUserImage;
+                        string savePath = UnityEngine.Application.dataPath + newUserImage;
                         File.WriteAllBytes(savePath, imageBytesUser);
                     }
 
@@ -590,7 +606,7 @@ public class signUpSceneScript : MonoBehaviour
                         user.userImage = newUserImage;
 
                         // Copy and paste the new user image in ../Data/UserPhotos
-                        string savePath = Application.dataPath + newUserImage;
+                        string savePath = UnityEngine.Application.dataPath + newUserImage;
                         File.WriteAllBytes(savePath, imageBytesUser);
                     }
 

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -28,14 +29,14 @@ public class editProfileScript : MonoBehaviour {
     public TMP_Text txtShipName;
     public TMP_Text txtSoundtrack;
 
-    public Button btnIsInFavorites;
-    public Button btnisNotInFavoritesButton;
-    public Button btnAddToFavorites;
-    public Button btnRemoveFromFavorites;
-    public Button btnPlaySoundtrack;
-    public Button btnStopSoundtrack;
+    public UnityEngine.UI.Button btnIsInFavorites;
+    public UnityEngine.UI.Button btnisNotInFavoritesButton;
+    public UnityEngine.UI.Button btnAddToFavorites;
+    public UnityEngine.UI.Button btnRemoveFromFavorites;
+    public UnityEngine.UI.Button btnPlaySoundtrack;
+    public UnityEngine.UI.Button btnStopSoundtrack;
 
-    public Button btnApplyChanges;
+    public UnityEngine.UI.Button btnApplyChanges;
 
     public Transform pntShipGenerator;
     public GameObject sprKlaedFighterPrefab;
@@ -100,7 +101,7 @@ public class editProfileScript : MonoBehaviour {
             {
                 if (!string.IsNullOrEmpty(this.previousUser.userImage))
                 {
-                    byte[] imageBytes = System.IO.File.ReadAllBytes(Application.dataPath + this.previousUser.userImage);
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(UnityEngine.Application.dataPath + this.previousUser.userImage);
 
                     Texture2D texture = new Texture2D(2, 2);
                     texture.LoadImage(imageBytes);
@@ -111,7 +112,7 @@ public class editProfileScript : MonoBehaviour {
             catch
             {
 
-                Debug.LogError("Something went wrong loading the selected user image: " + Application.dataPath + this.previousUser.userImage + ". Debug code: 4.");
+                Debug.LogError("Something went wrong loading the selected user image: " + UnityEngine.Application.dataPath + this.previousUser.userImage + ". Debug code: 4.");
             }
 
             this.loadShipSprite();
@@ -546,7 +547,22 @@ public class editProfileScript : MonoBehaviour {
     {
         try
         {
-            userImagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new user image", "", "png,jpg,jpeg,gif,bmp");
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Title = "Select a profile image";
+            openFileDialog.Filter = "Image files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+            DialogResult result = openFileDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                this.userImagePath = openFileDialog.FileName;
+            }
+            else
+            {
+                this.userImagePath = "";
+            }
 
             if (!string.IsNullOrEmpty(userImagePath))
             {
@@ -593,16 +609,16 @@ public class editProfileScript : MonoBehaviour {
                     if (userImagePath != "" && user.userImage != newUserImage)
                     {
                         // Delete previous user image
-                        if (!string.IsNullOrEmpty(user.userImage) && File.Exists(Application.dataPath + user.userImage))
+                        if (!string.IsNullOrEmpty(user.userImage) && File.Exists(UnityEngine.Application.dataPath + user.userImage))
                         {
-                            System.IO.File.Delete(Application.dataPath + user.userImage);
+                            System.IO.File.Delete(UnityEngine.Application.dataPath + user.userImage);
                         }
 
                         // Update user image
                         user.userImage = newUserImage;
 
                         // Copy and paste the new user image in ../Data/UserPhotos
-                        string savePath = Application.dataPath + newUserImage;
+                        string savePath = UnityEngine.Application.dataPath + newUserImage;
                         File.WriteAllBytes(savePath, imageBytesUser);
                     }
                 }
