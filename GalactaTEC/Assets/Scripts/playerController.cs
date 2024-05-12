@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using audio_manager;
-
 public class PlayerController : MonoBehaviour
 
 {
@@ -13,9 +11,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private GameObject normalShot;
-
-    [SerializeField]
-    private GameObject expansiveBullet;
 
     [SerializeField]
     private GameObject chaserBullet;
@@ -38,11 +33,6 @@ public class PlayerController : MonoBehaviour
 
     public GameObject bonus;
 
-
-    //public AudioSource source;
-    //public AudioClip audioClip;
-    //public AudioClip bonusSound;
-    public float volume=0.5f;
     public float minY = 350f;
     public float maxY = 910f;
     public float minX = 300f;

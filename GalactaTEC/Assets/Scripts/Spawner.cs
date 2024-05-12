@@ -6,6 +6,12 @@ public class Spawner : MonoBehaviour
 {
 
     [SerializeField] GameObject playerNairanFighter;
+    [SerializeField] GameObject playerNairanScout;
+    [SerializeField] GameObject playerKlaedFighter;
+    [SerializeField] GameObject playerKlaedScout;
+    [SerializeField] GameObject playerNautolanBomber;
+    [SerializeField] GameObject playerNautolanScout;
+    [SerializeField] GameObject playerMarauder;
     public Transform playerSpawn;
 
 
@@ -28,7 +34,7 @@ public class Spawner : MonoBehaviour
         Vector3 newPos = playerSpawn.position;
         newPos.z = 0f;
         playerSpawn.position = newPos;
-        Debug.Log(newPos);
-        Instantiate(playerNairanFighter, playerSpawn.position, Quaternion.identity);
+
+        Instantiate(playerMarauder, playerSpawn.position, Quaternion.identity);
     }
 }
