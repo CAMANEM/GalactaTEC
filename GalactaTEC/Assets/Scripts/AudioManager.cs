@@ -114,7 +114,7 @@ namespace audio_manager
             {
                 this.currentPlaylist = this.backgroundSoundtracksPaths;
 
-                this.musicSource.Stop();
+                InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
         }
 
@@ -124,7 +124,7 @@ namespace audio_manager
             {
                 this.currentPlaylist = this.level1SoundtracksPaths;
 
-                this.musicSource.Stop();
+                InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
         }
 
@@ -134,7 +134,7 @@ namespace audio_manager
             {
                 this.currentPlaylist = this.level2SoundtracksPaths;
 
-                this.musicSource.Stop();
+                InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
         }
 
@@ -144,7 +144,7 @@ namespace audio_manager
             {
                 this.currentPlaylist = this.level3SoundtracksPaths;
 
-                this.musicSource.Stop();
+                InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
         }
 
@@ -164,7 +164,7 @@ namespace audio_manager
 
                     musicSource.clip = this.clip;
 
-                    musicSource.Play();
+                    InvokeRepeating("fadePlayMusic", 0f, 0.1f);
                 }
             } else if (!musicSource.isPlaying && !this.isAudioPaused)
             {
@@ -176,7 +176,7 @@ namespace audio_manager
 
                 musicSource.clip = this.clip;
 
-                musicSource.Play();
+                InvokeRepeating("fadePlayMusic", 0f, 0.1f);
             }
         }
 
@@ -226,24 +226,92 @@ namespace audio_manager
 
             musicSource.clip = this.clip;
 
-            musicSource.Play();
+            InvokeRepeating("fadePlayMusic", 0f, 0.1f);
         }
 
         public void stopSoundtrack()
         {
-            this.musicSource.Stop();
+            InvokeRepeating("fadeStopMusic", 0f, 0.1f);
         }
 
         public void pauseSoundtrack()
         {
             isAudioPaused = true;
-            this.musicSource.Pause();
+            InvokeRepeating("fadePauseMusic", 0f, 0.1f);
         }
 
         public void unPauseSoundtrack()
         {
             isAudioPaused = false;
-            this.musicSource.UnPause();
+            InvokeRepeating("fadeUnPauseMusic", 0f, 0.1f);
+        }
+
+        private void fadeStopMusic()
+        {
+            musicSource.volume -= 0.1f;
+
+            musicSource.volume = Mathf.Max(musicSource.volume, 0f);
+
+            myMixer.SetFloat("Music", (float)Math.Log10(this.volume) * 20f);
+
+            if (musicSource.volume <= 0f)
+            {
+                musicSource.Stop();
+                CancelInvoke("fadeStopMusic");
+            }
+        }
+
+        private void fadePauseMusic()
+        {
+            musicSource.volume -= 0.1f;
+
+            musicSource.volume = Mathf.Max(musicSource.volume, 0f);
+
+            myMixer.SetFloat("Music", (float)Math.Log10(this.volume) * 20f);
+
+            if (musicSource.volume <= 0f)
+            {
+                musicSource.Pause();
+                CancelInvoke("fadePauseMusic");
+            }
+        }
+
+        private void fadePlayMusic()
+        {
+            if (!this.musicSource.isPlaying)
+            {
+                this.musicSource.Play();
+            }
+
+            musicSource.volume += 0.1f;
+
+            musicSource.volume = Mathf.Max(musicSource.volume, 0f);
+
+            myMixer.SetFloat("Music", (float)Math.Log10(this.volume) * 20f);
+
+            if (musicSource.volume >= 1f)
+            {
+                CancelInvoke("fadePlayMusic");
+            }
+        }
+
+        private void fadeUnPauseMusic()
+        {
+            if (this.isAudioPaused)
+            {
+                this.musicSource.UnPause();
+            }
+
+            musicSource.volume += 0.1f;
+
+            musicSource.volume = Mathf.Max(musicSource.volume, 1f);
+
+            myMixer.SetFloat("Music", (float)Math.Log10(this.volume) * 20f);
+
+            if (musicSource.volume >= 1f)
+            {
+                CancelInvoke("fadeUnPauseMusic");
+            }
         }
     }
 }
