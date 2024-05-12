@@ -40,6 +40,7 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] GameObject bonus;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
