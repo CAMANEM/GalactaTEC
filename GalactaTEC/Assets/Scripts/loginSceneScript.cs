@@ -12,8 +12,8 @@ using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-
 using GameManager;
+using UserManager;
 using alerts_manager;
 using audio_manager;
 
@@ -54,46 +54,14 @@ public class loginSceneScript : MonoBehaviour
         
     }
 
-    private User getUserByEmail(string email)
-    {
-        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        User foundUser = null;
-
-        foreach (User user in users.users)
-        {
-            if (user.email == email)
-            {
-                foundUser = user;
-            }
-            else
-            {
-                Debug.Log("Something went wrong loading player information. Debug code: 0.");
-            }
-        }
-
-        return foundUser;
-    }
-
     public void signUpButtonOnClick()
     {
         SceneManager.LoadScene("SignUpScene");
     }
 
-    private List<User> getSignedUsers()
-    {
-        string usersJSON = File.ReadAllText(usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        return users.users;
-    }
-
     public void loginP1ButtonOnClick()
     {
-        List<User> users = getSignedUsers();
+        List<User> users = userManager.getInstance().getSignedUsers();
 
         if (this.areDifferentUsers())
         {
@@ -141,7 +109,7 @@ public class loginSceneScript : MonoBehaviour
 
     public void loginP2ButtonOnClick()
     {
-        List<User> users = getSignedUsers();
+        List<User> users = userManager.getInstance().getSignedUsers();
 
         if (this.areDifferentUsers())
         {

@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 using GameManager;
+using UserManager;
 using audio_manager;
 
 public class passwordRecoveryScript : MonoBehaviour
@@ -40,18 +41,9 @@ public class passwordRecoveryScript : MonoBehaviour
         
     }
 
-    private List<User> getSignedUsers()
-    {
-        string usersJSON = File.ReadAllText(usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        return users.users;
-    }
-
     private bool isEmailSignedUp(string email)
     {
-        List<User> users = getSignedUsers();
+        List<User> users = userManager.getInstance().getSignedUsers();
 
         if(users.Exists(user => user.email == email))
         {

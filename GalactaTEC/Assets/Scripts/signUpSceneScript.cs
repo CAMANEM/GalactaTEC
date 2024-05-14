@@ -15,38 +15,9 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 using GameManager;
+using UserManager;
 using alerts_manager;
 using audio_manager;
-
-[System.Serializable]
-public class User
-{
-    public string name;
-    public string email;
-    public string username;
-    public string password;
-    public string userImage;
-    public int ship;
-    public int[] scoreRecord;
-    public string[] favoriteSoundtracks;
-}
-
-[System.Serializable]
-public class Users : IEnumerable<User>
-{
-    public List<User> users;
-    public int cuantity;
-
-    public IEnumerator<User> GetEnumerator()
-    {
-        return users.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-}
 
 [System.Serializable]
 public class signUpSceneScript : MonoBehaviour  
@@ -381,15 +352,6 @@ public class signUpSceneScript : MonoBehaviour
         }
     }
 
-    private List<User> getSignedUsers()
-    {
-        string usersJSON = File.ReadAllText(usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        return users.users;
-    }
-
     public void addToFavoritesButtonOnClick()
     {
         int indexToAdd = Array.IndexOf(this.userFavoriteSoundtracks, this.soundtracks[this.soundtrackIndex]);
@@ -572,6 +534,11 @@ public class signUpSceneScript : MonoBehaviour
                         File.WriteAllBytes(savePath, imageBytesUser);
                     }
 
+                    if (string.IsNullOrEmpty(user.userImage))
+                    {
+                        user.userImage = "/Data/UserPhotos/defaultUserImage1.png";
+                    }
+
                     user.scoreRecord = new int[5];
 
                     users.users.Add(user);
@@ -629,7 +596,7 @@ public class signUpSceneScript : MonoBehaviour
 
     private bool usernameIsUnique(string username)
     {
-        List<User> users = getSignedUsers();
+        List<User> users = userManager.getInstance().getSignedUsers();
 
         if(users.Exists(user => user.username == username) || username == "")
         {
@@ -644,7 +611,7 @@ public class signUpSceneScript : MonoBehaviour
 
     private bool emailIsUnique(string email)
     {
-        List<User> users = getSignedUsers();
+        List<User> users = userManager.getInstance().getSignedUsers();
 
         if(users.Exists(user => user.email == email) || email == "")
         {

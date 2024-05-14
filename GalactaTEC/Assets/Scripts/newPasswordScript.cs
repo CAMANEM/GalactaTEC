@@ -10,8 +10,8 @@ using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-
 using GameManager;
+using UserManager;
 using audio_manager;
 
 public class newPasswordScript : MonoBehaviour
@@ -24,7 +24,6 @@ public class newPasswordScript : MonoBehaviour
     public Button btnHidePassword;
 
     string usersPath = Application.dataPath + "/Data/users.json";
-
 
     // Start is called before the first frame update
     void Start()
@@ -104,22 +103,11 @@ public class newPasswordScript : MonoBehaviour
         }
     }
 
-    private List<User> getSignedUsers()
-    {
-        string usersJSON = File.ReadAllText(usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        return users.users;
-    }
-
-
-
     public void doneButtonOnClick()
     {
         if (passwordIsValid(inpNewPassword.text))
         {
-            List<User> signedUsers = getSignedUsers();
+            List<User> signedUsers = userManager.getInstance().getSignedUsers();
 
             foreach (User user in signedUsers)
             {

@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UserManager;
+
 namespace GameManager
 {
     public class gameManager : MonoBehaviour
     {
-        // Singleton design pattern variables and functions
+        // Singleton design pattern
         private static gameManager instance;
 
         public static gameManager getInstance()
         {
             if(instance == null)
             {
-                // Si no hay una instancia en la escena, busca si ya existe
+                // If there is no instance in the scene, check to see if it already exists
                 instance = FindObjectOfType<gameManager>();
-                // Si no existe, crea un nuevo objeto GameManager en la escena
+                // If it does not exist, create a new GameManager object in the scene
                 if (instance == null)
                 {
                     GameObject obj = new GameObject("GameManager");
@@ -25,14 +27,29 @@ namespace GameManager
             return instance;
         }
 
-        // variables
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        // Variables
         public int cuantityOfPlayers = 0;
         public string player1Email = "";
         public string player2Email = "";
         public string player1Username = "";
         public string player2Username = "";
+        private User currentPlayer = null;
 
         public string playerToPlay = "";
+        public bool gameIsPaused = false;
 
         public string validResetPasswordCode = null;
         public string emailRecoveringPassword = "";
@@ -46,17 +63,24 @@ namespace GameManager
         // Paths
         public string usersPath = Application.dataPath + "/Data/users.json";
 
-        private void Awake()
+        public void setCurrentPlayer(User currentPlayer)
         {
-            if(instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            this.currentPlayer = currentPlayer;
+        }
+
+        public User getCurrentPlayer()
+        {
+            return this.currentPlayer;
+        }
+
+        public void setGameIsPaused(bool gameIsPaused)
+        {
+            this.gameIsPaused = gameIsPaused;
+        }
+
+        public bool getGameIsPaused()
+        {
+            return this.gameIsPaused;
         }
 
         public void setCuantityOfPlayers(int cuantityOfPlayers)

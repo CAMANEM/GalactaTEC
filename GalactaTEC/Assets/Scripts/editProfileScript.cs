@@ -13,6 +13,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 using GameManager;
+using UserManager;
 using alerts_manager;
 using audio_manager;
 
@@ -84,7 +85,7 @@ public class editProfileScript : MonoBehaviour {
 
         gameManager.getInstance().isUserEditingProfileInformation = true;
 
-        this.previousUser = getUserInformation();
+        this.previousUser = userManager.getInstance().getUserByEmail(gameManager.getInstance().playerEditingInformation);
 
         if (this.previousUser != null)
         {
@@ -138,38 +139,6 @@ public class editProfileScript : MonoBehaviour {
         }
 
         this.btnApplyChanges.interactable = this.isChange;
-    }
-
-    private List<User> getSignedUsers()
-    {
-        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        return users.users;
-    }
-
-    private User getUserInformation()
-    {
-        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        User foundUser = null;
-
-        foreach (User user in users.users)
-        {
-            if (user.email == gameManager.getInstance().playerEditingInformation)
-            {
-                foundUser = user;
-            }
-            else
-            {
-                Debug.Log("Something went wrong loading player information. Debug code: 6.");
-            }
-        }
-
-        return foundUser;
     }
 
     private void loadShipSprite()
@@ -623,6 +592,11 @@ public class editProfileScript : MonoBehaviour {
                     }
                 }
 
+                if (string.IsNullOrEmpty(user.userImage))
+                {
+                    user.userImage = "/Data/UserPhotos/defaultUserImage1.png";
+                }
+
                 if (this.previousUser.email != inpEmail.text)
                 {
                     if ((emailIsUnique(user.email) || user.email == previousEmail) && (usernameIsUnique(user.username) || user.username == previousUsername) && CheckFavoriteSoundtracks())
@@ -655,7 +629,7 @@ public class editProfileScript : MonoBehaviour {
 
     private bool usernameIsUnique(string username)
     {
-        List<User> users = getSignedUsers();
+        List<User> users = userManager.getInstance().getSignedUsers();
 
         if (users.Exists(user => user.username == username) || username == "")
         {
@@ -670,7 +644,7 @@ public class editProfileScript : MonoBehaviour {
 
     private bool emailIsUnique(string email)
     {
-        List<User> users = getSignedUsers();
+        List<User> users = userManager.getInstance().getSignedUsers();
 
         if (users.Exists(user => user.email == email) || email == "")
         {

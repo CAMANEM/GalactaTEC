@@ -237,13 +237,15 @@ namespace audio_manager
         public void pauseSoundtrack()
         {
             isAudioPaused = true;
-            InvokeRepeating("fadePauseMusic", 0f, 0.1f);
+            musicSource.Pause();
+            //InvokeRepeating("fadePauseMusic", 0f, 0.1f);
         }
 
         public void unPauseSoundtrack()
         {
             isAudioPaused = false;
-            InvokeRepeating("fadeUnPauseMusic", 0f, 0.1f);
+            musicSource.UnPause();
+            //InvokeRepeating("fadeUnPauseMusic", 0f, 0.1f);
         }
 
         private void fadeStopMusic()

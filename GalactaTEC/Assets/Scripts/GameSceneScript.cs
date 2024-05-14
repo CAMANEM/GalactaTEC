@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using GameManager;
 using System;
 using System.IO;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+using GameManager;
+using UserManager;
 using audio_manager;
 
 public class GameSceneScript : MonoBehaviour
@@ -39,8 +40,6 @@ public class GameSceneScript : MonoBehaviour
 
     [SerializeField] GameObject bonus;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +47,8 @@ public class GameSceneScript : MonoBehaviour
 
         if (gameManager.getInstance().cuantityOfPlayers == 1)
         {
-            User user = getUserByUsername(gameManager.getInstance().player1Username);
+            User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
+            gameManager.getInstance().setCurrentPlayer(user);
             txtUsername1.text = user.username;
 
             // Load player image from specified path
@@ -60,10 +60,19 @@ public class GameSceneScript : MonoBehaviour
                 imgUser1.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
         }
-        else if (gameManager.getInstance().cuantityOfPlayers == 2 && gameManager.getInstance().playerToPlay == "")
+        else if (gameManager.getInstance().cuantityOfPlayers == 2)
         {
-            User user1 = getUserByUsername(gameManager.getInstance().player1Username);
-            User user2 = getUserByUsername(gameManager.getInstance().player2Username);
+            User user1 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
+            User user2 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player2Username);
+
+            if (user1.username == gameManager.getInstance().playerToPlay)
+            {
+                gameManager.getInstance().setCurrentPlayer(user1);
+            }
+            else
+            {
+                gameManager.getInstance().setCurrentPlayer(user2);
+            }
 
             txtUsername1.text = user1.username;
             txtUsername2.text = user2.username;
@@ -89,7 +98,8 @@ public class GameSceneScript : MonoBehaviour
         }
         else
         {
-            User user = getUserByUsername(gameManager.getInstance().playerToPlay);
+            User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
+            gameManager.getInstance().setCurrentPlayer(user);
             txtUsername1.text = user.username;
 
             // Load player image from specified path
@@ -118,6 +128,8 @@ public class GameSceneScript : MonoBehaviour
         {
             if (!pnlPauseDialogue.activeSelf)
             {
+                gameManager.getInstance().setGameIsPaused(true);
+
                 // Activate the pause panel
                 pnlPauseDialogue.SetActive(true);
 
@@ -142,6 +154,8 @@ public class GameSceneScript : MonoBehaviour
     {
         if (pnlPauseDialogue.activeSelf)
         {
+            gameManager.getInstance().setGameIsPaused(false);
+
             // Deactivate the pause panel
             pnlPauseDialogue.SetActive(false);
 
@@ -171,52 +185,6 @@ public class GameSceneScript : MonoBehaviour
         pnlPauseDialogue.SetActive(false);
     }
 
-    private User getUserByEmail(string email)
-    {
-        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        User foundUser = null;
-
-        foreach (User user in users.users)
-        {
-            if (user.email == email)
-            {
-                foundUser = user;
-            }
-            else
-            {
-                Debug.Log("Something went wrong loading player information");
-            }
-        }
-
-        return foundUser;
-    }
-
-    private User getUserByUsername(string username)
-    {
-        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        User foundUser = null;
-
-        foreach (User user in users.users)
-        {
-            if (user.username == username)
-            {
-                foundUser = user;
-            }
-            else
-            {
-                Debug.Log("Something went wrong loading player information");
-            }
-        }
-
-        return foundUser;
-    }
-
     public void activateX2Pts(){
         x2PtsIsActive = true;
         Invoke("desactivateX2Pts", x2PtsDuration);
@@ -236,9 +204,7 @@ public class GameSceneScript : MonoBehaviour
         txtScore1.text = score.ToString();
     }
 
-/*
-    Generates a bonus in the game
-*/
+    // Generates a bonus in the game
     public void generateBonus(){
         Debug.Log("Something went wrong loading player information");
 
