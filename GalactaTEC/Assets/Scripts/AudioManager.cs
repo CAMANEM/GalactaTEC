@@ -20,6 +20,8 @@ namespace audio_manager
         [SerializeField] public AudioClip shipDestructionClip;
         [SerializeField] float volume = 1f;
 
+        [SerializeField] public AudioSource pauseMusicSource;
+
         public string[] backgroundSoundtracksPaths = { "Audio/Soundtracks/Menu/Menu - Anarchic Starport", "Audio/Soundtracks/Menu/Menu - Blaze Your Own Trail",
                                                         "Audio/Soundtracks/Menu/Menu - Coma Berenices", "Audio/Soundtracks/Menu/Menu - Delta Phoenicis",
                                                         "Audio/Soundtracks/Menu/Menu - Draco", "Audio/Soundtracks/Menu/Menu - Fawoal",
@@ -48,7 +50,7 @@ namespace audio_manager
         public string clipPath;
 
         public bool isAudioPaused = false;
-        private float audioVolumeBeforePause;
+        public float audioVolumeBeforePause;
 
         // Start is called before the first frame update
         void Start()
@@ -163,7 +165,9 @@ namespace audio_manager
 
                     this.clip = (AudioClip)Resources.Load(this.clipPath, typeof(AudioClip));
 
-                    musicSource.clip = this.clip;
+                    this.musicSource.clip = this.clip;
+
+                    this.pauseMusicSource.clip = this.clip;
 
                     InvokeRepeating("fadePlayMusic", 0f, 0.1f);
                 }

@@ -44,6 +44,9 @@ public class GameSceneScript : MonoBehaviour
     void Start()
     {
         AudioManager.getInstance().playLevel1Soundtrack();
+        AudioManager.getInstance().pauseMusicSource.Play();
+        AudioManager.getInstance().pauseMusicSource.Pause();
+
 
         if (gameManager.getInstance().cuantityOfPlayers == 1)
         {
@@ -135,6 +138,8 @@ public class GameSceneScript : MonoBehaviour
 
                 // Pause game time and music
                 AudioManager.getInstance().pauseSoundtrack();
+                AudioManager.getInstance().pauseMusicSource.volume = AudioManager.getInstance().audioVolumeBeforePause;
+                AudioManager.getInstance().pauseMusicSource.UnPause();
                 if (AudioManager.getInstance().isAudioPaused == true)
                 {
                     Time.timeScale = 01f;
@@ -166,6 +171,7 @@ public class GameSceneScript : MonoBehaviour
             Time.timeScale = 1f;
             if (Time.timeScale == 1f)
             {
+                AudioManager.getInstance().pauseMusicSource.Pause();
                 AudioManager.getInstance().unPauseSoundtrack();
             }
         }
