@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using audio_manager;
 
 public class pauseScript : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class pauseScript : MonoBehaviour
 
     public void puaseButtonOnClick()
     {
+        AudioManager.getInstance().pauseSoundtrack();
         Time.timeScale = 0f;
     }
 }

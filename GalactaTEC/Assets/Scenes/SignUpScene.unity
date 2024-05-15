@@ -4545,13 +4545,13 @@ MonoBehaviour:
   btnShowPassword: {fileID: 1823112806}
   btnHidePassword: {fileID: 326340437}
   pntShipGenerator: {fileID: 1908590608}
-  sprKlaedFighterPrefab: {fileID: 4501265654196545681, guid: ad359f4bc4ba9c74d9c74a2faf356a45, type: 3}
-  sprKlaedScoutPrefab: {fileID: 6593500426176210749, guid: 60fe1ed7467dd094695b57fc964402c1, type: 3}
-  sprNairanFighterPrefab: {fileID: 6657439825739402982, guid: 82b0bd26ae7980744b6ad2ec49cb1907, type: 3}
-  sprNairanScoutPrefab: {fileID: 7182807043729173522, guid: 7483beec2f4418f46b4ed71242fd4aa5, type: 3}
-  sprNautolanBomberPrefab: {fileID: 3320190523483210050, guid: e8fc7bb8818970947867a4552cd1a627, type: 3}
-  sprNautolanScoutPrefab: {fileID: 1019887844583045109, guid: 20197a4770bf76f40a66e38faa5e9d48, type: 3}
-  sprPipOpsMarauderPrefab: {fileID: 2307109567132123100, guid: dd9c3d9900ed7c041a0678484cba2047, type: 3}
+  sprKlaedFighterPrefab: {fileID: 5679578641526047471, guid: 3f1e9e7f35116ac4588cd37ce890e118, type: 3}
+  sprKlaedScoutPrefab: {fileID: 5577213846596883365, guid: 9d64755f4fcf61a4d8c04df7bfa77a4e, type: 3}
+  sprNairanFighterPrefab: {fileID: 3703304472169985195, guid: 1f338021e85edbf40a278c22fc2c5ac7, type: 3}
+  sprNairanScoutPrefab: {fileID: 2380876477904941566, guid: 0ce88dd072eccb448b0d447e1b864e64, type: 3}
+  sprNautolanBomberPrefab: {fileID: 3705801449135034015, guid: 56190ed7b06d3f7438c5d3e1752aefa7, type: 3}
+  sprNautolanScoutPrefab: {fileID: 3511435866484763273, guid: 622217d94470cad4cb38c7ecfcd85fe4, type: 3}
+  sprPipOpsMarauderPrefab: {fileID: 1377675035261311515, guid: 0461e42f69293db4db0bca15b7d5a007, type: 3}
 --- !u!1 &1037153348
 GameObject:
   m_ObjectHideFlags: 0

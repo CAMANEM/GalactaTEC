@@ -134,8 +134,11 @@ public class GameSceneScript : MonoBehaviour
                 pnlPauseDialogue.SetActive(true);
 
                 // Pause game time and music
-                Time.timeScale = 0f;
                 AudioManager.getInstance().pauseSoundtrack();
+                if (AudioManager.getInstance().isAudioPaused == true)
+                {
+                    Time.timeScale = 01f;
+                }
             }
         }
     }
@@ -161,7 +164,10 @@ public class GameSceneScript : MonoBehaviour
 
             // Resume game and music
             Time.timeScale = 1f;
-            AudioManager.getInstance().unPauseSoundtrack();
+            if (Time.timeScale == 1f)
+            {
+                AudioManager.getInstance().unPauseSoundtrack();
+            }
         }
     }
 

@@ -48,6 +48,7 @@ namespace audio_manager
         public string clipPath;
 
         public bool isAudioPaused = false;
+        private float audioVolumeBeforePause;
 
         // Start is called before the first frame update
         void Start()
@@ -95,13 +96,13 @@ namespace audio_manager
         private void changeVolume()
         {
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
 
                 volume += 0.1f;
                 myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 volume -= 0.1f;
                 myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
@@ -236,16 +237,13 @@ namespace audio_manager
 
         public void pauseSoundtrack()
         {
-            isAudioPaused = true;
-            musicSource.Pause();
-            //InvokeRepeating("fadePauseMusic", 0f, 0.1f);
+            this.audioVolumeBeforePause = this.musicSource.volume;
+            InvokeRepeating("fadePauseMusic", 0f, 0.1f);
         }
 
         public void unPauseSoundtrack()
         {
-            isAudioPaused = false;
-            musicSource.UnPause();
-            //InvokeRepeating("fadeUnPauseMusic", 0f, 0.1f);
+            InvokeRepeating("fadeUnPauseMusic", 0f, 0.1f);
         }
 
         private void fadeStopMusic()
@@ -273,7 +271,8 @@ namespace audio_manager
 
             if (musicSource.volume <= 0f)
             {
-                musicSource.Pause();
+                this.musicSource.Pause();
+                isAudioPaused = true;
                 CancelInvoke("fadePauseMusic");
             }
         }
@@ -302,6 +301,7 @@ namespace audio_manager
             if (this.isAudioPaused)
             {
                 this.musicSource.UnPause();
+                isAudioPaused = false;
             }
 
             musicSource.volume += 0.1f;
@@ -310,7 +310,7 @@ namespace audio_manager
 
             myMixer.SetFloat("Music", (float)Math.Log10(this.volume) * 20f);
 
-            if (musicSource.volume >= 1f)
+            if (musicSource.volume >= this.audioVolumeBeforePause)
             {
                 CancelInvoke("fadeUnPauseMusic");
             }

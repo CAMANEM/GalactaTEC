@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 
@@ -59,33 +60,35 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) 
+        if (SceneManager.GetActiveScene().name == "GameScene")
         {
-            playerLives.AddLife();        // Llamar a AddLife() en el script PlayerLives
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                playerLives.AddLife();        // Llamar a AddLife() en el script PlayerLives
+            }
+
+            Move();
+            Attack();
         }
-
-        Move();
-        Attack();
-
     }
 
     void Move()
     {
         Vector3 pos = transform.position;
 
-        if(Input.GetKeyDown(KeyCode.LeftArrow) && (pos.x > minX)) {
+        if(Input.GetKeyDown(KeyCode.A) && (pos.x > minX)) {
             
             MoveAux();
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && (pos.x < maxX))
+        else if (Input.GetKeyDown(KeyCode.D) && (pos.x < maxX))
         {
             MoveAux();
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && (pos.y < maxY))
+        else if (Input.GetKeyDown(KeyCode.W) && (pos.y < maxY))
         {
             MoveAux();
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow)  && (pos.y > minY))
+        else if (Input.GetKeyDown(KeyCode.S)  && (pos.y > minY))
         {
             MoveAux();
         }
@@ -111,7 +114,7 @@ public class PlayerController : MonoBehaviour
         {
             Instantiate(normalShot, attack_Point.position, Quaternion.identity);
         }
-        else if (Input.GetKeyDown(KeyCode.V))
+        else if (Input.GetKeyDown(KeyCode.E))
         { 
             usePower();
         }
