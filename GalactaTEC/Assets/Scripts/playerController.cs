@@ -34,10 +34,10 @@ public class PlayerController : MonoBehaviour
 
     public GameObject bonus;
 
-    public float minY = 350f;
-    public float maxY = 910f;
-    public float minX = 300f;
-    public float maxX = 1600f;
+    public float minY = 606.4969f;
+    public float maxY = 607.497f;
+    public float minX = 959.3921f;
+    public float maxX = 962.5923f;
 
 
     public bool expansiveShot = false;
@@ -219,6 +219,17 @@ public class PlayerController : MonoBehaviour
         {
             Invoke("instanciateBonus", 2f);
         }
+    }
+
+    
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("trigger Player with enemy");   
+        }
+
     }
 
 }

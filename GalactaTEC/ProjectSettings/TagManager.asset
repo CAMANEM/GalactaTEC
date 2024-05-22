@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Boundary
   - Enemy
   - PlayerShot
+  - VerticalBoundary
+  - HorizontalBoundary
   layers:
   - Default
   - TransparentFX

@@ -308,10 +308,10 @@ MonoBehaviour:
   ExpansiveShot_0: {fileID: 8406697852635482143, guid: 9571c158572ad0449b277b2d7872f6d2, type: 3}
   explosion: {fileID: 0}
   bonus: {fileID: 5303454417995827970, guid: de1a759db421beb41bd04e6f228dd6bf, type: 3}
-  minY: 350
-  maxY: 910
-  minX: 300
-  maxX: 1600
+  minY: 606.4969
+  maxY: 607.497
+  minX: 959.3921
+  maxX: 962.5923
   expansiveShot: 0
   chaserShot: 0
   x2Pts: 0
