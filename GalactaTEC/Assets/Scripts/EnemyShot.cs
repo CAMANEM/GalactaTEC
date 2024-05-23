@@ -6,6 +6,7 @@ public class EnemyShot : MonoBehaviour
 {
 
     public float speed = 0.4f;
+    public GameObject shotDestruction;
 
 
     // Start is called before the first frame update
@@ -30,10 +31,19 @@ public class EnemyShot : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject);
+        //Debug.Log(collision.gameObject);
         if (collision.gameObject.tag == "HorizontalBoundary")
         {
             Destroy(gameObject);
         }
+        else if (collision.gameObject.tag == "PlayerShot")
+        {
+            Debug.Log("Collision entre tiros");
+        }
+    }
+
+    void OnDestroy()
+    {
+        Instantiate(shotDestruction, transform.position, Quaternion.identity);
     }
 }

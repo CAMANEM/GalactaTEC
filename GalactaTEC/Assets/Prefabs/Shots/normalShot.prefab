@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.4
   deactivateTimer: 5
+  shotDestruction: {fileID: 5898477379781776775, guid: f066c9ae309c5a148a6d7a54717896fa, type: 3}
 --- !u!61 &1806694232397070344
 BoxCollider2D:
   m_ObjectHideFlags: 0

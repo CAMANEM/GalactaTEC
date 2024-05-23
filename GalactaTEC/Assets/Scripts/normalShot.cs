@@ -11,6 +11,7 @@ public class NormalShot : MonoBehaviour
     public float deactivateTimer = 5f;
 
     private PointManager pointManager;
+    public GameObject shotDestruction;
 
 
     // Start is called before the first frame update
@@ -35,12 +36,17 @@ public class NormalShot : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject);
+        //Debug.Log(collision.gameObject);
         if (collision.gameObject.tag == "Enemy"){
             //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
             GameSceneScript gameSceneScriptScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
             gameSceneScriptScript.updateScore(200);
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.tag == "EnemyShot")
+        {
+            Debug.Log("Collision entre tiros");
             Destroy(gameObject);
         }
     }
@@ -70,5 +76,11 @@ public class NormalShot : MonoBehaviour
         transform.position = temp;
         
     }
+
+    void OnDestroy()
+    {
+        Instantiate(shotDestruction, transform.position, Quaternion.identity);
+    }
+    
 
 }

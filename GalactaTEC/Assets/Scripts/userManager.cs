@@ -96,7 +96,6 @@ namespace UserManager
 
         public User getUserByUsername(string username)
         {
-            username = "CAMANEM";
             string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
 
             Users users = JsonUtility.FromJson<Users>(usersJSON);
