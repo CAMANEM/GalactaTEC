@@ -8,6 +8,7 @@ TagManager:
   - PlayerShot
   - VerticalBoundary
   - HorizontalBoundary
+  - EnemyShot
   layers:
   - Default
   - TransparentFX

@@ -227,7 +227,12 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("trigger Player with enemy");   
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.tag == "EnemyShot")
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
         }
 
     }

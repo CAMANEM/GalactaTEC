@@ -259,7 +259,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0015848577, y: -0.014309935}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -270,7 +270,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32877833, y: 0.29882514}
   m_EdgeRadius: 0
 --- !u!114 &6236226792166051345
 MonoBehaviour:
@@ -304,7 +304,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0.2
   normalShot: {fileID: 1888018594794399322, guid: 5a166b1943cf6804dba8770d29a6ed89, type: 3}
-  expansiveBullet: {fileID: 0}
   chaserBullet: {fileID: 1337334442393224497, guid: 03bbd804e5cb45646ba5e680a1c558ef, type: 3}
   shieldPower: {fileID: 9194785097378818295}
   shieldMidPower: {fileID: 2086538787113557875}
@@ -313,7 +312,6 @@ MonoBehaviour:
   ExpansiveShot_0: {fileID: 8406697852635482143, guid: 9571c158572ad0449b277b2d7872f6d2, type: 3}
   explosion: {fileID: 0}
   bonus: {fileID: 5303454417995827970, guid: de1a759db421beb41bd04e6f228dd6bf, type: 3}
-  volume: 0.5
   minY: 350
   maxY: 910
   minX: 300

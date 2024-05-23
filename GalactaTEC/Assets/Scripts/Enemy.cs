@@ -12,6 +12,13 @@ public class Enemy : MonoBehaviour
     public byte movePattern = 0;
     private Vector3 destinyPosition;
 
+    [SerializeField]
+    private Transform attackPoint;
+    [SerializeField]
+    private GameObject enemyShot;
+    [SerializeField]
+    private GameObject enemyDestruction;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +30,10 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         move();
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Instantiate(enemyShot, attackPoint.position, Quaternion.identity);
+        }
     }
 
     /*
@@ -84,6 +94,11 @@ public class Enemy : MonoBehaviour
             destinyPosition = transform.position - new Vector3(movementDistanceX, 0, 0);
         }
         
+    }
+
+    void OnDestroy()
+    {
+        Instantiate(enemyDestruction, transform.position, Quaternion.identity);
     }
 
 }
