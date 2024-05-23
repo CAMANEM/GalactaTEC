@@ -307,6 +307,7 @@ MonoBehaviour:
   attack_Point: {fileID: 7427716151721435330}
   ExpansiveShot_0: {fileID: 8406697852635482143, guid: 9571c158572ad0449b277b2d7872f6d2, type: 3}
   explosion: {fileID: 0}
+  playerDestruction: {fileID: 7541163742577215564, guid: 41b5403996cf51141b24f0447fe7cca2, type: 3}
   bonus: {fileID: 5303454417995827970, guid: de1a759db421beb41bd04e6f228dd6bf, type: 3}
   minY: 606.4969
   maxY: 607.497

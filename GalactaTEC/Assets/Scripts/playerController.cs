@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject explosion;
 
+    public GameObject playerDestruction;
+
 
     public GameObject bonus;
 
@@ -235,6 +237,11 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
 
+    }
+
+    void OnDestroy()
+    {
+        Instantiate(playerDestruction, transform.position, Quaternion.identity);
     }
 
 }
