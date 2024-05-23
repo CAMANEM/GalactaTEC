@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject enemyShot;
     [SerializeField]
-    private GameObject enemyDestruction;
+    private GameObject explosion;
 
 
     // Start is called before the first frame update
@@ -57,13 +57,16 @@ public class Enemy : MonoBehaviour
                     break;
             }
         }
+        else if (collision.gameObject.tag == "Player")
+        {
+            destroy();
+        }
+        else if (collision.gameObject.tag == "PlayerShot")
+        {
+            destroy();
+        }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Triger");
-
-    }
 
     /*
         Movement pattern #0
@@ -96,9 +99,10 @@ public class Enemy : MonoBehaviour
         
     }
 
-    void OnDestroy()
+    private void destroy()
     {
-        Instantiate(enemyDestruction, transform.position, Quaternion.identity);
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
 }

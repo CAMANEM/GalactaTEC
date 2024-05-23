@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8016876642709760962}
   - component: {fileID: 386664275868824019}
   - component: {fileID: 6380381600066650858}
+  - component: {fileID: 1422610722140678186}
   m_Layer: 10
   m_Name: EnemyShot
   m_TagString: EnemyShot
@@ -121,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.4
-  shotDestruction: {fileID: 5898477379781776775, guid: f066c9ae309c5a148a6d7a54717896fa, type: 3}
+  explosion: {fileID: 5898477379781776775, guid: f066c9ae309c5a148a6d7a54717896fa, type: 3}
 --- !u!61 &6380381600066650858
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -167,3 +168,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.05, y: 0.2}
   m_EdgeRadius: 0
+--- !u!50 &1422610722140678186
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542673588350253259}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

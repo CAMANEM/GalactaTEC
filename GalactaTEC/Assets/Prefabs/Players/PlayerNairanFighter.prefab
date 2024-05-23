@@ -256,7 +256,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.0015848577, y: -0.014309935}
@@ -311,6 +311,7 @@ MonoBehaviour:
   attack_Point: {fileID: 4002611998044191048}
   ExpansiveShot_0: {fileID: 8406697852635482143, guid: 9571c158572ad0449b277b2d7872f6d2, type: 3}
   explosion: {fileID: 0}
+  playerDestruction: {fileID: 0}
   bonus: {fileID: 5303454417995827970, guid: de1a759db421beb41bd04e6f228dd6bf, type: 3}
   minY: 350
   maxY: 910

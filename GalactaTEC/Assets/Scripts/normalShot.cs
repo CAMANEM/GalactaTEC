@@ -7,20 +7,14 @@ using audio_manager;
 public class NormalShot : MonoBehaviour
 {
 
-    public float speed = 500f;
-    public float deactivateTimer = 5f;
-
-    private PointManager pointManager;
-    public GameObject shotDestruction;
+    public float speed = 0.4f;
+    public GameObject explosion;
 
 
     // Start is called before the first frame update
     void Start()
     {
         AudioManager.getInstance().playShotEffect();
-
-        //vea esto mae XD es para el puntaje
-        //pointManager = GameObject.Find("PointManager").GetComponent<PointManager>();
     }
 
     // Update is called once per frame
@@ -38,35 +32,15 @@ public class NormalShot : MonoBehaviour
     {
         //Debug.Log(collision.gameObject);
         if (collision.gameObject.tag == "Enemy"){
-            //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(collision.gameObject);
             GameSceneScript gameSceneScriptScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
             gameSceneScriptScript.updateScore(200);
-            Destroy(gameObject);
+            destroy();
         }
         else if (collision.gameObject.tag == "EnemyShot")
         {
-            Debug.Log("Collision entre tiros");
-            Destroy(gameObject);
+            destroy();
         }
     }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Enemy")
-    //    {
-    // Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-    // Destroy(collision.gameObject);
-    // pointManager.UpdateScore(50)
-    // Destroy(gameObject);
-    //}
-
-    //if (collision.gameObject.tag == "Boundary")
-    //{
-    //Destroy(gameObject);
-    //        }
-    //   }
-
-
 
 
     void Move()
@@ -77,10 +51,10 @@ public class NormalShot : MonoBehaviour
         
     }
 
-    void OnDestroy()
+    private void destroy()
     {
-        Instantiate(shotDestruction, transform.position, Quaternion.identity);
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
     
-
 }

@@ -31,15 +31,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject explosion;
 
-    public GameObject playerDestruction;
-
-
     public GameObject bonus;
-
-    public float minY = 606.4969f;
-    public float maxY = 607.497f;
-    public float minX = 959.3921f;
-    public float maxX = 962.5923f;
 
 
     public bool expansiveShot = false;
@@ -78,19 +70,19 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 pos = transform.position;
 
-        if(Input.GetKeyDown(KeyCode.A) && (pos.x > minX)) {
+        if (Input.GetKeyDown(KeyCode.A)) {
             
             MoveAux();
         }
-        else if (Input.GetKeyDown(KeyCode.D) && (pos.x < maxX))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             MoveAux();
         }
-        else if (Input.GetKeyDown(KeyCode.W) && (pos.y < maxY))
+        else if (Input.GetKeyDown(KeyCode.W))
         {
             MoveAux();
         }
-        else if (Input.GetKeyDown(KeyCode.S)  && (pos.y > minY))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             MoveAux();
         }
@@ -223,25 +215,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
 
-    void OnTriggerEnter2D(Collider2D collision)
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            Destroy(gameObject);
+            destroy();
         }
         else if (collision.gameObject.tag == "EnemyShot")
         {
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            destroy();
         }
 
     }
 
-    void OnDestroy()
+    private void destroy()
     {
-        Instantiate(playerDestruction, transform.position, Quaternion.identity);
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
 }

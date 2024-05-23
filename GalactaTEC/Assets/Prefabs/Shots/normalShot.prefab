@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7573182369577887704}
   - component: {fileID: 9051546036444716053}
   - component: {fileID: 1806694232397070344}
+  - component: {fileID: -3824635825218957761}
   m_Layer: 9
   m_Name: normalShot
   m_TagString: PlayerShot
@@ -121,8 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.4
-  deactivateTimer: 5
-  shotDestruction: {fileID: 5898477379781776775, guid: f066c9ae309c5a148a6d7a54717896fa, type: 3}
+  explosion: {fileID: 5898477379781776775, guid: f066c9ae309c5a148a6d7a54717896fa, type: 3}
 --- !u!61 &1806694232397070344
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -168,3 +168,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.21875, y: 0.34375}
   m_EdgeRadius: 0
+--- !u!50 &-3824635825218957761
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888018594794399322}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
