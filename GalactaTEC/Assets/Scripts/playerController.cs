@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 
 {
-    private PlayerLives playerLives;
+    //private PlayerLives playerLives;
 
     public float maxSpeed = 0.2f;
 
@@ -41,13 +41,22 @@ public class PlayerController : MonoBehaviour
 
     int chaserShotsCounter = 0;
 
+    public float lifes = 3f;        // Vidas actuales del jugador
+    public int maxLifes = 5;     // Máximo de vidas que el jugador puede tener
+    public GameObject life;
+    public GameObject halfLife;
+    public GameObject emptyLife;
+    public Transform[] lifePositions;
+    private GameObject[] lifeObjct;
+
+
     // Start is called before the first frame update
     void Start()
     {
         shieldPower.SetActive(false);
         shieldMidPower.SetActive(false);
         shieldMinPower.SetActive(false);
-        playerLives = GetComponent<PlayerLives>();
+        //playerLives = GetComponent<PlayerLives>();
 
     }
 
@@ -58,7 +67,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.B))
             {
-                playerLives.AddLife();        // Llamar a AddLife() en el script PlayerLives
+                //playerLives.AddLife();        // Llamar a AddLife() en el script PlayerLives
             }
 
             Move();
