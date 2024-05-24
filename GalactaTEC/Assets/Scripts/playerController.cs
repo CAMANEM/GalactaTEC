@@ -1,143 +1,111 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;  // Make sure to include this for controller input
 
 public class PlayerController : MonoBehaviour
-
 {
     private PlayerLives playerLives;
-
-    float maxSpeed = 150f;
-
-    [SerializeField]
-    private GameObject normalShot;
-
-    [SerializeField]
-    private GameObject expansiveBullet;
-
-    [SerializeField]
-    private GameObject chaserBullet;
-
-    [SerializeField]
-    private GameObject shieldPower;
-
-    [SerializeField]
-    private Transform attack_Point;
-
-
-
-    public AudioSource source;
-    public AudioClip audioClip;
-    public AudioClip bonusSound;
-    public float volume=0.5f;
-    public float minY = 350f;
-    public float maxY = 910f;
-    public float minX = 300f;
-    public float maxX = 1600f;
-
+    public float maxSpeed = 0.2f;
+    [SerializeField] private GameObject normalShot;
+    [SerializeField] private GameObject chaserBullet;
+    [SerializeField] private GameObject shieldPower;
+    [SerializeField] private GameObject shieldMidPower;
+    [SerializeField] private GameObject shieldMinPower;
+    [SerializeField] private Transform attack_Point;
+    public GameObject ExpansiveShot_0;
+    public GameObject explosion;
+    public GameObject bonus;
 
     public bool expansiveShot = false;
     public bool chaserShot = false;
     public bool x2Pts = false;
     public bool shield = false;
 
-    // Start is called before the first frame update
+    int chaserShotsCounter = 0;
+
     void Start()
     {
+        shieldPower.SetActive(false);
+        shieldMidPower.SetActive(false);
+        shieldMinPower.SetActive(false);
         playerLives = GetComponent<PlayerLives>();
-        Instantiate(shieldPower, attack_Point.position, Quaternion.identity);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) 
+        if (SceneManager.GetActiveScene().name == "GameScene")
         {
-            playerLives.AddLife();        // Llamar a AddLife() en el script PlayerLives
+            Gamepad gamepad = Gamepad.current; // Get the current gamepad
+            if (gamepad == null) return; // If no gamepad is connected, exit
+
+            if (gamepad.squareButton.wasPressedThisFrame)
+            {
+                playerLives.AddLife();
+            }
+
+            Move(gamepad);
+            Attack(gamepad);
         }
-
-        Move();
-        Attack();
-
     }
 
-    void Move()
+    void Move(Gamepad gamepad)
     {
-        Vector3 pos = transform.position;
-
-        if(Input.GetKeyDown(KeyCode.LeftArrow) && (pos.x > minX)) {
-            
-            MoveAux();
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && (pos.x < maxX))
-        {
-            MoveAux();
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && (pos.y < maxY))
-        {
-            MoveAux();
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow)  && (pos.y > minY))
-        {
-            MoveAux();
-        }
-    }
-
-    void MoveAux(){
-        source.PlayOneShot(audioClip, volume);
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        // Calculate the movement direction
-        Vector3 movement = new Vector3(horizontalInput, verticalInput, 0f).normalized;
-        // Calculate the new position based on the fixed movement distance
+        //AudioManager.getInstance().playMovementEffect();
+        Vector2 movementInput = gamepad.leftStick.ReadValue(); // Use the left stick for movement
+        Vector3 movement = new Vector3(movementInput.x, movementInput.y, 0f).normalized;
         Vector3 newPosition = transform.position + movement * maxSpeed;
-
-        // Update the player's position
         transform.position = newPosition;
     }
 
-    void Attack()
+    void Attack(Gamepad gamepad)
     {
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (gamepad.crossButton.wasPressedThisFrame)
         {
             Instantiate(normalShot, attack_Point.position, Quaternion.identity);
         }
-        else if (Input.GetKeyDown(KeyCode.V))
-        { 
+        else if (gamepad.circleButton.wasPressedThisFrame)
+        {
             usePower();
         }
     }
 
-    public void ActivateChaser(){
-        source.PlayOneShot(bonusSound, volume);
+    public void ActivateChaser()
+    {
+        //source.PlayOneShot(bonusSound, volume);
         chaserShot = true;
         ChaserItem chaserScript = GameObject.Find("ChaserShot").GetComponent<ChaserItem>();
         chaserScript.Activate();
     }
 
-    public void ActivateExpansive(){
-        source.PlayOneShot(bonusSound, volume);
+    public void ActivateExpansive()
+    {
+        //source.PlayOneShot(bonusSound, volume);
         expansiveShot = true;
         ExpansiveItem expansiveScript = GameObject.Find("ExpansiveShot").GetComponent<ExpansiveItem>();
         expansiveScript.Activate();
     }
 
-    public void ActivateShield(){
-        source.PlayOneShot(bonusSound, volume);
+    public void ActivateShield()
+    {
+        //source.PlayOneShot(bonusSound, volume);
         shield = true;
         ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
         shieldScript.Activate();
     }
 
-    public void ActivateX2Pts(){
-        source.PlayOneShot(bonusSound, volume);
+    public void ActivateX2Pts()
+    {
+        //source.PlayOneShot(bonusSound, volume);
         x2Pts = true;
         x2PtItem x2PtsScript = GameObject.Find("x2ptShot").GetComponent<x2PtItem>();
         x2PtsScript.Activate();
     }
 
-    void usePower(){
+    void usePower()
+    {
 
         PowerSelector powerScript = GameObject.Find("PowerSelector").GetComponent<PowerSelector>();
         switch (powerScript.powerSelected)
@@ -145,11 +113,16 @@ public class PlayerController : MonoBehaviour
             case 0:
                 if (chaserShot)
                 {
-                    chaserShot = false;
-                    ChaserItem chaserScript = GameObject.Find("ChaserShot").GetComponent<ChaserItem>();
-                    chaserScript.Desactivate();
+                    if (chaserShotsCounter == 2)
+                    {
+                        chaserShot = false;
+                        ChaserItem chaserScript = GameObject.Find("ChaserShot").GetComponent<ChaserItem>();
+                        chaserScript.Desactivate();
+                        chaserShotsCounter = 0;
+                    }
                     Instantiate(chaserBullet, attack_Point.position, Quaternion.identity);
                     Debug.Log("Chaser used and deactivated");
+                    chaserShotsCounter++;
                 }
                 break;
             case 1:
@@ -158,7 +131,7 @@ public class PlayerController : MonoBehaviour
                     expansiveShot = false;
                     ExpansiveItem expansiveScript = GameObject.Find("ExpansiveShot").GetComponent<ExpansiveItem>();
                     expansiveScript.Desactivate();
-                    Instantiate(expansiveBullet, attack_Point.position, Quaternion.identity);
+                    Instantiate(ExpansiveShot_0, attack_Point.position, Quaternion.identity);
                     Debug.Log("Expansive Shot used and deactivated");
                 }
                 break;
@@ -168,7 +141,8 @@ public class PlayerController : MonoBehaviour
                     x2Pts = false;
                     x2PtItem x2PtsScript = GameObject.Find("x2ptShot").GetComponent<x2PtItem>();
                     x2PtsScript.Desactivate();
-                    Instantiate(normalShot, attack_Point.position, Quaternion.identity);
+                    GameSceneScript gameSceneScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
+                    gameSceneScript.activateX2Pts();
                     Debug.Log("x2Pts Shot used and deactivated");
                 }
                 break;
@@ -178,10 +152,53 @@ public class PlayerController : MonoBehaviour
                     shield = false;
                     ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
                     shieldScript.Desactivate();
-                    Instantiate(shieldPower, attack_Point.position, Quaternion.identity);
+                    shieldPower.SetActive(true);
                     Debug.Log("Shield Shot used and deactivated");
                 }
                 break;
         }
     }
+
+    public void instanciateBonus()
+    {
+        Vector3 pos = new Vector3(300f, 1100f, 10f);
+        int randX = Random.Range(300, 1600);
+        pos.x = (float)randX;
+        Instantiate(bonus, pos, Quaternion.identity);
+
+    }
+
+    /*
+        randomizes if a bonus should generate. And invoke its generation
+    */
+    public void generateBonus()
+    {
+        int randNum = Random.Range(0, 2);
+        if (randNum == 1)
+        {
+            Invoke("instanciateBonus", 2f);
+        }
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            destroy();
+        }
+        else if (collision.gameObject.tag == "EnemyShot")
+        {
+            destroy();
+        }
+
+    }
+
+    private void destroy()
+    {
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
+
+
 }
