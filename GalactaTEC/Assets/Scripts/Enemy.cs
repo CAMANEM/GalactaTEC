@@ -44,6 +44,9 @@ public class Enemy : MonoBehaviour
             case 0:
                 moveZigzag();
                 break;
+            case 1:
+                kamikaze(); 
+                break;
         }
     }
 
@@ -97,6 +100,12 @@ public class Enemy : MonoBehaviour
             destinyPosition = transform.position - new Vector3(movementDistanceX, 0, 0);
         }
         
+    }
+
+    void kamikaze()
+    {
+        GameObject playerInstance = GameObject.Find("playerInstance");
+        transform.position = Vector3.MoveTowards(transform.position, playerInstance.transform.position, moveSpeed * Time.deltaTime);
     }
 
     private void destroy()

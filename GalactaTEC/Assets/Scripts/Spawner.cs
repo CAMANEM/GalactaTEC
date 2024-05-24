@@ -76,5 +76,6 @@ public class Spawner : MonoBehaviour
         }
 
         playerInstance = Instantiate(playerShip, playerSpawn.position, Quaternion.identity);
+        playerInstance.name = "playerInstance";
     }
 }
