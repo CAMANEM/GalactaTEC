@@ -44,4 +44,9 @@ public class PlayerLives : MonoBehaviour
         }
         Debug.Log("UI de vidas actualizada.");  // Mensaje al actualizar la UI
     }
+
+    public void subtractLife()
+    {
+        lives--;
+    }
 }
