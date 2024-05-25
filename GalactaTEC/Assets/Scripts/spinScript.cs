@@ -42,6 +42,7 @@ public class spinScript : MonoBehaviour
                 txtPlayer.text = wheelPiece.Label + "\nwill start the game";
 
                 gameManager.getInstance().playerToPlay = wheelPiece.Label;
+                gameManager.getInstance().setOneInsteadOfTwo(false);
                 Invoke("LoadNewScene", 2.0f);
             });
 

@@ -25,6 +25,9 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] UnityEngine.UI.Image imgUser1;
     [SerializeField] UnityEngine.UI.Image imgUser2;
 
+    [SerializeField] UnityEngine.UI.Image imgControl1;
+    [SerializeField] UnityEngine.UI.Image imgControl2;
+
     [SerializeField] TMPro.TextMeshProUGUI txtLevel;
 
     [SerializeField] TMPro.TextMeshProUGUI txtUsername1;
@@ -33,12 +36,16 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI txtScore1;
     [SerializeField] TMPro.TextMeshProUGUI txtScore2;
 
+    [SerializeField] GameObject bonus;
     [SerializeField] int score = 0;
 
     public float x2PtsDuration = 5f;
     public bool x2PtsIsActive = false;
 
-    [SerializeField] GameObject bonus;
+    private User user1;
+    private User user2;
+    private PlayerContext playerContext1;
+    private PlayerContext playerContext2;
 
     // Start is called before the first frame update
     void Start()
@@ -47,11 +54,11 @@ public class GameSceneScript : MonoBehaviour
         AudioManager.getInstance().pauseMusicSource.Play();
         AudioManager.getInstance().pauseMusicSource.Pause();
 
-
         if (gameManager.getInstance().cuantityOfPlayers == 1)
         {
             User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
             gameManager.getInstance().setCurrentPlayer(user);
+            imgControl1.gameObject.SetActive(true);
             txtUsername1.text = user.username;
 
             // Load player image from specified path
@@ -63,18 +70,25 @@ public class GameSceneScript : MonoBehaviour
                 imgUser1.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
         }
-        else if (gameManager.getInstance().cuantityOfPlayers == 2)
+        else if (gameManager.getInstance().cuantityOfPlayers == 2 && !gameManager.getInstance().getOneInsteadOfTwo())
         {
-            User user1 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
-            User user2 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player2Username);
+            user1 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
+            user2 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player2Username);
+
+            playerContext1 = new PlayerContext(PlayerState.Playing, user1.username, 0, 1, user1.ship, 3.0f);
+            playerContext2 = new PlayerContext(PlayerState.Waiting, user2.username, 0, 1, user2.ship, 3.0f);
+            playerContext1.saveInitPlayerState();
+            playerContext2.saveInitPlayerState();
 
             if (user1.username == gameManager.getInstance().playerToPlay)
             {
                 gameManager.getInstance().setCurrentPlayer(user1);
+                imgControl1.gameObject.SetActive(true);
             }
             else
             {
                 gameManager.getInstance().setCurrentPlayer(user2);
+                imgControl2.gameObject.SetActive(true);
             }
 
             txtUsername1.text = user1.username;
@@ -103,6 +117,7 @@ public class GameSceneScript : MonoBehaviour
         {
             User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
             gameManager.getInstance().setCurrentPlayer(user);
+            imgControl1.gameObject.SetActive(true);
             txtUsername1.text = user.username;
 
             // Load player image from specified path
@@ -122,6 +137,7 @@ public class GameSceneScript : MonoBehaviour
     void Update()
     {
         pauseMenu();
+        //pauseOnCollision();
     }
 
     private void pauseMenu()
@@ -142,7 +158,53 @@ public class GameSceneScript : MonoBehaviour
                 AudioManager.getInstance().pauseMusicSource.UnPause();
                 if (AudioManager.getInstance().isAudioPaused == true)
                 {
-                    Time.timeScale = 01f;
+                    Time.timeScale = 0f;
+                }
+            }
+        }
+    }
+
+    private void pauseOnCollision()
+    {
+        // Detect if the "P" key is pressed
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (!pnlPauseDialogue.activeSelf)
+            {
+                gameManager.getInstance().setGameIsPaused(true);
+
+                // Activate the pause panel
+                pnlPauseDialogue.SetActive(true);
+
+                // Pause game time and music
+                Time.timeScale = 0f;
+                AudioManager.getInstance().pauseSoundtrack();
+
+                if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+                {
+                    playerContext1.savePlayerState(score, 1);
+                    playerContext2.restorePlayerState();
+
+                    gameManager.getInstance().playerToPlay = user2.username;
+                    gameManager.getInstance().setCurrentPlayer(user2);
+
+                    imgControl1.gameObject.SetActive(false);
+                    imgControl2.gameObject.SetActive(true);
+
+                    score = playerContext2.getScore();
+                }
+                else
+                {
+                    playerContext2.savePlayerState(score, 1);
+                    playerContext1.restorePlayerState();
+
+                    gameManager.getInstance().playerToPlay = user1.username;
+                    gameManager.getInstance().setCurrentPlayer(user1);
+
+                    imgControl1.gameObject.SetActive(true);
+                    imgControl2.gameObject.SetActive(false);
+
+                    score = playerContext1.getScore();
                 }
             }
         }
@@ -213,7 +275,22 @@ public class GameSceneScript : MonoBehaviour
             points *= 2;
         }
         score += points;
-        txtScore1.text = score.ToString();
+
+        if (gameManager.getInstance().cuantityOfPlayers == 2 && !gameManager.getInstance().getOneInsteadOfTwo())
+        {
+            if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+            {
+                txtScore1.text = score.ToString();
+            }
+            else
+            {
+                txtScore2.text = score.ToString();
+            }
+        }
+        else
+        {
+            txtScore1.text = score.ToString();
+        }
     }
 
     // Generates a bonus in the game

@@ -49,6 +49,7 @@ namespace GameManager
         private User currentPlayer = null;
 
         public string playerToPlay = "";
+        public bool oneInsteadOfTwo = true;
         public bool gameIsPaused = false;
 
         public string validResetPasswordCode = null;
@@ -62,6 +63,16 @@ namespace GameManager
 
         // Paths
         public string usersPath = Application.dataPath + "/Data/users.json";
+
+        public void setOneInsteadOfTwo(bool oneInsteadOfTwo)
+        {
+            this.oneInsteadOfTwo = oneInsteadOfTwo;
+        }
+
+        public bool getOneInsteadOfTwo()
+        {
+            return this.oneInsteadOfTwo;
+        }
 
         public void setCurrentPlayer(User currentPlayer)
         {

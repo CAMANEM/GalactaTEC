@@ -59,13 +59,13 @@ public class GameState
     }
 
     // Metodo para guardar el estado del juego
-    public Memento Save()
+    public Memento save()
     {
         return new Memento(Player, Score, Level, Ship, Lifes);
     }
 
     // Metodo para restaurar el estado del juego
-    public void Restore(Memento memento)
+    public void restore(Memento memento)
     {
         Player = memento.player;
         Score = memento.score;
@@ -107,7 +107,22 @@ public class PlayerContext
         gameState = new GameState(player, score, level, ship, lifes);
     }
 
-    public void SavePlayerState(int score, int level)
+    public string getPlayer()
+    {
+        return gameState.Player;
+    }
+
+    public int getScore()
+    {
+        return gameState.Score;
+    }
+
+    public void saveInitPlayerState()
+    {
+        memento = gameState.save();
+    }
+
+    public void savePlayerState(int score, int level)
     {
         state = PlayerState.Waiting;
         gameState.Lifes -= 1;
@@ -115,24 +130,24 @@ public class PlayerContext
         gameState.Level = level;
 
         // Guardar el estado del juego
-        memento = gameState.Save();
+        memento = gameState.save();
         // Logica para pasar el turno al otro jugador
     }
 
-    public void RestorePlayerState()
+    public void restorePlayerState()
     {
         state = PlayerState.Playing;
         // Restaurar el estado del juego
-        gameState.Restore(memento);
-        Debug.Log(gameState.Player);
-        Debug.Log(gameState.Score);
-        Debug.Log(gameState.Level);
-        Debug.Log(gameState.Ship);
-        Debug.Log(gameState.Lifes);
+        gameState.restore(memento);
+        //Debug.Log("Player: " + gameState.Player);
+        //Debug.Log("Score: " + gameState.Score);
+        //Debug.Log("Level: " + gameState.Level);
+        //Debug.Log("Ship: " + gameState.Ship);
+        //Debug.Log("Lifes: " + gameState.Lifes);
         // Logica para iniciar el turno del otro jugador
     }
 
-    public void GameOver()
+    public void gameOver()
     {
         state = PlayerState.GameOver;
         // Logica para finalizar el juego

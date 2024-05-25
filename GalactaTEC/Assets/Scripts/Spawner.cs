@@ -18,10 +18,14 @@ public class Spawner : MonoBehaviour
     public Transform playerSpawn;
 
     private GameObject playerInstance;
+    private User user;
+    private int ship;
 
     // Start is called before the first frame update
     void Start()
     {
+        user = gameManager.getInstance().getCurrentPlayer();
+        ship = user.ship;
         spawnPlayer();
     }
 
@@ -37,17 +41,29 @@ public class Spawner : MonoBehaviour
         {
             playerInstance.SetActive(true); // Show player ship
         }
+
+        if (user.username != gameManager.getInstance().getCurrentPlayer().username)
+        {
+            user = gameManager.getInstance().getCurrentPlayer();
+            ship = user.ship;
+            spawnPlayer();
+        }
     }
 
     // Generates the player on screen, fixing the z value to 0 to show player on game screen.
     void spawnPlayer(){
+        // Delete the playerInstance if it already exists
+        if (playerInstance != null)
+        {
+            Destroy(playerInstance);
+        }
+
         Vector3 newPos = playerSpawn.position;
         newPos.z = 0f;
         playerSpawn.position = newPos;
 
-        User user = gameManager.getInstance().getCurrentPlayer();
         var playerShip = playerMarauder;
-        switch (user.ship)
+        switch (ship)
         {
             case 0:
                 playerShip = playerMarauder;
