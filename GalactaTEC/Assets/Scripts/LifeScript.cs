@@ -7,14 +7,8 @@ public class LifeScript : MonoBehaviour
 
     public GameObject[] lifes;
     public GameObject[] halfLifes;
-    public GameObject life1;
-    public GameObject life2;
-    public GameObject life3;
-    public GameObject life4;
-    public GameObject halfLife1;
-    public GameObject halfLife2;
-    public GameObject halfLife3;
-    public GameObject halfLife4;
+
+
     // Start is called before the first frame update
     void Start()
     {
