@@ -296,6 +296,12 @@ MonoBehaviour:
   chaserShot: 0
   x2Pts: 0
   shield: 0
+  lifes: 3
+  damaged: 0
+  maxLifes: 5
+  life: {fileID: 6964686269599336790, guid: 2fc3289e9da36e548a6970afa9dcd5b7, type: 3}
+  halfLife: {fileID: 1123240540637578023, guid: ea74a7e55c05b5540949fcf4715d8c9e, type: 3}
+  emptyLife: {fileID: 2913723931924349446, guid: 7771cf492609f6e4a865035933b660dd, type: 3}
 --- !u!1 &4481588910743652098
 GameObject:
   m_ObjectHideFlags: 0

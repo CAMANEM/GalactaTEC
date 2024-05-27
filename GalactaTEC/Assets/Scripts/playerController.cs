@@ -41,13 +41,9 @@ public class PlayerController : MonoBehaviour
 
     int chaserShotsCounter = 0;
 
-    public float lifes = 3f;        // Vidas actuales del jugador
-    public int maxLifes = 5;     // Máximo de vidas que el jugador puede tener
-    public GameObject life;
-    public GameObject halfLife;
-    public GameObject emptyLife;
-    public Transform[] lifePositions;
-    private GameObject[] lifeObjct;
+    public int lifes = 3;        // Vidas actuales del jugador
+    public bool damaged = false;        // Vidas actuales del jugador
+    public int maxLifes = 4;     // Mï¿½ximo de vidas que el jugador puede tener
 
 
     // Start is called before the first frame update
@@ -57,7 +53,6 @@ public class PlayerController : MonoBehaviour
         shieldMidPower.SetActive(false);
         shieldMinPower.SetActive(false);
         //playerLives = GetComponent<PlayerLives>();
-
     }
 
     // Update is called once per frame
@@ -230,11 +225,11 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            destroy();
+            getHighDamage();
         }
         else if (collision.gameObject.tag == "EnemyShot")
         {
-            destroy();
+            getLowDamage();
         }
 
     }
@@ -243,6 +238,34 @@ public class PlayerController : MonoBehaviour
     {
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
+    }
+
+    // Controls life when receives low damage
+    private void getLowDamage(){
+        if (damaged)
+        {
+            lifes--;
+            damaged = false;
+            destroy();
+            // change player
+        }
+        else{
+            damaged = true;
+        }
+        updateUiLifes();
+    }
+
+    // Controls life whe receives high damage
+    private void getHighDamage(){
+        damaged = false;
+        lifes--;
+        updateUiLifes();
+        // change player
+        destroy();
+    }
+
+    private void updateUiLifes(){
+        GameObject.Find("txtLifes").GetComponent<LifeScript>().updateLifes(lifes, damaged);
     }
 
 }
