@@ -268,13 +268,9 @@ MonoBehaviour:
   confettiPrefabs:
   - {fileID: 4039386406996574976, guid: 74d3b626262450f4594ac749f5e3dca1, type: 3}
   - {fileID: 2957425571045421863, guid: c83aea6cd82c3284fa06aae5c49a322e, type: 3}
-  - {fileID: 7684639889747293437, guid: 35df10c8d43ce4c43add3c26d6060eb1, type: 3}
-  - {fileID: 6498639244820157094, guid: 653f777ff570d0744b2ea70765edf161, type: 3}
   spawnPoints:
   - {fileID: 655927611}
   - {fileID: 430381227}
-  - {fileID: 1306664770}
-  - {fileID: 927089459}
 --- !u!1 &103921378
 GameObject:
   m_ObjectHideFlags: 0
