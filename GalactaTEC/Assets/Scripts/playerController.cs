@@ -231,6 +231,10 @@ public class PlayerController : MonoBehaviour
         {
             getLowDamage();
         }
+        else if (collision.gameObject.tag == "ChargedShot")
+        {
+            getHighDamage();
+        }
 
     }
 

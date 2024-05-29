@@ -146,7 +146,6 @@ public class Spawner : MonoBehaviour
         Enemy enemyScript = GameObject.Find(enemies[enemyShooting]).GetComponent<Enemy>();
         enemyScript.shoot();
         enemyShooting++;
-        Debug.Log(enemies.Length);
     }
 
     public void enemyDestroyed(string enemyName){

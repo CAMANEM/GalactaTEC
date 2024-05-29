@@ -108,6 +108,7 @@ MonoBehaviour:
   attackPoint: {fileID: 1924831740214070693}
   enemyShot: {fileID: 2542673588350253259, guid: 69866aa021263124998d12fa77625b11, type: 3}
   explosion: {fileID: 1233808361306730737, guid: b7566856b30a51f499bacf7884275577, type: 3}
+  chargedShot: {fileID: 2086331331210770596, guid: 234d1790689402541ae8aefae4389a78, type: 3}
 --- !u!50 &1405931030988529947
 Rigidbody2D:
   serializedVersion: 4

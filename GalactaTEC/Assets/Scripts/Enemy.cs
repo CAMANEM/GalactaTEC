@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
     private GameObject enemyShot;
     [SerializeField]
     private GameObject explosion;
+    [SerializeField]
+    private GameObject chargedShot;
 
 
     // Start is called before the first frame update
@@ -123,6 +125,14 @@ public class Enemy : MonoBehaviour
     }
 
     public void shoot(){
-        Instantiate(enemyShot, attackPoint.position, Quaternion.identity);
+        int randNum = Random.Range(0, 5);
+        if (randNum == 1)
+        {
+            Instantiate(chargedShot, attackPoint.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(enemyShot, attackPoint.position, Quaternion.identity);
+        }
     }
 }
