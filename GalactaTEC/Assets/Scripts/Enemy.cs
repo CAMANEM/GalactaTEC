@@ -51,6 +51,9 @@ public class Enemy : MonoBehaviour
             case 1:
                 kamikaze(); 
                 break;
+            case 2:
+                moveDiagonally();
+                break;
         }
     }
 
@@ -61,6 +64,9 @@ public class Enemy : MonoBehaviour
             switch(movePattern){
                 case 0:
                     zigzagLimit(collision);
+                    break;
+                case 2:
+                    diagonalLimit(collision);
                     break;
             }
         }
@@ -111,10 +117,48 @@ public class Enemy : MonoBehaviour
         
     }
 
+    /*
+        Movement pattern #1
+        Moves the enemy directly towards the player
+    */
     void kamikaze()
     {
         GameObject playerInstance = GameObject.Find("playerInstance");
         transform.position = Vector3.MoveTowards(transform.position, playerInstance.transform.position, moveSpeed * Time.deltaTime);
+    }
+
+    /*
+        Movement pattern #2
+        Moves the enemy diagonally
+    */
+    void moveDiagonally(){
+        if (transform.position == destinyPosition)
+        {
+            movementDistanceY *= -1;
+            destinyPosition = transform.position - new Vector3( movementDistanceX, movementDistanceY, 0);
+        }
+        transform.position = Vector3.MoveTowards(transform.position, destinyPosition, moveSpeed * Time.deltaTime);
+    }
+
+    void diagonalLimit(Collision2D collision){
+
+        if (collision.gameObject.tag == "VerticalBoundary")
+        {
+            Vector3 newPos = transform.position;
+            newPos.x -= 3.8f;
+            newPos.y -= 0.8f;
+            transform.position = newPos;
+            destinyPosition = transform.position - new Vector3(movementDistanceX, movementDistanceY, 0);
+        }
+        else if (collision.gameObject.tag == "HorizontalBoundary")
+        {
+            Vector3 newPos = transform.position;
+            newPos.x += 0.5f;
+            newPos.y += 2f;
+            transform.position = newPos;
+            destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
+        }
+        
     }
 
     private void destroy()
