@@ -104,7 +104,7 @@ MonoBehaviour:
   moveSpeed: 0.2
   movementDistanceX: -0.5
   movementDistanceY: 0.5
-  movePattern: 2
+  movePattern: 3
   attackPoint: {fileID: 1924831740214070693}
   enemyShot: {fileID: 2542673588350253259, guid: 69866aa021263124998d12fa77625b11, type: 3}
   explosion: {fileID: 1233808361306730737, guid: b7566856b30a51f499bacf7884275577, type: 3}

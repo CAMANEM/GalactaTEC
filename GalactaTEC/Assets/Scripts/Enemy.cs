@@ -46,13 +46,16 @@ public class Enemy : MonoBehaviour
     void move(){
         switch(movePattern){
             case 0:
-                moveZigzag();
+                moveSideToSide();
                 break;
             case 1:
                 kamikaze(); 
                 break;
             case 2:
                 moveDiagonally();
+                break;
+            case 3:
+                moveZigzag();
                 break;
         }
     }
@@ -63,10 +66,13 @@ public class Enemy : MonoBehaviour
         {
             switch(movePattern){
                 case 0:
-                    zigzagLimit(collision);
+                    sideTiSideLimit(collision);
                     break;
                 case 2:
                     diagonalLimit(collision);
+                    break;
+                case 3:
+                    zigzagLimit(collision);
                     break;
             }
         }
@@ -85,7 +91,7 @@ public class Enemy : MonoBehaviour
         Movement pattern #0
         Moves the enemy with a zigzag pattern between screen borders
     */
-    void moveZigzag(){
+    void moveSideToSide(){
         if (transform.position == destinyPosition)
         {
             destinyPosition = transform.position - new Vector3( movementDistanceX, 0, 0);
@@ -97,7 +103,7 @@ public class Enemy : MonoBehaviour
         Movement pattern #0
         Controls the movement when the enemy collides with a screen border
     */
-    void zigzagLimit(Collision2D collision){
+    void sideTiSideLimit(Collision2D collision){
 
         if (collision.gameObject.tag == "VerticalBoundary")
         {
@@ -160,6 +166,33 @@ public class Enemy : MonoBehaviour
         }
         
     }
+
+
+    private void moveZigzag(){
+
+        if (transform.position == destinyPosition)
+        {
+            destinyPosition = transform.position - new Vector3( movementDistanceX, 0, 0);
+        }
+        transform.position = Vector3.MoveTowards(transform.position, destinyPosition, moveSpeed * Time.deltaTime);
+    }
+
+    private void zigzagLimit(Collision2D collision){
+
+        if (collision.gameObject.tag == "VerticalBoundary")
+        {
+            movementDistanceX *= -1;
+            destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
+        }
+        else if (collision.gameObject.tag == "HorizontalBoundary")
+        {
+            Vector3 newPos = transform.position;
+            newPos.y += 2f;
+            transform.position = newPos;
+            destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
+        }
+    }
+
 
     private void destroy()
     {
