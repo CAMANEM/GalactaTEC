@@ -25,6 +25,7 @@ public class Spawner : MonoBehaviour
     private int enemyType = 0;
     public string[] enemies = new string[20];
     private int enemyShooting = 0;
+    public bool alreadyShotCharged = false;
 
     // Start is called before the first frame update
     void Start()
@@ -132,9 +133,37 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // makes the enemy shoot after all the other enemies already shot
+    // calls a validation for the enemy with the shooting turn and select if the enemy shoul shoot a normal or charged shot
     private void enemyShoot(){
 
+        validateEnemy();
+        Enemy enemyScript = GameObject.Find(enemies[enemyShooting]).GetComponent<Enemy>();
+        if (alreadyShotCharged)
+        {
+            enemyScript.normalShoot();
+        }
+        else
+        {
+            int randNum = Random.Range(0, 5);
+            if (randNum == 1)
+            {
+                enemyScript.chargedShoot();
+                alreadyShotCharged = true;
+            }
+            else
+            {
+                enemyScript.normalShoot();
+            }    
+        }
+        enemyShooting++;
+    }
+
+    /* validates that the enemy with the shooting turn exists. 
+        if not, reboots the shooting 
+        if there is no more enemies, ends the shooting cycle
+    */
+    private void validateEnemy(){
+        
         if (enemies.Length == 0)
         {
             CancelInvoke();
@@ -143,9 +172,6 @@ public class Spawner : MonoBehaviour
         {
             enemyShooting = 0;
         }
-        Enemy enemyScript = GameObject.Find(enemies[enemyShooting]).GetComponent<Enemy>();
-        enemyScript.shoot();
-        enemyShooting++;
     }
 
     public void enemyDestroyed(string enemyName){

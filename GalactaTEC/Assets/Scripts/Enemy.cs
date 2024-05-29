@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     private GameObject chargedShot;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -124,15 +125,13 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void shoot(){
-        int randNum = Random.Range(0, 5);
-        if (randNum == 1)
-        {
-            Instantiate(chargedShot, attackPoint.position, Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(enemyShot, attackPoint.position, Quaternion.identity);
-        }
+    public void normalShoot()
+    {
+        Instantiate(enemyShot, attackPoint.position, Quaternion.identity);
+    }
+
+    public void chargedShoot()
+    {
+        Instantiate(chargedShot, attackPoint.position, Quaternion.identity);
     }
 }
