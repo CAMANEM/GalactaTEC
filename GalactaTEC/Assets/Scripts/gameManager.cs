@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UserManager;
+using HallOfFame;
 
 namespace GameManager
 {
@@ -141,6 +142,22 @@ namespace GameManager
         public Dictionary<int, int> getlevelAttackPatterns()
         {
             return levelAttackPatterns;
+        }
+
+        public bool isScoreNewRecord(int score)
+        {
+            hallOfFameScript hallOfFame = new hallOfFameScript();
+            
+            hallOfFame.setHallOfFameEntriesByPlayers();
+
+            if (score > hallOfFame.hallOfFameEntries[hallOfFame.hallOfFameEntries.Count-1].score)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
