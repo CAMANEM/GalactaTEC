@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using System.IO;
+using System.Linq;
+
 using GameManager;
 
 namespace UserManager
@@ -124,6 +127,35 @@ namespace UserManager
             Users users = JsonUtility.FromJson<Users>(usersJSON);
 
             return users.users;
+        }
+
+        public void updatePlayerScoreRecord(string username, int score)
+        {
+            string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+
+            Users users = JsonUtility.FromJson<Users>(usersJSON);
+
+
+            foreach (User user in users)
+            {
+                if (user.username == username)
+                {
+                    int[] userScoreRecord = user.scoreRecord;
+                    int minimunScore = userScoreRecord.Min();
+
+                    if (score > minimunScore && !userScoreRecord.Contains(score))
+                    {
+                        int minimunScoreIndex = Array.IndexOf(userScoreRecord, minimunScore);
+                        userScoreRecord[minimunScoreIndex] = score;
+
+                        Array.Sort(userScoreRecord);
+                        Array.Reverse(userScoreRecord);
+
+                        string updatedJSON = JsonUtility.ToJson(users);
+                        File.WriteAllText(usersPath, updatedJSON);
+                    }
+                }
+            }
         }
     }
 }

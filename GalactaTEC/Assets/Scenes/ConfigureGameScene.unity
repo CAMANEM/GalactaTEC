@@ -3122,6 +3122,7 @@ MonoBehaviour:
   loggedUserFavoriteSoundtracks: []
   clipPath: 
   isAudioPaused: 0
+  audioVolumeBeforePause: 0
 --- !u!4 &1375910377
 Transform:
   m_ObjectHideFlags: 0

@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 using UnityEngine.SceneManagement;
 
 using audio_manager;
+using GameManager;
+using UserManager;
 
 [System.Serializable]
 public class HallOfFameEntry
@@ -12,6 +15,7 @@ public class HallOfFameEntry
     public string photoPath;
     public string username;
     public int score;
+    public int scoreAverage;
 }
 
 [System.Serializable]
@@ -37,14 +41,9 @@ public class hallOfFameScript : MonoBehaviour
     {
         AudioManager.getInstance().playBackgroundSoundtrack();
 
-        // Load JSON from file
-        string jsonString = File.ReadAllText(jsonFilePath);
+        this.setHallOfFameEntriesByPlayers();
 
-        // Deserialize the JSON into the list of hall of fame entries
-        hallOfFameEntries = JsonUtility.FromJson<HallOfFameEntryList>(jsonString).hallOfFame;
-
-        // Sort the list by scores from highest to lowest
-        hallOfFameEntries.Sort((x, y) => y.score.CompareTo(x.score));
+        this.hallOfFameEntries.OrderBy(hallOfFameEntry => hallOfFameEntry.score).ThenByDescending(hallOfFameEntry => hallOfFameEntry.scoreAverage).ToList();
 
         // Show data in console and instantiate player entries
         int numEntries = Mathf.Min(hallOfFameEntries.Count, 5); // Limit to top 5 entries
@@ -89,11 +88,6 @@ public class hallOfFameScript : MonoBehaviour
                 txtNum.text = (i + 1).ToString();
                 txtUsername.text = "Available";
                 txtScore.text = "---";
-
-                byte[] imageData = File.ReadAllBytes(Application.dataPath + "/Data/UserPhotos/default-avatar.png");
-                Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(imageData);
-                imgUser.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
 
             // Move down 130 pixels per instance
@@ -106,6 +100,51 @@ public class hallOfFameScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void setHallOfFameEntriesByPlayers()
+    {
+        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+
+        Users users = JsonUtility.FromJson<Users>(usersJSON);
+
+        HallOfFameEntry hallOfFameEntry;
+
+        foreach (User user in users)
+        {
+            int userTotalScore = 0;
+            int userScoresNonZero = 0;
+            int userScoreAverage = 0;
+            
+            foreach (int score in user.scoreRecord)
+            {
+                if (score > 0)
+                {
+                    userScoresNonZero++;
+                    userTotalScore += score;
+                }
+            }
+
+            if (userScoresNonZero != 0)
+            {
+                userScoreAverage = userTotalScore / userScoresNonZero;
+            }
+
+            for (int i = 0; i < userScoresNonZero; i++)
+            {
+                hallOfFameEntry = new HallOfFameEntry();
+
+                hallOfFameEntry.photoPath = user.userImage;
+                hallOfFameEntry.username = user.username;
+                hallOfFameEntry.scoreAverage = userScoreAverage;
+                hallOfFameEntry.score = user.scoreRecord[i];
+                this.hallOfFameEntries.Add(hallOfFameEntry);
+            }
+        }
+
+        IEnumerable<HallOfFameEntry> hallOfFameEntriesToOrder = this.hallOfFameEntries.OrderByDescending(hallOfFameEntry => hallOfFameEntry.score).ThenByDescending(hallOfFameEntry => hallOfFameEntry.scoreAverage);
+
+        this.hallOfFameEntries = hallOfFameEntriesToOrder.ToList();
     }
 
     public void _BackButtonOnClick()
