@@ -24,7 +24,6 @@ public class LifeScript : MonoBehaviour
     public void updateLifes(int playerLife, bool damaged){
         playerLife--;
         for (int i = 0; i <= 3; i++) {
-            Debug.Log(i);
             if(i < playerLife)
             {
                 lifes[i].SetActive(true);

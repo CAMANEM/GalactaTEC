@@ -246,8 +246,8 @@ public class PlayerController : MonoBehaviour
         {
             lifes--;
             damaged = false;
-            destroy();
             // change player
+            destroy();
         }
         else{
             damaged = true;

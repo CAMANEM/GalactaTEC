@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 using GameManager;
 using UserManager;
 
@@ -16,10 +16,15 @@ public class Spawner : MonoBehaviour
     [SerializeField] GameObject playerNautolanScout;
     [SerializeField] GameObject playerMarauder;
     public Transform playerSpawn;
-
     private GameObject playerInstance;
     private User user;
     private int ship;
+
+    [SerializeField] GameObject enemyKlaedBattlecruiser;
+    public Transform EnemySpawn;
+    private int enemyType = 0;
+    public string[] enemies = new string[20];
+    private int enemyShooting = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +32,8 @@ public class Spawner : MonoBehaviour
         user = gameManager.getInstance().getCurrentPlayer();
         ship = user.ship;
         spawnPlayer();
+        spawnEnemies();
+        InvokeRepeating(nameof(enemyShoot), 3, 2.5f);
     }
 
     // Update is called once per frame
@@ -93,5 +100,57 @@ public class Spawner : MonoBehaviour
 
         playerInstance = Instantiate(playerShip, playerSpawn.position, Quaternion.identity);
         playerInstance.name = "playerInstance";
+    }
+
+
+    private void spawnEnemies(){
+        
+        Vector3 enemyPos = EnemySpawn.position;
+        enemyPos.z = 0f;
+
+        var enemyShip = enemyKlaedBattlecruiser;
+
+        switch (enemyType)
+        {
+            case 0:
+                enemyShip = enemyKlaedBattlecruiser; 
+                break;
+        }
+        int enemyIndex = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                GameObject newEnemy = Instantiate(enemyShip, enemyPos, Quaternion.identity);
+                newEnemy.name = "enemy" + enemyIndex.ToString();
+                enemies[enemyIndex] = newEnemy.name;
+                enemyIndex++;
+                enemyPos.x += 0.5f;
+            }
+            enemyPos.x -= 2.5f;
+            enemyPos.y -= 0.5f;
+        }
+    }
+
+    // makes the enemy shoot after all the other enemies already shot
+    private void enemyShoot(){
+
+        if (enemies.Length == 0)
+        {
+            CancelInvoke();
+        }
+        else if (enemies.Length <= enemyShooting)
+        {
+            enemyShooting = 0;
+        }
+        Enemy enemyScript = GameObject.Find(enemies[enemyShooting]).GetComponent<Enemy>();
+        enemyScript.shoot();
+        enemyShooting++;
+        Debug.Log(enemies.Length);
+    }
+
+    public void enemyDestroyed(string enemyName){
+
+        enemies = enemies.Where(val => val != enemyName).ToArray();
     }
 }

@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
 
     public float moveSpeed = 0.2f;
-    public float movementDistanceX = 0.5f;
+    public float movementDistanceX = -0.5f;
     public float movementDistanceY = 0.5f;
 
     public byte movePattern = 0;
@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.transform.Rotate(180f, 0, 0);
         destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
     }
 
@@ -91,13 +92,18 @@ public class Enemy : MonoBehaviour
 
         if (collision.gameObject.tag == "VerticalBoundary")
         {
-            movementDistanceX *= -1;
+            Vector3 newPos = transform.position;
+            newPos.x -= 3.8f;
+            transform.position = newPos;
             destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
         }
         else if (collision.gameObject.tag == "HorizontalBoundary")
         {
-            movementDistanceY *= -1;
-            destinyPosition = transform.position - new Vector3(movementDistanceX, 0, 0);
+            Vector3 newPos = transform.position;
+            newPos.x += 0.5f;
+            newPos.y += 2f;
+            transform.position = newPos;
+            destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
         }
         
     }
@@ -110,8 +116,13 @@ public class Enemy : MonoBehaviour
 
     private void destroy()
     {
+        Spawner spawnerScript = GameObject.Find("MainCamera").GetComponent<Spawner>();
+        spawnerScript.enemyDestroyed(gameObject.name);
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 
+    public void shoot(){
+        Instantiate(enemyShot, attackPoint.position, Quaternion.identity);
+    }
 }
