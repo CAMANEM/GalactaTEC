@@ -126,10 +126,10 @@ public class Spawner : MonoBehaviour
                 newEnemy.name = "enemy" + enemyIndex.ToString();
                 enemies[enemyIndex] = newEnemy.name;
                 enemyIndex++;
-                enemyPos.x += 0.5f;
+                enemyPos.x += 0.25f;
             }
-            enemyPos.x -= 2.5f;
-            enemyPos.y -= 0.5f;
+            enemyPos.x -= 1.25f;
+            enemyPos.y -= 0.25f;
         }
     }
 

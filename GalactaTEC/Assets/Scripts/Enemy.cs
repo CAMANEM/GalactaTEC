@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         gameObject.transform.Rotate(180f, 0, 0);
-        destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
+        destinyPosition = transform.position - new Vector3(0, 1.25f, 0);
     }
 
     // Update is called once per frame
