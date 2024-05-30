@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 0.2f;
     public float movementDistanceX = -0.5f;
     public float movementDistanceY = 0.5f;
+    private bool moveLaterally = true;
 
     public byte movePattern = 0;
     private Vector3 destinyPosition;
@@ -27,7 +28,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         gameObject.transform.Rotate(180f, 0, 0);
-        destinyPosition = transform.position - new Vector3(0, 1.25f, 0);
+        destinyPosition = transform.position - new Vector3(0, 1f, 0);
     }
 
     // Update is called once per frame
@@ -52,10 +53,13 @@ public class Enemy : MonoBehaviour
                 kamikaze(); 
                 break;
             case 2:
-                moveDiagonally();
+                moveZigzag();
                 break;
             case 3:
-                moveZigzag();
+                moveShortSTS();
+                break;
+            case 4:
+                moveUpDown();
                 break;
         }
     }
@@ -69,10 +73,13 @@ public class Enemy : MonoBehaviour
                     sideTiSideLimit(collision);
                     break;
                 case 2:
-                    diagonalLimit(collision);
+                    zigzagLimit(collision);
                     break;
                 case 3:
-                    zigzagLimit(collision);
+                    shortSTSLimit(collision);
+                    break;
+                case 4:
+                    upDownLimit(collision);
                     break;
             }
         }
@@ -137,7 +144,7 @@ public class Enemy : MonoBehaviour
         Movement pattern #2
         Moves the enemy diagonally
     */
-    void moveDiagonally(){
+    void moveZigzag(){
         if (transform.position == destinyPosition)
         {
             movementDistanceY *= -1;
@@ -146,7 +153,7 @@ public class Enemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, destinyPosition, moveSpeed * Time.deltaTime);
     }
 
-    void diagonalLimit(Collision2D collision){
+    void zigzagLimit(Collision2D collision){
 
         if (collision.gameObject.tag == "VerticalBoundary")
         {
@@ -168,7 +175,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    private void moveZigzag(){
+    private void moveShortSTS(){
 
         if (transform.position == destinyPosition)
         {
@@ -177,7 +184,7 @@ public class Enemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, destinyPosition, moveSpeed * Time.deltaTime);
     }
 
-    private void zigzagLimit(Collision2D collision){
+    private void shortSTSLimit(Collision2D collision){
 
         if (collision.gameObject.tag == "VerticalBoundary")
         {
@@ -189,6 +196,49 @@ public class Enemy : MonoBehaviour
             Vector3 newPos = transform.position;
             newPos.y += 2f;
             transform.position = newPos;
+            destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
+        }
+    }
+
+    private void moveUpDown(){
+
+        if (transform.position == destinyPosition)
+        {
+            if (moveLaterally)
+            {
+                destinyPosition = transform.position - new Vector3( movementDistanceX, 0, 0);
+                moveLaterally = false;
+            }
+            else{
+                movementDistanceY *= -1;
+                destinyPosition = transform.position - new Vector3( 0, movementDistanceY, 0);
+                moveLaterally = true;
+            }
+        }
+        transform.position = Vector3.MoveTowards(transform.position, destinyPosition, moveSpeed * Time.deltaTime);
+    }
+
+
+    void upDownLimit(Collision2D collision){
+
+        if (collision.gameObject.tag == "VerticalBoundary")
+        {
+            Vector3 newPos = transform.position;
+            newPos.x -= 3.8f;
+            newPos.y -= 0.8f;
+            transform.position = newPos;
+            destinyPosition = transform.position - new Vector3(movementDistanceX, 0, 0);
+        }
+        else if (collision.gameObject.tag == "HorizontalBoundary")
+        {
+            Vector3 newPos = transform.position;
+            newPos.x += 0.5f;
+            newPos.y += 2f;
+            transform.position = newPos;
+            if (movementDistanceY < 0)
+            {
+                movementDistanceY *= -1;
+            }
             destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
         }
     }
