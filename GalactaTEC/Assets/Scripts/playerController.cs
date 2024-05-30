@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject shieldMinPower;
 
+    public int shieldLevel = 0;
+
     [SerializeField]
     private Transform attack_Point;
     public GameObject ExpansiveShot_0;
@@ -52,6 +54,7 @@ public class PlayerController : MonoBehaviour
         shieldPower.SetActive(false);
         shieldMidPower.SetActive(false);
         shieldMinPower.SetActive(false);
+        instanciateBonus();
         //playerLives = GetComponent<PlayerLives>();
     }
 
@@ -194,6 +197,7 @@ public class PlayerController : MonoBehaviour
                     ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
                     shieldScript.Desactivate();
                     shieldPower.SetActive(true);
+                    shieldLevel = 3;
                     Debug.Log("Shield Shot used and deactivated");
                 }
                 break;
@@ -201,8 +205,12 @@ public class PlayerController : MonoBehaviour
     }
 
     public void instanciateBonus(){
-        Vector3 pos =  new Vector3(300f, 1100f, 10f); 
-        int randX = Random.Range(300, 1600);
+        // x 959.4363
+        // x 962.55
+        // y 608.34
+        // y 608.38
+        Vector3 pos =  new Vector3(959f, 608.10f, 10f); 
+        int randX = Random.Range(960, 962);
         pos.x = (float)randX;
         Instantiate(bonus, pos, Quaternion.identity);
 
@@ -244,9 +252,59 @@ public class PlayerController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    // Absorbs the damage if it is active
+    private void getLowDamageShield(){
+
+        if (shieldLevel == 1)
+        {
+            shieldLevel--;
+            shieldMinPower.SetActive(false);
+        }
+        else if (shieldLevel == 2)
+        {
+            shieldLevel--;
+            shieldMidPower.SetActive(false);;
+            shieldMinPower.SetActive(true);
+        }
+        else if (shieldLevel == 3)
+        {
+            shieldLevel--;
+            shieldPower.SetActive(false);;
+            shieldMidPower.SetActive(true);
+        }
+    }
+
+    // Absorbs the damage if it is active
+    private void getHighDamageShield(){
+
+        if (shieldLevel == 1)
+        {
+            shieldLevel--;
+            shieldMinPower.SetActive(false);
+            getLowDamage();
+        }
+        else if (shieldLevel == 2)
+        {
+            shieldLevel -= 2;
+            shieldMidPower.SetActive(false);
+        }
+        else if (shieldLevel == 3)
+        {
+            shieldLevel -= 2;
+            shieldPower.SetActive(false);;
+            shieldMinPower.SetActive(true);
+        }
+    }
+
+
     // Controls life when receives low damage
     private void getLowDamage(){
-        if (damaged)
+
+        if (0 < shieldLevel)
+        {
+            getLowDamageShield();
+        }
+        else if(damaged)
         {
             lifes--;
             damaged = false;
@@ -261,15 +319,27 @@ public class PlayerController : MonoBehaviour
 
     // Controls life whe receives high damage
     private void getHighDamage(){
-        damaged = false;
-        lifes--;
-        updateUiLifes();
-        // change player
-        destroy();
+        if (0 < shieldLevel)
+        {
+            getHighDamageShield();
+        }
+        else
+        {
+            damaged = false;
+            lifes--;
+            updateUiLifes();
+            // change player
+            destroy();    
+        }
     }
 
     private void updateUiLifes(){
         GameObject.Find("txtLifes").GetComponent<LifeScript>().updateLifes(lifes, damaged);
+    }
+
+    public void increaseLifes(){
+        lifes++;
+        updateUiLifes();
     }
 
 }

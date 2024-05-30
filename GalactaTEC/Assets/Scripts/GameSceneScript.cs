@@ -130,7 +130,7 @@ public class GameSceneScript : MonoBehaviour
             }
         }
 
-        generateBonus();
+        //generateBonus();
     }
 
     // Update is called once per frame
