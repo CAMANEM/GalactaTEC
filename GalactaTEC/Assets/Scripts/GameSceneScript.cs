@@ -39,7 +39,7 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] GameObject bonus;
     [SerializeField] int score = 0;
 
-    public float x2PtsDuration = 5f;
+    public float x2PtsDuration = 15f;
     public bool x2PtsIsActive = false;
 
     private User user1;

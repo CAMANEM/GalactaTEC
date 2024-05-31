@@ -410,19 +410,18 @@ MonoBehaviour:
   shieldPower: {fileID: 1401672789587672278}
   shieldMidPower: {fileID: 1034398991699653856}
   shieldMinPower: {fileID: 6413506738433242148}
+  shieldLevel: 0
   attack_Point: {fileID: 3645078400400222307}
   ExpansiveShot_0: {fileID: 8406697852635482143, guid: 9571c158572ad0449b277b2d7872f6d2, type: 3}
   explosion: {fileID: 0}
-  playerDestruction: {fileID: 0}
   bonus: {fileID: 5303454417995827970, guid: de1a759db421beb41bd04e6f228dd6bf, type: 3}
-  minY: 350
-  maxY: 910
-  minX: 300
-  maxX: 1600
   expansiveShot: 0
   chaserShot: 0
   x2Pts: 0
   shield: 0
+  lifes: 3
+  damaged: 0
+  maxLifes: 4
 --- !u!1 &5128412255177940471
 GameObject:
   m_ObjectHideFlags: 0

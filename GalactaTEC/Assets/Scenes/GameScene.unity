@@ -1656,7 +1656,7 @@ MonoBehaviour:
   txtScore2: {fileID: 246778749}
   bonus: {fileID: 5303454417995827970, guid: de1a759db421beb41bd04e6f228dd6bf, type: 3}
   score: 0
-  x2PtsDuration: 5
+  x2PtsDuration: 15
   x2PtsIsActive: 0
 --- !u!82 &653870827
 AudioSource:

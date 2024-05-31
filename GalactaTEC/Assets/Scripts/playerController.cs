@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour
     public int shieldLevel = 0;
 
     [SerializeField]
+    private GameObject bonusAura;
+
+    [SerializeField]
     private Transform attack_Point;
     public GameObject ExpansiveShot_0;
 
@@ -187,6 +190,8 @@ public class PlayerController : MonoBehaviour
                     x2PtsScript.Desactivate();
                     GameSceneScript gameSceneScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
                     gameSceneScript.activateX2Pts();
+                    bonusAura.SetActive(true);
+                    Invoke("desactivateBonusAura", 15f);
                     Debug.Log("x2Pts Shot used and deactivated");
                 }
                 break;
@@ -202,6 +207,10 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void desactivateBonusAura(){
+        bonusAura.SetActive(false);
     }
 
     public void instanciateBonus(){
