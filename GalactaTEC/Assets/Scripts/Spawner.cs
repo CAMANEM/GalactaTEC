@@ -21,8 +21,15 @@ public class Spawner : MonoBehaviour
     private int ship;
 
     [SerializeField] GameObject enemyKlaedBattlecruiser;
+    [SerializeField] GameObject enemyKlaedDreadnought;
+    [SerializeField] GameObject enemyNairanBattlecruiser;
+    [SerializeField] GameObject enemyNairanDreadnought;
+    [SerializeField] GameObject enemyNautolanBattlecruiser;
+    [SerializeField] GameObject enemyNautolanDreadnought;
+
+
     public Transform EnemySpawn;
-    private int enemyType = 0;
+    public int enemyType = 0;
     public string[] enemies = new string[20];
     private int enemyShooting = 0;
     public bool alreadyShotCharged = false;
@@ -115,6 +122,21 @@ public class Spawner : MonoBehaviour
         {
             case 0:
                 enemyShip = enemyKlaedBattlecruiser; 
+                break;
+            case 1:
+                enemyShip = enemyKlaedDreadnought; 
+                break;
+            case 2:
+                enemyShip = enemyNairanBattlecruiser; 
+                break;
+            case 3:
+                enemyShip = enemyNairanDreadnought; 
+                break;
+            case 4:
+                enemyShip = enemyNautolanBattlecruiser; 
+                break;
+            case 5:
+                enemyShip = enemyNautolanDreadnought; 
                 break;
         }
         int enemyIndex = 0;

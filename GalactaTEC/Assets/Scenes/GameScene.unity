@@ -2881,7 +2881,13 @@ MonoBehaviour:
   playerMarauder: {fileID: 1377675035261311515, guid: 0461e42f69293db4db0bca15b7d5a007, type: 3}
   playerSpawn: {fileID: 777140346}
   enemyKlaedBattlecruiser: {fileID: 6088401941160770485, guid: b10de5ea1f62b3a4cb972bb2ca206ea2, type: 3}
+  enemyKlaedDreadnought: {fileID: 6612019109509930038, guid: 951acf992e17ace47ac61e2eb92ee7e4, type: 3}
+  enemyNairanBattlecruiser: {fileID: 9021913635187676080, guid: 0ff431d02178dde4cbfa409c95384f6a, type: 3}
+  enemyNairanDreadnought: {fileID: 3580836094862741587, guid: d6b1939e255230a4b8cfe0d1e6670820, type: 3}
+  enemyNautolanBattlecruiser: {fileID: 2582365015350162386, guid: 9f1d91e114d701c4887653680cc18210, type: 3}
+  enemyNautolanDreadnought: {fileID: 7851049359147954224, guid: 8a05c4d7e1f8c7c4283b518668f2e05c, type: 3}
   EnemySpawn: {fileID: 1518224437}
+  enemyType: 5
   enemies:
   - 
   - 
