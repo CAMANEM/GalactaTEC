@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     public int lifes = 3;        // Vidas actuales del jugador
     public bool damaged = false;        // Vidas actuales del jugador
-    public int maxLifes = 4;     // M�ximo de vidas que el jugador puede tener
+    public int maxLifes = 4;     // Maximo de vidas que el jugador puede tener
 
 
     // Start is called before the first frame update
@@ -257,6 +257,7 @@ public class PlayerController : MonoBehaviour
 
     private void destroy()
     {
+        GameObject.Find("Canvas").GetComponent<GameSceneScript>().pauseOnCollision(getLifes());
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
@@ -349,6 +350,18 @@ public class PlayerController : MonoBehaviour
     public void increaseLifes(){
         lifes++;
         updateUiLifes();
+    }
+
+    public float getLifes(){
+
+        if (damaged)
+        {
+            return (float)lifes - 0.5f;
+        }
+        else
+        {
+            return (float)lifes;
+        }
     }
 
 }

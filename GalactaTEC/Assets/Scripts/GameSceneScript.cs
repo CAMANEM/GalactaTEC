@@ -38,6 +38,8 @@ public class GameSceneScript : MonoBehaviour
 
     [SerializeField] GameObject bonus;
     [SerializeField] int score = 0;
+    [SerializeField] int level = 1;
+    [SerializeField] float lifes = 3f;
 
     public float x2PtsDuration = 15f;
     public bool x2PtsIsActive = false;
@@ -164,10 +166,11 @@ public class GameSceneScript : MonoBehaviour
         }
     }
 
-    private void pauseOnCollision()
+    public void pauseOnCollision(float playerLifes)
     {
+        lifes = playerLifes;
         // Detect if the "P" key is pressed
-        if (Input.GetKeyDown(KeyCode.P))
+        if (gameManager.getInstance().cuantityOfPlayers == 2)
         {
             if (!pnlPauseDialogue.activeSelf)
             {
@@ -298,5 +301,13 @@ public class GameSceneScript : MonoBehaviour
         Debug.Log("Something went wrong loading player information");
 
         Instantiate(bonus, transform.position, Quaternion.identity);
+    }
+
+    public void levelCompleted(){
+        if (level < 3)
+        {
+            level++;
+        }
+        Debug.Log("Level Completed");
     }
 }

@@ -145,7 +145,6 @@ public class Spawner : MonoBehaviour
             {
                 GameObject newEnemy = Instantiate(enemyShip, enemyPos, Quaternion.identity);
                 newEnemy.name = "enemy" + enemyIndex.ToString();
-                Debug.Log(enemyIndex);
                 enemies[enemyIndex] = newEnemy.name;
                 enemyIndex++;
                 enemyPos.x += 0.2f;
@@ -160,7 +159,6 @@ public class Spawner : MonoBehaviour
 
         if (validateEnemy())
         {
-            Debug.Log("pew pew");
             Enemy enemyScript = GameObject.Find(enemies[enemyShooting]).GetComponent<Enemy>();
             enemyScript.shoot();
             enemyShooting++;
@@ -199,6 +197,6 @@ public class Spawner : MonoBehaviour
 
 
     public void levelCompleted(){
-        Debug.Log("Nivel Completado. Agrega aquí qué debe suceder");
+        GameObject.Find("Canvas").GetComponent<GameSceneScript>().levelCompleted();
     }
 }
