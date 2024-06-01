@@ -139,9 +139,9 @@ public class Spawner : MonoBehaviour
                 break;
         }
         int enemyIndex = 0;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 7; j++)
             {
                 GameObject newEnemy = Instantiate(enemyShip, enemyPos, Quaternion.identity);
                 newEnemy.name = "enemy" + enemyIndex.ToString();
@@ -149,7 +149,7 @@ public class Spawner : MonoBehaviour
                 enemyIndex++;
                 enemyPos.x += 0.25f;
             }
-            enemyPos.x -= 1.25f;
+            enemyPos.x -= 1.75f;
             enemyPos.y -= 0.25f;
         }
     }
