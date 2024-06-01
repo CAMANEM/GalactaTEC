@@ -32,7 +32,6 @@ public class Spawner : MonoBehaviour
     public int enemyType = 0;
     public string[] enemies = new string[20];
     private int enemyShooting = 0;
-    public bool alreadyShotCharged = false;
 
     // Start is called before the first frame update
     void Start()
@@ -161,23 +160,7 @@ public class Spawner : MonoBehaviour
         if (validateEnemy())
         {
             Enemy enemyScript = GameObject.Find(enemies[enemyShooting]).GetComponent<Enemy>();
-            if (alreadyShotCharged)
-            {
-                enemyScript.normalShoot();
-            }
-            else
-            {
-                int randNum = Random.Range(0, 5);
-                if (randNum == 1)
-                {
-                    enemyScript.chargedShoot();
-                    alreadyShotCharged = true;
-                }
-                else
-                {
-                    enemyScript.normalShoot();
-                }    
-            }
+            enemyScript.shoot();
             enemyShooting++;
         }
     }

@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
     private GameObject explosion;
     [SerializeField]
     private GameObject chargedShot;
+    private bool alreadyShotCharged = false;
+
 
 
 
@@ -252,12 +254,33 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void normalShoot()
+    public void shoot(){
+
+        if (alreadyShotCharged)
+            {
+                normalShoot();
+            }
+            else
+            {
+                int randNum = Random.Range(0, 5);
+                if (randNum == 1)
+                {
+                    chargedShoot();
+                    alreadyShotCharged = true;
+                }
+                else
+                {
+                    normalShoot();
+                }    
+            }
+    }
+
+    private void normalShoot()
     {
         Instantiate(enemyShot, attackPoint.position, Quaternion.identity);
     }
 
-    public void chargedShoot()
+    private void chargedShoot()
     {
         Instantiate(chargedShot, attackPoint.position, Quaternion.identity);
     }
