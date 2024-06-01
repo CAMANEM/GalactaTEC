@@ -40,6 +40,10 @@ public class NormalShot : MonoBehaviour
         {
             destroy();
         }
+        else if (collision.gameObject.tag == "HorizontalBoundary")
+        {
+            destroy();
+        }
     }
 
 
