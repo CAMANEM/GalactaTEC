@@ -257,22 +257,22 @@ public class Enemy : MonoBehaviour
     public void shoot(){
 
         if (alreadyShotCharged)
+        {
+            normalShoot();
+        }
+        else
+        {
+            int randNum = Random.Range(0, 5);
+            if (randNum == 1)
             {
-                normalShoot();
+                chargedShoot();
+                alreadyShotCharged = true;
             }
             else
             {
-                int randNum = Random.Range(0, 5);
-                if (randNum == 1)
-                {
-                    chargedShoot();
-                    alreadyShotCharged = true;
-                }
-                else
-                {
-                    normalShoot();
-                }    
-            }
+                normalShoot();
+            }    
+        }
     }
 
     private void normalShoot()

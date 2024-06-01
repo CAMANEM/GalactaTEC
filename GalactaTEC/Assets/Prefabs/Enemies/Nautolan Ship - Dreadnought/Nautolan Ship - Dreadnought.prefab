@@ -167,7 +167,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
   m_LocalPosition: {x: 960.9619, y: 606.73474, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4753462292883736810}
@@ -241,7 +241,7 @@ MonoBehaviour:
   moveSpeed: 0.2
   movementDistanceX: -0.5
   movementDistanceY: 0.5
-  movePattern: 0
+  movePattern: 2
   attackPoint: {fileID: 4753462292883736810}
   enemyShot: {fileID: 2542673588350253259, guid: 69866aa021263124998d12fa77625b11, type: 3}
   explosion: {fileID: 7248412883418466214, guid: 8753f9f4c456e4d47a20295d146749de, type: 3}

@@ -30,7 +30,7 @@ public class Spawner : MonoBehaviour
 
     public Transform EnemySpawn;
     public int enemyType = 0;
-    public string[] enemies = new string[20];
+    private string[] enemies = new string[21];
     private int enemyShooting = 0;
 
     // Start is called before the first frame update
@@ -145,11 +145,12 @@ public class Spawner : MonoBehaviour
             {
                 GameObject newEnemy = Instantiate(enemyShip, enemyPos, Quaternion.identity);
                 newEnemy.name = "enemy" + enemyIndex.ToString();
+                Debug.Log(enemyIndex);
                 enemies[enemyIndex] = newEnemy.name;
                 enemyIndex++;
-                enemyPos.x += 0.25f;
+                enemyPos.x += 0.2f;
             }
-            enemyPos.x -= 1.75f;
+            enemyPos.x -= 1.4f;
             enemyPos.y -= 0.25f;
         }
     }
@@ -159,6 +160,7 @@ public class Spawner : MonoBehaviour
 
         if (validateEnemy())
         {
+            Debug.Log("pew pew");
             Enemy enemyScript = GameObject.Find(enemies[enemyShooting]).GetComponent<Enemy>();
             enemyScript.shoot();
             enemyShooting++;

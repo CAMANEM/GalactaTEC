@@ -2293,7 +2293,7 @@ Transform:
   m_GameObject: {fileID: 777140345}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: -0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2888,27 +2888,6 @@ MonoBehaviour:
   enemyNautolanDreadnought: {fileID: 7851049359147954224, guid: 8a05c4d7e1f8c7c4283b518668f2e05c, type: 3}
   EnemySpawn: {fileID: 1518224437}
   enemyType: 5
-  enemies:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
 --- !u!1 &1026997775
 GameObject:
   m_ObjectHideFlags: 0
