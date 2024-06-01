@@ -119,7 +119,8 @@ public class Enemy : MonoBehaviour
             Vector3 newPos = transform.position;
             newPos.x -= 3.8f;
             transform.position = newPos;
-            destinyPosition = transform.position - new Vector3(0, movementDistanceY, 0);
+            transform.position = transform.position - new Vector3(0, movementDistanceY, 0);
+            destinyPosition = transform.position - new Vector3(movementDistanceX, 0, 0);
         }
         else if (collision.gameObject.tag == "HorizontalBoundary")
         {
