@@ -158,46 +158,62 @@ public class Spawner : MonoBehaviour
     // calls a validation for the enemy with the shooting turn and select if the enemy shoul shoot a normal or charged shot
     private void enemyShoot(){
 
-        validateEnemy();
-        Enemy enemyScript = GameObject.Find(enemies[enemyShooting]).GetComponent<Enemy>();
-        if (alreadyShotCharged)
+        if (validateEnemy())
         {
-            enemyScript.normalShoot();
-        }
-        else
-        {
-            int randNum = Random.Range(0, 5);
-            if (randNum == 1)
+            Enemy enemyScript = GameObject.Find(enemies[enemyShooting]).GetComponent<Enemy>();
+            if (alreadyShotCharged)
             {
-                enemyScript.chargedShoot();
-                alreadyShotCharged = true;
+                enemyScript.normalShoot();
             }
             else
             {
-                enemyScript.normalShoot();
-            }    
+                int randNum = Random.Range(0, 5);
+                if (randNum == 1)
+                {
+                    enemyScript.chargedShoot();
+                    alreadyShotCharged = true;
+                }
+                else
+                {
+                    enemyScript.normalShoot();
+                }    
+            }
+            enemyShooting++;
         }
-        enemyShooting++;
     }
 
     /* validates that the enemy with the shooting turn exists. 
         if not, reboots the shooting 
         if there is no more enemies, ends the shooting cycle
     */
-    private void validateEnemy(){
+    private bool validateEnemy(){
         
         if (enemies.Length == 0)
         {
             CancelInvoke();
+            return false;
         }
         else if (enemies.Length <= enemyShooting)
         {
             enemyShooting = 0;
+            return true;
+        }
+        else{
+            return true;
         }
     }
 
     public void enemyDestroyed(string enemyName){
 
         enemies = enemies.Where(val => val != enemyName).ToArray();
+        if (enemies.Length == 0)
+        {
+            levelCompleted();
+        }
+    }
+
+
+    public void levelCompleted(){
+        Debug.Log("Nivel Completado. Agrega aquí qué debe suceder");
     }
 }
