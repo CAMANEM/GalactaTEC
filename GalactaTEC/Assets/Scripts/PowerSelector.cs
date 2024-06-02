@@ -21,7 +21,7 @@ public class PowerSelector : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.RightArrow)) {
             
             Vector3 pos = GetComponent<RectTransform>().anchoredPosition;
-            if (pos.x < 415.2f)
+            if (pos.x < 1657.2f)
             {
                 pos.x += 120f;
                 GetComponent<RectTransform>().anchoredPosition = pos;
@@ -29,7 +29,7 @@ public class PowerSelector : MonoBehaviour
             }
             else
             {
-                pos.x = 55.2f;
+                pos.x = 1297.2f;
                 GetComponent<RectTransform>().anchoredPosition = pos;
                 powerSelected = 0;
             }
@@ -37,7 +37,7 @@ public class PowerSelector : MonoBehaviour
         {
 
             Vector3 pos = GetComponent<RectTransform>().anchoredPosition;
-            if (pos.x > 55.2f)
+            if (pos.x > 1297.2)
             {
                 pos.x -= 120f;
                 GetComponent<RectTransform>().anchoredPosition = pos;
@@ -45,7 +45,7 @@ public class PowerSelector : MonoBehaviour
             }
             else
             {
-                pos.x = 415.2f;
+                pos.x = 1657.2f;
                 GetComponent<RectTransform>().anchoredPosition = pos;
                 powerSelected = 3;
             }

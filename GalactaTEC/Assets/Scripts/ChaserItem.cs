@@ -9,7 +9,7 @@ public class ChaserItem : MonoBehaviour
     void Start()
     {
         image = GetComponent<Image>();
-        image.color = new Color(image.color.r, image.color.g, image.color.b, 0.5f);
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 0.1f);
     }
 
     // Update is called once per frame
@@ -25,7 +25,7 @@ public class ChaserItem : MonoBehaviour
 
     public void Desactivate(){
         image = GetComponent<Image>();
-        image.color = new Color(image.color.r, image.color.g, image.color.b, 0.5f);
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 0.1f);
     }
     
 }
