@@ -253,6 +253,7 @@ public class PlayerController : MonoBehaviour
 
     private void destroy()
     {
+        deactivateBonuses();
         GameObject.Find("Canvas").GetComponent<GameSceneScript>().onCollision(getLifes());
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
@@ -362,5 +363,26 @@ public class PlayerController : MonoBehaviour
         {
             return (float)lifes;
         }
+    }
+
+    public void deactivateBonuses(){
+        
+        // Deactivates chaser shots
+        chaserShot = false;
+        ChaserItem chaserScript = GameObject.Find("ChaserShot").GetComponent<ChaserItem>();
+        chaserScript.Desactivate();
+        chaserShotsCounter = 0;
+        // Deactivates expansive shots
+        expansiveShot = false;
+        ExpansiveItem expansiveScript = GameObject.Find("ExpansiveShot").GetComponent<ExpansiveItem>();
+        expansiveScript.Desactivate();
+        // deactivates double points bonus
+        x2Pts = false;
+        x2PtItem x2PtsScript = GameObject.Find("x2ptShot").GetComponent<x2PtItem>();
+        x2PtsScript.Desactivate();
+        // Deactivates shield
+        shield = false;
+        ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
+        shieldScript.Desactivate();
     }
 }
