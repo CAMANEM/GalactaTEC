@@ -18,7 +18,11 @@ public class patternSelectionScript : MonoBehaviour
     {
         InitializeToggleState();
 
-        // The first time the cutscene opens, every level has attack pattern 1
+        this.level = 1;
+        LoadToggleState();
+        this.level = 2;
+        LoadToggleState();
+        this.level = 3;
         LoadToggleState();
 
         // Subscribe to each toggle's onValueChanged event
@@ -38,6 +42,8 @@ public class patternSelectionScript : MonoBehaviour
     {
         this.level = 1;
         this.txtPatternSelectionTitle.text = "Attack pattern for level 1";
+        UnLockToggles();
+        LockToggles(2, 3);
         LoadToggleState();
         ShowPatternSelection();
     }
@@ -46,6 +52,8 @@ public class patternSelectionScript : MonoBehaviour
     {
         this.level = 2;
         this.txtPatternSelectionTitle.text = "Attack pattern for level 2";
+        UnLockToggles();
+        LockToggles(1, 3);
         LoadToggleState();
         ShowPatternSelection();
     }
@@ -54,6 +62,8 @@ public class patternSelectionScript : MonoBehaviour
     {
         this.level = 3;
         this.txtPatternSelectionTitle.text = "Attack pattern for level 3";
+        UnLockToggles();
+        LockToggles(1, 2);
         LoadToggleState();
         ShowPatternSelection();
     }
@@ -69,11 +79,6 @@ public class patternSelectionScript : MonoBehaviour
         {
             toggles[i].isOn = false;
         }
-
-        for (int i = 1; i < 4; i++)
-        {
-            gameManager.getInstance().addLevelAttackPattern(i, 1);
-        }
     }
 
     private void ToggleValueChanged(Toggle changedToggle)
@@ -83,10 +88,13 @@ public class patternSelectionScript : MonoBehaviour
         {
             foreach (Toggle toggle in toggles)
             {
-                if (toggle != changedToggle)
+                if (toggle.interactable)
                 {
-                    toggle.isOn = false;
-                }
+                    if (toggle != changedToggle)
+                    {
+                        toggle.isOn = false;
+                    }
+                }   
             }
 
             // Save the state of the toggle that changed for this level
@@ -117,6 +125,33 @@ public class patternSelectionScript : MonoBehaviour
         }
     }
 
+    private void UnLockToggles()
+    {
+        for (int i = 0; i < toggles.Length; i++)
+        {
+            toggles[i].interactable = true;
+        }
+    }
+
+    private void LockToggles(int a, int b)
+    {
+        int toggleA = gameManager.getInstance().getAttackPatternForLevel(a) - 1;
+        int toggleB = gameManager.getInstance().getAttackPatternForLevel(b) - 1;
+        for (int i = 0; i < toggles.Length; i++)
+        {
+            if (i == toggleA)
+            {
+                toggles[i].isOn = true;
+                toggles[i].interactable = false;
+            }
+            else if (i == toggleB)
+            {
+                toggles[i].isOn = true;
+                toggles[i].interactable = false;
+            }
+        }
+    }
+
     public void ShowPatternSelection()
     {
         pnlPatternSelection.SetActive(true);
@@ -124,20 +159,6 @@ public class patternSelectionScript : MonoBehaviour
 
     public void HidePatternSelection()
     {
-        bool anyToggleSelected = false;
-        for (int i = 0; i < toggles.Length; i++)
-        {
-            if (toggles[i].isOn)
-            {
-                anyToggleSelected = true;
-            }
-        }
-
-        if (!anyToggleSelected)
-        {
-            gameManager.getInstance().setAttackPatternForLevel(level, 1);
-        }
-
         pnlPatternSelection.SetActive(false);
         this.txtPatternSelectionTitle.text = "";
     }
