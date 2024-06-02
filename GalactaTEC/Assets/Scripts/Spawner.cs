@@ -29,8 +29,8 @@ public class Spawner : MonoBehaviour
 
 
     public Transform EnemySpawn;
-    public int enemyType = 0;
     private string[] enemies = new string[21];
+    private int[] enemyTypes = new int[3];
     private int enemyShooting = 0;
 
     // Start is called before the first frame update
@@ -38,6 +38,7 @@ public class Spawner : MonoBehaviour
     {
         user = gameManager.getInstance().getCurrentPlayer();
         ship = user.ship;
+        randomizeLevelEnemies();
         spawnPlayer();
         spawnEnemies();
         InvokeRepeating(nameof(enemyShoot), 3, 2.5f);
@@ -114,7 +115,11 @@ public class Spawner : MonoBehaviour
         
         Vector3 enemyPos = EnemySpawn.position;
         enemyPos.z = 0f;
-
+        // Gets the current level
+        int enemyType = GameObject.Find("Canvas").GetComponent<GameSceneScript>().getLevel();
+        // gets the enemyType assigned to this level
+        enemyType = enemyTypes[enemyType];
+        Debug.Log(enemyType);
         var enemyShip = enemyKlaedBattlecruiser;
 
         switch (enemyType)
@@ -199,4 +204,17 @@ public class Spawner : MonoBehaviour
     public void levelCompleted(){
         GameObject.Find("Canvas").GetComponent<GameSceneScript>().levelCompleted();
     }
+
+    private void randomizeLevelEnemies(){
+        int min = 0;
+        int max = 2;
+        for (int i = 0; i < 3; i++)
+        {
+            int randEnemy = Random.Range(min, max);
+            enemyTypes[i] = randEnemy;
+            min += 2;
+            max += 2;
+        }
+    }
+
 }

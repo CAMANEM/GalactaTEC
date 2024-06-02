@@ -310,4 +310,8 @@ public class GameSceneScript : MonoBehaviour
         }
         Debug.Log("Level Completed");
     }
+
+    public int getLevel(){
+        return level;
+    }
 }
