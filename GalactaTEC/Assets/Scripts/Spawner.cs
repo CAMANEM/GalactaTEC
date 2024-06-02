@@ -163,6 +163,7 @@ public class Spawner : MonoBehaviour
         }
 
         enemies = new string[21];
+        destroyShots();
     }
 
     // Calls a validation for the enemy with the shooting turn and select if the enemy shoul shoot a normal or charged shot
@@ -247,4 +248,21 @@ public class Spawner : MonoBehaviour
             max += 2;
         }
     }
+
+    // destroy all types of shots on the game
+    private void destroyShots(){
+        var shots = GameObject.FindGameObjectsWithTag ("EnemyShot");
+        foreach (var shot in shots){
+            Destroy(shot);
+        }
+        shots = GameObject.FindGameObjectsWithTag ("PlayerShot");
+        foreach (var shot in shots){
+            Destroy(shot);
+        }
+        shots = GameObject.FindGameObjectsWithTag ("ChargedShot");
+        foreach (var shot in shots){
+            Destroy(shot);
+        }
+    }
+
 }
