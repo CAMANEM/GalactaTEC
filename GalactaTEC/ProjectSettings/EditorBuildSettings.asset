@@ -10,7 +10,7 @@ EditorBuildSettings:
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/TemplateScene.unity
-    guid: 4236bd43eca437a408bdd53f8b86c76a
+    guid: 31fc4b942ccb6604193fe7a9c4e24cf8
   - enabled: 1
     path: Assets/Scenes/SignUpScene.unity
     guid: c4833266bfd15114389842865cf148d0
@@ -38,18 +38,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ConfigureGameScene.unity
     guid: b9ae5f5a0a1b60043aec3a39ddf2090f
-  - enabled: 0
-    path: Assets/Scenes/LoadingScene.unity
-    guid: 6f93ff1298362f04d88ad23c1907e9f8
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 71048d3474f3eed4eb0bec3042d62980
   - enabled: 1
     path: Assets/Scenes/PickerWheelScene.unity
     guid: eaceecafda97bb24e8dec7cdb7c67af1
-  - enabled: 1
-    path: Assets/Scenes/HelpScene.unity
-    guid: fa8a10b210fcfcf489e137510e9700e1
   - enabled: 1
     path: Assets/Scenes/TitleScene.unity
     guid: ecbcbf7fa2036f542bc6cfbc928aeef2
