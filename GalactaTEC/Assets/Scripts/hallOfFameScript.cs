@@ -29,8 +29,7 @@ namespace HallOfFame
     [System.Serializable]
     public class hallOfFameScript : MonoBehaviour
     {
-        // Path to JSON file
-        private string jsonFilePath = Application.dataPath + "/Data/hallOfFame.json";
+        public Users users;
 
         // Hall of Fame Entry List
         public List<HallOfFameEntry> hallOfFameEntries = new List<HallOfFameEntry>();
@@ -43,7 +42,13 @@ namespace HallOfFame
         {
             AudioManager.getInstance().playBackgroundSoundtrack();
 
-            this.setHallOfFameEntriesByPlayers();
+            string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+
+            this.users = JsonUtility.FromJson<Users>(usersJSON);
+
+            HallOfFameEntriesAdapter hallOfFameEntriesAdapter = new HallOfFameEntriesAdapter(this.users);
+
+            this.hallOfFameEntries = hallOfFameEntriesAdapter.adaptHallOfFameEntriesByPlayers();
 
             this.hallOfFameEntries.OrderBy(hallOfFameEntry => hallOfFameEntry.score).ThenByDescending(hallOfFameEntry => hallOfFameEntry.scoreAverage).ToList();
 
@@ -104,12 +109,21 @@ namespace HallOfFame
 
         }
 
-        public void setHallOfFameEntriesByPlayers()
+        public void _BackButtonOnClick()
         {
-            string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+            SceneManager.LoadScene("MainMenuScene");
+        }
+    }
 
-            Users users = JsonUtility.FromJson<Users>(usersJSON);
+    public class HallOfFameEntriesAdapter : hallOfFameScript
+    {
+        public HallOfFameEntriesAdapter(Users users)
+        {
+            this.users = users;
+        }
 
+        public List<HallOfFameEntry> adaptHallOfFameEntriesByPlayers()
+        {
             HallOfFameEntry hallOfFameEntry;
 
             foreach (User user in users)
@@ -147,11 +161,8 @@ namespace HallOfFame
             IEnumerable<HallOfFameEntry> hallOfFameEntriesToOrder = this.hallOfFameEntries.OrderByDescending(hallOfFameEntry => hallOfFameEntry.score).ThenByDescending(hallOfFameEntry => hallOfFameEntry.scoreAverage);
 
             this.hallOfFameEntries = hallOfFameEntriesToOrder.ToList();
-        }
 
-        public void _BackButtonOnClick()
-        {
-            SceneManager.LoadScene("MainMenuScene");
+            return this.hallOfFameEntries;
         }
     }
 }
