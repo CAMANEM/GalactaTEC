@@ -51,7 +51,6 @@ namespace GameManager
 
         public string playerToPlay = "";
         public bool oneInsteadOfTwo = true;
-        public bool gameIsPaused = false;
 
         public string validResetPasswordCode = null;
         public string emailRecoveringPassword = "";
@@ -83,16 +82,6 @@ namespace GameManager
         public User getCurrentPlayer()
         {
             return this.currentPlayer;
-        }
-
-        public void setGameIsPaused(bool gameIsPaused)
-        {
-            this.gameIsPaused = gameIsPaused;
-        }
-
-        public bool getGameIsPaused()
-        {
-            return this.gameIsPaused;
         }
 
         public void setCuantityOfPlayers(int cuantityOfPlayers)

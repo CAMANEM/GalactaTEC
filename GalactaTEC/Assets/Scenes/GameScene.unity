@@ -1583,7 +1583,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!224 &653870824
 RectTransform:
@@ -1656,6 +1656,8 @@ MonoBehaviour:
   txtScore2: {fileID: 246778749}
   bonus: {fileID: 5303454417995827970, guid: de1a759db421beb41bd04e6f228dd6bf, type: 3}
   score: 0
+  level: 1
+  lifes: 3
   x2PtsDuration: 15
   x2PtsIsActive: 0
 --- !u!82 &653870827

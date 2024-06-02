@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Estado del jugador
+// Player status
 public enum PlayerState
 {
     Playing,
@@ -10,7 +10,7 @@ public enum PlayerState
     GameOver
 }
 
-// Clase que representa el estado del juego
+// Class that represents the state of the game
 public class GameState
 {
     private string player;
@@ -58,13 +58,13 @@ public class GameState
         set { lifes = value; }
     }
 
-    // Metodo para guardar el estado del juego
+    // Method to save game state
     public Memento save()
     {
         return new Memento(Player, Score, Level, Ship, Lifes);
     }
 
-    // Metodo para restaurar el estado del juego
+    // Method to restore game state
     public void restore(Memento memento)
     {
         Player = memento.player;
@@ -75,7 +75,7 @@ public class GameState
     }
 }
 
-// Memento para guardar el estado del juego
+// Class to save game state
 public class Memento
 {
     public readonly string player;
@@ -94,7 +94,7 @@ public class Memento
     }
 }
 
-// Contexto que utiliza los estados del jugador
+// Context that uses player states
 public class PlayerContext
 {
     private PlayerState state;
@@ -117,39 +117,46 @@ public class PlayerContext
         return gameState.Score;
     }
 
+    public int getLevel()
+    {
+        return gameState.Level;
+    }
+
+    public float getLifes()
+    {
+        return gameState.Lifes;
+    }
+
     public void saveInitPlayerState()
     {
         memento = gameState.save();
     }
 
-    public void savePlayerState(int score, int level)
+    public void savePlayerState(int score, int level, float lifes)
     {
         state = PlayerState.Waiting;
-        gameState.Lifes -= 1;
         gameState.Score = score;
         gameState.Level = level;
+        gameState.Lifes = lifes;
 
-        // Guardar el estado del juego
+        // Save game state
         memento = gameState.save();
-        // Logica para pasar el turno al otro jugador
     }
 
     public void restorePlayerState()
     {
         state = PlayerState.Playing;
-        // Restaurar el estado del juego
         gameState.restore(memento);
         //Debug.Log("Player: " + gameState.Player);
         //Debug.Log("Score: " + gameState.Score);
         //Debug.Log("Level: " + gameState.Level);
         //Debug.Log("Ship: " + gameState.Ship);
         //Debug.Log("Lifes: " + gameState.Lifes);
-        // Logica para iniciar el turno del otro jugador
     }
 
     public void gameOver()
     {
         state = PlayerState.GameOver;
-        // Logica para finalizar el juego
+        // Logic to end the game
     }
 }

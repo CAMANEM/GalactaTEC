@@ -41,32 +41,17 @@ public class Spawner : MonoBehaviour
         randomizeLevelEnemies();
         spawnPlayer();
         spawnEnemies();
-        InvokeRepeating(nameof(enemyShoot), 3, 2.5f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Hide or show player's ship based on game pause state
-        if (gameManager.getInstance().getGameIsPaused() && playerInstance != null)
-        {
-            playerInstance.SetActive(false); // Hide player ship
-        }
-        else if (!gameManager.getInstance().getGameIsPaused() && playerInstance != null)
-        {
-            playerInstance.SetActive(true); // Show player ship
-        }
 
-        if (user.username != gameManager.getInstance().getCurrentPlayer().username)
-        {
-            user = gameManager.getInstance().getCurrentPlayer();
-            ship = user.ship;
-            spawnPlayer();
-        }
     }
 
     // Generates the player on screen, fixing the z value to 0 to show player on game screen.
-    void spawnPlayer(){
+    public void spawnPlayer()
+    {
         // Delete the playerInstance if it already exists
         if (playerInstance != null)
         {
@@ -110,14 +95,14 @@ public class Spawner : MonoBehaviour
         playerInstance.name = "playerInstance";
     }
 
+    public void spawnEnemies()
+    {
 
-    private void spawnEnemies(){
-        
         Vector3 enemyPos = EnemySpawn.position;
         enemyPos.z = 0f;
         // Gets the current level
         int enemyType = GameObject.Find("Canvas").GetComponent<GameSceneScript>().getLevel();
-        // gets the enemyType assigned to this level
+        // Gets the enemyType assigned to this level
         enemyType = enemyTypes[enemyType];
         Debug.Log(enemyType);
         var enemyShip = enemyKlaedBattlecruiser;
@@ -125,22 +110,22 @@ public class Spawner : MonoBehaviour
         switch (enemyType)
         {
             case 0:
-                enemyShip = enemyKlaedBattlecruiser; 
+                enemyShip = enemyKlaedBattlecruiser;
                 break;
             case 1:
-                enemyShip = enemyKlaedDreadnought; 
+                enemyShip = enemyKlaedDreadnought;
                 break;
             case 2:
-                enemyShip = enemyNairanBattlecruiser; 
+                enemyShip = enemyNairanBattlecruiser;
                 break;
             case 3:
-                enemyShip = enemyNairanDreadnought; 
+                enemyShip = enemyNairanDreadnought;
                 break;
             case 4:
-                enemyShip = enemyNautolanBattlecruiser; 
+                enemyShip = enemyNautolanBattlecruiser;
                 break;
             case 5:
-                enemyShip = enemyNautolanDreadnought; 
+                enemyShip = enemyNautolanDreadnought;
                 break;
         }
         int enemyIndex = 0;
@@ -157,10 +142,32 @@ public class Spawner : MonoBehaviour
             enemyPos.x -= 1.4f;
             enemyPos.y -= 0.25f;
         }
+
+        InvokeRepeating(nameof(enemyShoot), 3, 2.5f);
     }
 
-    // calls a validation for the enemy with the shooting turn and select if the enemy shoul shoot a normal or charged shot
-    private void enemyShoot(){
+    // Method to destroy all enemies
+    public void destroyAllEnemies()
+    {
+        CancelInvoke();
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i] != null)
+            {
+                GameObject enemy = GameObject.Find(enemies[i]);
+                if (enemy != null)
+                {
+                    Destroy(enemy);
+                }
+            }
+        }
+
+        enemies = new string[21];
+    }
+
+    // Calls a validation for the enemy with the shooting turn and select if the enemy shoul shoot a normal or charged shot
+    private void enemyShoot()
+    {
 
         if (validateEnemy())
         {
@@ -170,12 +177,13 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    /* validates that the enemy with the shooting turn exists. 
+    /* Validates that the enemy with the shooting turn exists
         if not, reboots the shooting 
         if there is no more enemies, ends the shooting cycle
     */
-    private bool validateEnemy(){
-        
+    private bool validateEnemy()
+    {
+
         if (enemies.Length == 0)
         {
             CancelInvoke();
@@ -186,12 +194,14 @@ public class Spawner : MonoBehaviour
             enemyShooting = 0;
             return true;
         }
-        else{
+        else
+        {
             return true;
         }
     }
 
-    public void enemyDestroyed(string enemyName){
+    public void enemyDestroyed(string enemyName)
+    {
 
         enemies = enemies.Where(val => val != enemyName).ToArray();
         if (enemies.Length == 0)
@@ -200,12 +210,33 @@ public class Spawner : MonoBehaviour
         }
     }
 
-
-    public void levelCompleted(){
+    public void levelCompleted()
+    {
         GameObject.Find("Canvas").GetComponent<GameSceneScript>().levelCompleted();
     }
 
-    private void randomizeLevelEnemies(){
+    public void updatePlayerShip()
+    {
+        if (user.username != gameManager.getInstance().getCurrentPlayer().username)
+        {
+            user = gameManager.getInstance().getCurrentPlayer();
+            ship = user.ship;
+            spawnPlayer();
+        }
+    }
+
+    public void pauseSpawner()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void unPauseSpawner()
+    {
+        Time.timeScale = 1f;
+    }
+
+    private void randomizeLevelEnemies()
+    {
         int min = 0;
         int max = 2;
         for (int i = 0; i < 3; i++)
@@ -216,5 +247,4 @@ public class Spawner : MonoBehaviour
             max += 2;
         }
     }
-
 }

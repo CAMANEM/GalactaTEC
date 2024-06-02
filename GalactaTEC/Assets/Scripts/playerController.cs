@@ -225,9 +225,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    /*
-        randomizes if a bonus should generate. And invoke its generation
-    */
+    // Randomizes if a bonus should generate. And invoke its generation
     public void generateBonus(){
         int randNum = Random.Range(0, 2);
         if (randNum == 1)
@@ -235,8 +233,6 @@ public class PlayerController : MonoBehaviour
             Invoke("instanciateBonus", 2f);
         }
     }
-
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -257,7 +253,7 @@ public class PlayerController : MonoBehaviour
 
     private void destroy()
     {
-        GameObject.Find("Canvas").GetComponent<GameSceneScript>().pauseOnCollision(getLifes());
+        GameObject.Find("Canvas").GetComponent<GameSceneScript>().onCollision(getLifes());
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
@@ -318,7 +314,6 @@ public class PlayerController : MonoBehaviour
         {
             lifes--;
             damaged = false;
-            // change player
             destroy();
         }
         else{
@@ -327,7 +322,7 @@ public class PlayerController : MonoBehaviour
         updateUiLifes();
     }
 
-    // Controls life whe receives high damage
+    // Controls life wheN receives high damage
     private void getHighDamage(){
         if (0 < shieldLevel)
         {
@@ -338,7 +333,6 @@ public class PlayerController : MonoBehaviour
             damaged = false;
             lifes--;
             updateUiLifes();
-            // change player
             destroy();    
         }
     }
@@ -349,6 +343,12 @@ public class PlayerController : MonoBehaviour
 
     public void increaseLifes(){
         lifes++;
+        updateUiLifes();
+    }
+
+    public void setLifes(int lifes)
+    {
+        this.lifes = lifes;
         updateUiLifes();
     }
 
@@ -363,5 +363,4 @@ public class PlayerController : MonoBehaviour
             return (float)lifes;
         }
     }
-
 }

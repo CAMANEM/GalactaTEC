@@ -77,8 +77,8 @@ public class GameSceneScript : MonoBehaviour
             user1 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
             user2 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player2Username);
 
-            playerContext1 = new PlayerContext(PlayerState.Playing, user1.username, 0, 1, user1.ship, 3.0f);
-            playerContext2 = new PlayerContext(PlayerState.Waiting, user2.username, 0, 1, user2.ship, 3.0f);
+            playerContext1 = new PlayerContext(PlayerState.Playing, user1.username, score, level, user1.ship, lifes);
+            playerContext2 = new PlayerContext(PlayerState.Waiting, user2.username, score, level, user2.ship, lifes);
             playerContext1.saveInitPlayerState();
             playerContext2.saveInitPlayerState();
 
@@ -139,7 +139,6 @@ public class GameSceneScript : MonoBehaviour
     void Update()
     {
         pauseMenu();
-        //pauseOnCollision();
     }
 
     private void pauseMenu()
@@ -149,7 +148,7 @@ public class GameSceneScript : MonoBehaviour
         {
             if (!pnlPauseDialogue.activeSelf)
             {
-                gameManager.getInstance().setGameIsPaused(true);
+                GameObject.Find("MainCamera").GetComponent<Spawner>().pauseSpawner();
 
                 // Activate the pause panel
                 pnlPauseDialogue.SetActive(true);
@@ -166,56 +165,92 @@ public class GameSceneScript : MonoBehaviour
         }
     }
 
-    public void pauseOnCollision(float playerLifes)
+    public void onCollision(float playerLifes)
     {
         lifes = playerLifes;
-        // Detect if the "P" key is pressed
-        if (gameManager.getInstance().cuantityOfPlayers == 2)
+        if (gameManager.getInstance().cuantityOfPlayers == 2 && !gameManager.getInstance().getOneInsteadOfTwo())
         {
             if (!pnlPauseDialogue.activeSelf)
             {
-                gameManager.getInstance().setGameIsPaused(true);
-
-                // Activate the pause panel
-                pnlPauseDialogue.SetActive(true);
-
-                // Pause game time and music
-                Time.timeScale = 0f;
-                AudioManager.getInstance().pauseSoundtrack();
-
-                if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
-                {
-                    playerContext1.savePlayerState(score, 1);
-                    playerContext2.restorePlayerState();
-
-                    gameManager.getInstance().playerToPlay = user2.username;
-                    gameManager.getInstance().setCurrentPlayer(user2);
-
-                    imgControl1.gameObject.SetActive(false);
-                    imgControl2.gameObject.SetActive(true);
-
-                    score = playerContext2.getScore();
-                }
-                else
-                {
-                    playerContext2.savePlayerState(score, 1);
-                    playerContext1.restorePlayerState();
-
-                    gameManager.getInstance().playerToPlay = user1.username;
-                    gameManager.getInstance().setCurrentPlayer(user1);
-
-                    imgControl1.gameObject.SetActive(true);
-                    imgControl2.gameObject.SetActive(false);
-
-                    score = playerContext1.getScore();
-                }
+                // Start the coroutine to wait and activate the panel
+                StartCoroutine(pauseOnCollision(1.0f));
             }
         }
+        else
+        {
+            // Start the coroutine to wait and restart player and enemy spawn
+            StartCoroutine(restartOnCollision(1.5f));
+        }
+    }
+
+    private IEnumerator pauseOnCollision(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().pauseSpawner();
+
+        // Activate the pause panel
+        pnlPauseDialogue.SetActive(true);
+
+        // Pause game time and music
+        AudioManager.getInstance().pauseSoundtrack();
+        AudioManager.getInstance().pauseMusicSource.volume = AudioManager.getInstance().audioVolumeBeforePause;
+        AudioManager.getInstance().pauseMusicSource.UnPause();
+        if (AudioManager.getInstance().isAudioPaused == true)
+        {
+            Time.timeScale = 0f;
+        }
+
+        if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+        {
+            playerContext1.savePlayerState(score, level, lifes);
+            playerContext2.restorePlayerState();
+
+            gameManager.getInstance().playerToPlay = user2.username;
+            gameManager.getInstance().setCurrentPlayer(user2);
+
+            imgControl1.gameObject.SetActive(false);
+            imgControl2.gameObject.SetActive(true);
+
+            score = playerContext2.getScore();
+            level = playerContext2.getLevel();
+            lifes = playerContext2.getLifes();
+        }
+        else
+        {
+            playerContext2.savePlayerState(score, level, lifes);
+            playerContext1.restorePlayerState();
+
+            gameManager.getInstance().playerToPlay = user1.username;
+            gameManager.getInstance().setCurrentPlayer(user1);
+
+            imgControl1.gameObject.SetActive(true);
+            imgControl2.gameObject.SetActive(false);
+
+            score = playerContext1.getScore();
+            level = playerContext1.getLevel();
+            lifes = playerContext1.getLifes();
+        }
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().updatePlayerShip();
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+        GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
+    }
+
+    private IEnumerator restartOnCollision(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
+        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+        GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
     }
 
     public void option1ButtonOnClick()
     {
-        
+
     }
 
     public void option3ButtonOnClick()
@@ -227,7 +262,7 @@ public class GameSceneScript : MonoBehaviour
     {
         if (pnlPauseDialogue.activeSelf)
         {
-            gameManager.getInstance().setGameIsPaused(false);
+            GameObject.Find("MainCamera").GetComponent<Spawner>().unPauseSpawner();
 
             // Deactivate the pause panel
             pnlPauseDialogue.SetActive(false);
@@ -262,16 +297,19 @@ public class GameSceneScript : MonoBehaviour
         pnlPauseDialogue.SetActive(false);
     }
 
-    public void activateX2Pts(){
+    public void activateX2Pts()
+    {
         x2PtsIsActive = true;
         Invoke("desactivateX2Pts", x2PtsDuration);
     }
 
-    public void desactivateX2Pts(){
+    public void desactivateX2Pts()
+    {
         x2PtsIsActive = false;
     }
 
-    public void updateScore(int points){
+    public void updateScore(int points)
+    {
 
         if (x2PtsIsActive)
         {
@@ -297,13 +335,15 @@ public class GameSceneScript : MonoBehaviour
     }
 
     // Generates a bonus in the game
-    public void generateBonus(){
+    public void generateBonus()
+    {
         Debug.Log("Something went wrong loading player information");
 
         Instantiate(bonus, transform.position, Quaternion.identity);
     }
 
-    public void levelCompleted(){
+    public void levelCompleted()
+    {
         if (level < 3)
         {
             level++;
@@ -311,7 +351,8 @@ public class GameSceneScript : MonoBehaviour
         Debug.Log("Level Completed");
     }
 
-    public int getLevel(){
+    public int getLevel()
+    {
         return level;
     }
 }
