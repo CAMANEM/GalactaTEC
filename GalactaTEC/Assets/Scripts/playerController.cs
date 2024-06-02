@@ -380,6 +380,7 @@ public class PlayerController : MonoBehaviour
         x2Pts = false;
         x2PtItem x2PtsScript = GameObject.Find("x2ptShot").GetComponent<x2PtItem>();
         x2PtsScript.Desactivate();
+        desactivateBonusAura();
         // Deactivates shield
         shield = false;
         ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
