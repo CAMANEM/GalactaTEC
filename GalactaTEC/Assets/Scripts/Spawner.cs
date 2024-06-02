@@ -32,6 +32,7 @@ public class Spawner : MonoBehaviour
     private string[] enemies = new string[21];
     private int[] enemyTypes = new int[3];
     private int enemyShooting = 0;
+    public Transform teleportPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -263,6 +264,32 @@ public class Spawner : MonoBehaviour
         foreach (var shot in shots){
             Destroy(shot);
         }
+    }
+
+    /*
+        Retorna la posicion en la que debe aparecer un enemigo
+        al reaparecer en un borde de pantalla
+    */
+    public Vector3 getEnemyTeleportPosition(string enemyName){
+        int enemyIndex = 0;
+        Vector3 enemyPos = teleportPoint.position;
+        enemyPos.z = 0f;
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 7; j++)
+            {
+                string name = "enemy" + enemyIndex.ToString();
+                if (enemyName == name)
+                {
+                    return enemyPos;
+                }
+                else{
+                    enemyIndex++;
+                }
+            }
+            enemyPos.y -= 0.25f;
+        }
+        return enemyPos;
     }
 
 }

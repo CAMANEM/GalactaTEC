@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public float movementDistanceY = 0.5f;
     private bool moveLaterally = true;
 
-    public byte movePattern = 0;
+    public byte movePattern = 2;
     private Vector3 destinyPosition;
 
     [SerializeField]
@@ -150,8 +150,8 @@ public class Enemy : MonoBehaviour
     void moveZigzag(){
         if (transform.position == destinyPosition)
         {
-            movementDistanceY *= -1;
             destinyPosition = transform.position - new Vector3( movementDistanceX, movementDistanceY, 0);
+            movementDistanceY *= -1;
         }
         transform.position = Vector3.MoveTowards(transform.position, destinyPosition, moveSpeed * Time.deltaTime);
     }
@@ -162,7 +162,15 @@ public class Enemy : MonoBehaviour
         {
             Vector3 newPos = transform.position;
             newPos.x -= 3.8f;
-            newPos.y -= 0.8f;
+            newPos.y -= 0.5f;
+
+            Spawner spawnerScript = GameObject.Find("MainCamera").GetComponent<Spawner>();
+            newPos = spawnerScript.getEnemyTeleportPosition(gameObject.name);
+            if (movementDistanceY > 0)
+            {
+                movementDistanceY *= -1f;
+            }
+
             transform.position = newPos;
             destinyPosition = transform.position - new Vector3(movementDistanceX, movementDistanceY, 0);
         }
