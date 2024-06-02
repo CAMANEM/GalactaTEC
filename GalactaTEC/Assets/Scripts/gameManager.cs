@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 using UserManager;
 using HallOfFame;
@@ -136,10 +137,16 @@ namespace GameManager
         public bool isScoreNewRecord(int score)
         {
             hallOfFameScript hallOfFame = new hallOfFameScript();
-            
-            hallOfFame.setHallOfFameEntriesByPlayers();
 
-            if (score > hallOfFame.hallOfFameEntries[hallOfFame.hallOfFameEntries.Count-1].score)
+            string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+
+            Users users = JsonUtility.FromJson<Users>(usersJSON);
+
+            HallOfFameEntriesAdapter hallOfFameEntriesAdapter = new HallOfFameEntriesAdapter(users);
+
+            List<HallOfFameEntry> hallOfFameRanking = hallOfFameEntriesAdapter.adaptHallOfFameEntriesByPlayers();
+
+            if (score > hallOfFameRanking[hallOfFameRanking.Count-1].score)
             {
                 return true;
             }
