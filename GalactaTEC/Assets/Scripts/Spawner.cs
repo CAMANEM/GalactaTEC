@@ -46,10 +46,7 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-            {
-                destroyShots();        // Llamar a AddLife() en el script PlayerLives
-            }
+
     }
 
     // Generates the player on screen, fixing the z value to 0 to show player on game screen.
