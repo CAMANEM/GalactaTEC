@@ -45,7 +45,7 @@ public class fireworkSpawner : MonoBehaviour
         {
             randomFX = randomX2;
         }
-        float randomY = Random.Range(-4f, 4f);
+        float randomY = Random.Range(-3f, 4f);
 
         return new Vector2(randomFX, randomY);
     }

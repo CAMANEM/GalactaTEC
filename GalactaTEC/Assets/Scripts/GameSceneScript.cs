@@ -243,9 +243,19 @@ public class GameSceneScript : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
-        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
-        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
-        GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
+
+        if (lifes <= 0)
+        {
+            gameManager.getInstance().setScore1(score);
+            gameManager.getInstance().setPodiumSceneTitle("Game Over");
+            SceneManager.LoadScene("PodiumScene");
+        }
+        else
+        {
+            GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
+            GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+            GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
+        }
     }
 
     public void option1ButtonOnClick()
@@ -365,5 +375,4 @@ public class GameSceneScript : MonoBehaviour
         }
         return movePattern;
     }
-
 }

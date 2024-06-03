@@ -11,10 +11,6 @@ public class mainMenuScript : MonoBehaviour
     void Start()
     {
         AudioManager.getInstance().playBackgroundSoundtrack();
-        for (int i = 1; i < 4; i++)
-        {
-            gameManager.getInstance().addLevelAttackPattern(i, i);
-        }
     }
 
     // Update is called once per frame

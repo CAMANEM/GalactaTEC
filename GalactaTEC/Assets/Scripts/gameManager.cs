@@ -53,6 +53,10 @@ namespace GameManager
         public string playerToPlay = "";
         public bool oneInsteadOfTwo = true;
 
+        private string podiumSceneTitle = "";
+        private int score1 = 0;
+        private int score2 = 0;
+
         public string validResetPasswordCode = null;
         public string emailRecoveringPassword = "";
 
@@ -87,6 +91,36 @@ namespace GameManager
         public User getCurrentPlayer()
         {
             return this.currentPlayer;
+        }
+
+        public void setPodiumSceneTitle(string podiumSceneTitle)
+        {
+            this.podiumSceneTitle = podiumSceneTitle;
+        }
+
+        public string getPodiumSceneTitle()
+        {
+            return this.podiumSceneTitle;
+        }
+
+        public void setScore1(int score1)
+        {
+            this.score1 = score1;
+        }
+
+        public int getScore1()
+        {
+            return this.score1;
+        }
+
+        public void setScore2(int score2)
+        {
+            this.score2 = score2;
+        }
+
+        public int getScore2()
+        {
+            return this.score2;
         }
 
         public void setCuantityOfPlayers(int cuantityOfPlayers)
