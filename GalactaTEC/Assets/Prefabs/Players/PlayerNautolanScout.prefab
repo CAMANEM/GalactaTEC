@@ -285,7 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0.2
   normalShot: {fileID: 1888018594794399322, guid: 5a166b1943cf6804dba8770d29a6ed89, type: 3}
-  chaserBullet: {fileID: 1337334442393224497, guid: 03bbd804e5cb45646ba5e680a1c558ef, type: 3}
+  chaserBullet: {fileID: 6937791161830709079, guid: 81c2e337df1bbff4293725d620052e79, type: 3}
   shieldPower: {fileID: 5414111634843257641}
   shieldMidPower: {fileID: 6695693208332869797}
   shieldMinPower: {fileID: 2852272673550454523}

@@ -100,18 +100,18 @@ TextureImporter:
       name: ChaserShot_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 3
-        width: 9
-        height: 19
+        x: 0
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cff1e34a4fa3d914daceb18014918841
+      spriteID: 756031694c9243841b8d10d78ae5c63a
       internalID: -1799197904
       vertices: []
       indices: 
@@ -121,18 +121,18 @@ TextureImporter:
       name: ChaserShot_1
       rect:
         serializedVersion: 2
-        x: 43
-        y: 3
-        width: 9
-        height: 19
+        x: 32
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4e4286cd55c5d046a615879cdad3792
+      spriteID: dcc068ecb00894947ac48fa2ead3f354
       internalID: -2095471674
       vertices: []
       indices: 
@@ -142,18 +142,18 @@ TextureImporter:
       name: ChaserShot_2
       rect:
         serializedVersion: 2
-        x: 75
-        y: 3
-        width: 9
-        height: 19
-      alignment: 9
-      pivot: {x: 0.5, y: 0.19238149}
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 665c8608fe598ed43ad7f7990e96696c
+      spriteID: 442fdbd4a0344aa4f9f1050b52027d37
       internalID: 892725494
       vertices: []
       indices: 

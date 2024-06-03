@@ -7,15 +7,15 @@ using audio_manager;
 public class ChaserShot : MonoBehaviour
 {
 
-    public float speedY = 500f;
-    public float speedX = 300f;
-    public float deactivateTimer = 5f;
+    public float moveSpeed = 0.4f;
     private PointManager pointManager;
+    private string targetName;
+    public GameObject explosion;
     
     // Start is called before the first frame update
     void Start()
     {
-        AudioManager.getInstance().playBonusEffect();
+        aimTarget();
     }
 
     // Update is called once per frame
@@ -26,9 +26,49 @@ public class ChaserShot : MonoBehaviour
 
     void Move()
     {
-        Vector3 temp = transform.position;
-        temp.y += speedY * Time.deltaTime;
-        temp.x -= speedX * Time.deltaTime;
-        transform.position = temp;
+        GameObject enemyTarget = GameObject.Find(targetName);
+        if (enemyTarget != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, enemyTarget.transform.position, moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            aimTarget();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy"){
+            GameSceneScript gameSceneScriptScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
+            gameSceneScriptScript.updateScore(200);
+            destroy();
+        }
+        else if (collision.gameObject.tag == "EnemyShot")
+        {
+            destroy();
+        }
+        else if (collision.gameObject.tag == "HorizontalBoundary")
+        {
+            destroy();
+        }
+    }
+
+    private void destroy()
+    {
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
+
+    private void aimTarget(){
+        var enemies = GameObject.FindGameObjectsWithTag ("Enemy");
+        if (0 < enemies.Length)
+        {
+            targetName = enemies[0].name;
+        }
+        else
+        {
+            destroy();
+        }
     }
 }
