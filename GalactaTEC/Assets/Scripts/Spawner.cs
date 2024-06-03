@@ -33,6 +33,7 @@ public class Spawner : MonoBehaviour
     private int[] enemyTypes = new int[3];
     private int enemyShooting = 0;
     public Transform teleportPoint;
+    [SerializeField] GameObject enemyArmy;
 
     // Start is called before the first frame update
     void Start()
@@ -98,14 +99,13 @@ public class Spawner : MonoBehaviour
 
     public void spawnEnemies()
     {
-
+        GameObject.Find("EnemyArmy").GetComponent<EnemyArmy>().restart();
         Vector3 enemyPos = EnemySpawn.position;
         enemyPos.z = 0f;
         // Gets the current level
         int enemyType = GameObject.Find("Canvas").GetComponent<GameSceneScript>().getLevel();
         // Gets the enemyType assigned to this level
         enemyType = enemyTypes[enemyType];
-        Debug.Log(enemyType);
         var enemyShip = enemyKlaedBattlecruiser;
 
         switch (enemyType)
@@ -137,6 +137,7 @@ public class Spawner : MonoBehaviour
                 GameObject newEnemy = Instantiate(enemyShip, enemyPos, Quaternion.identity);
                 newEnemy.name = "enemy" + enemyIndex.ToString();
                 enemies[enemyIndex] = newEnemy.name;
+                newEnemy.transform.SetParent(enemyArmy.transform);
                 enemyIndex++;
                 enemyPos.x += 0.2f;
             }
