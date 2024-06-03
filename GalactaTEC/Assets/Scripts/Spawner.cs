@@ -251,7 +251,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // destroy all types of shots on the game
+    // destroy all types of shots on the game and bonus
     private void destroyShots(){
         var shots = GameObject.FindGameObjectsWithTag ("EnemyShot");
         foreach (var shot in shots){
@@ -264,6 +264,11 @@ public class Spawner : MonoBehaviour
         shots = GameObject.FindGameObjectsWithTag ("ChargedShot");
         foreach (var shot in shots){
             Destroy(shot);
+        }
+        GameObject bonusInstance = GameObject.Find("Bonus");
+        if (bonusInstance != null)
+        {
+            Destroy(bonusInstance);
         }
     }
 
@@ -291,6 +296,23 @@ public class Spawner : MonoBehaviour
             enemyPos.y -= 0.25f;
         }
         return enemyPos;
+    }
+
+    // Llamado al crearse un bonus, envia un enemigo a hacia el bonus y otro hacia el jugador
+    public void bonusEvent(){
+        int index = enemies.Length - 1;
+        if (0 <= index)
+        {
+            string enemyName = enemies[index];
+            GameObject.Find(enemyName).GetComponent<Enemy>().kamikazeOrder();
+            index--;
+
+            if (0 <= index)
+            {
+            enemyName = enemies[index];
+            GameObject.Find(enemyName).GetComponent<Enemy>().protectBonusOrder();
+            }
+        }
     }
 
 }

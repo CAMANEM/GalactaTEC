@@ -13,7 +13,13 @@ public class Bonus : MonoBehaviour
 
     void Update(){
 
+        move();
+    }
 
+    private void move(){
+        Vector3 newPos = transform.position;
+        newPos.y -= 0.1f * Time.deltaTime;
+        transform.position = newPos;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -221,8 +221,9 @@ public class PlayerController : MonoBehaviour
         Vector3 pos =  new Vector3(959f, 608.10f, 10f); 
         int randX = Random.Range(960, 962);
         pos.x = (float)randX;
-        Instantiate(bonus, pos, Quaternion.identity);
-
+        GameObject newBonus = Instantiate(bonus, pos, Quaternion.identity);
+        newBonus.name = "Bonus";
+        GameObject.Find("MainCamera").GetComponent<Spawner>().bonusEvent();
     }
 
     // Randomizes if a bonus should generate. And invoke its generation
