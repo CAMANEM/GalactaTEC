@@ -210,7 +210,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1496376649, guid: 162f09254c270a94b87b4ed5b286fe9e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -362,6 +362,7 @@ GameObject:
   - component: {fileID: 2487711455707993694}
   - component: {fileID: 5413560272760690895}
   - component: {fileID: 5117145468225863614}
+  - component: {fileID: 1625820282494525661}
   m_Layer: 6
   m_Name: PlayerKla'edFighter
   m_TagString: Player
@@ -501,7 +502,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.09
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -526,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc79825a12c964340803f66992e05a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0.2
+  maxSpeed: 0.0025
   normalShot: {fileID: 1888018594794399322, guid: 5a166b1943cf6804dba8770d29a6ed89, type: 3}
   chaserBullet: {fileID: 6937791161830709079, guid: 81c2e337df1bbff4293725d620052e79, type: 3}
   shieldPower: {fileID: 1653104875650908141}
@@ -545,6 +546,73 @@ MonoBehaviour:
   lifes: 3
   damaged: 0
   maxLifes: 4
+  powerSelected: 0
+  fire:
+    m_Name: Fire
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 50e73f69-a6b0-410a-b03c-7d0013b1ba52
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  power:
+    m_Name: Power
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 64561f12-0a5d-4bae-af9b-17b63e580ab6
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  next:
+    m_Name: Next
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: cee8f671-dd29-4f1b-912d-e21ce78e2578
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  back:
+    m_Name: Back
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 09a6c427-e417-4020-8637-e2c06978729d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+--- !u!114 &1625820282494525661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5679578641526047471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 24b6d8ac729beb04bb5d3a6daa903119, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &6772575546619701118
 GameObject:
   m_ObjectHideFlags: 0

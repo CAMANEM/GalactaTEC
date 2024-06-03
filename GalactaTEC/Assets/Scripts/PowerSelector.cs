@@ -14,7 +14,7 @@ public class PowerSelector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SwitchPower();
+        //SwitchPower();
     }
 
     void SwitchPower(){

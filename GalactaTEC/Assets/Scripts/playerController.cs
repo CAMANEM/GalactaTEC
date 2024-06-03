@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 
 {
     //private PlayerLives playerLives;
 
-    public float maxSpeed = 0.2f;
+    public float maxSpeed = 0.002f;
 
     [SerializeField]
     private GameObject normalShot;
@@ -50,6 +51,14 @@ public class PlayerController : MonoBehaviour
     public bool damaged = false;        // Vidas actuales del jugador
     public int maxLifes = 4;     // Maximo de vidas que el jugador puede tener
 
+    public int powerSelected = 0;
+
+    public PlayerControls playerControls;
+    public InputAction fire;
+    public InputAction power;
+    public InputAction next;
+    public InputAction back;
+
 
     // Start is called before the first frame update
     void Start()
@@ -66,20 +75,58 @@ public class PlayerController : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "GameScene")
         {
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                //playerLives.AddLife();        // Llamar a AddLife() en el script PlayerLives
-            }
-
             Move();
-            Attack();
+            //Attack();
         }
+    }
+
+    private void Awake(){
+        playerControls = new PlayerControls();
+    }
+
+    private void OnEnable(){
+        fire = playerControls.Player.Fire;
+        fire.Enable();
+        fire.performed += Fire;
+
+        power = playerControls.Player.Power;
+        power.Enable();
+        power.performed += Power;
+
+        back = playerControls.Player.Back;
+        back.Enable();
+        back.performed += Back;
+
+        next = playerControls.Player.Next;
+        next.Enable();
+        next.performed += Next;
+    }
+
+    private void OnDisable(){
+        fire.Disable();
+        power.Disable();
+        next.Disable();
+        back.Disable();
+    }
+
+    private void Fire(InputAction.CallbackContext context){
+        Instantiate(normalShot, attack_Point.position, Quaternion.identity);
     }
 
     void Move()
     {
-        Vector3 pos = transform.position;
 
+        //AudioManager.getInstance().playMovementEffect();
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        // Calculate the movement direction
+        Vector3 movement = new Vector3(horizontalInput, verticalInput, 0f).normalized;
+        // Calculate the new position based on the fixed movement distance
+        Vector3 newPosition = transform.position + movement * maxSpeed;
+
+        // Update the player's position
+        transform.position = newPosition;
+        /*
         if (Input.GetKeyDown(KeyCode.A)) {
             
             MoveAux();
@@ -96,6 +143,7 @@ public class PlayerController : MonoBehaviour
         {
             MoveAux();
         }
+        */
     }
 
     void MoveAux(){
@@ -109,19 +157,6 @@ public class PlayerController : MonoBehaviour
 
         // Update the player's position
         transform.position = newPosition;
-    }
-
-    void Attack()
-    {
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(normalShot, attack_Point.position, Quaternion.identity);
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        { 
-            usePower();
-        }
     }
 
     public void ActivateChaser(){
@@ -152,10 +187,9 @@ public class PlayerController : MonoBehaviour
         x2PtsScript.Activate();
     }
 
-    void usePower(){
+    private void Power(InputAction.CallbackContext context){
 
-        PowerSelector powerScript = GameObject.Find("PowerSelector").GetComponent<PowerSelector>();
-        switch (powerScript.powerSelected)
+        switch (powerSelected)
         {
             case 0:
                 if (chaserShot)
@@ -386,5 +420,39 @@ public class PlayerController : MonoBehaviour
         shield = false;
         ShieldItem shieldScript = GameObject.Find("Shield").GetComponent<ShieldItem>();
         shieldScript.Desactivate();
+    }
+
+    private void Next(InputAction.CallbackContext context){
+
+        Vector3 pos = GameObject.Find("PowerSelector").GetComponent<RectTransform>().anchoredPosition;
+        if (powerSelected < 3)
+        {
+            pos.x += 100f;
+            GameObject.Find("PowerSelector").GetComponent<RectTransform>().anchoredPosition = pos;
+            powerSelected++;
+        }
+        else
+        {
+            pos.x = 1250f;
+            GameObject.Find("PowerSelector").GetComponent<RectTransform>().anchoredPosition = pos;
+            powerSelected = 0;
+        }
+    }
+
+    private void Back(InputAction.CallbackContext context){
+
+        Vector3 pos = GameObject.Find("PowerSelector").GetComponent<RectTransform>().anchoredPosition;
+        if (0 < powerSelected)
+        {
+            pos.x -= 100f;
+            GameObject.Find("PowerSelector").GetComponent<RectTransform>().anchoredPosition = pos;
+            powerSelected--;
+        }
+        else
+        {
+            pos.x = 1550f;
+            GameObject.Find("PowerSelector").GetComponent<RectTransform>().anchoredPosition = pos;
+            powerSelected = 3;
+        }
     }
 }

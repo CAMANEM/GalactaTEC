@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc79825a12c964340803f66992e05a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0.2
+  maxSpeed: 0.0025
   normalShot: {fileID: 1888018594794399322, guid: 5a166b1943cf6804dba8770d29a6ed89, type: 3}
   chaserBullet: {fileID: 6937791161830709079, guid: 81c2e337df1bbff4293725d620052e79, type: 3}
   shieldPower: {fileID: 2232087728533314799}
@@ -196,6 +196,43 @@ MonoBehaviour:
   lifes: 3
   damaged: 0
   maxLifes: 4
+  powerSelected: 0
+  fire:
+    m_Name: Fire
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 8a603484-14e6-4c59-8725-9b404578403d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  power:
+    m_Name: Power
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 54a3b00f-44e6-4651-8a93-92b20f5380be
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  next:
+    m_Name: Next
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 104a258b-fb96-4132-9b8b-c061dd1a05b6
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  back:
+    m_Name: Back
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 283c0ae9-e883-4d05-a944-61dbac69b9a2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!1 &1507652504165964548
 GameObject:
   m_ObjectHideFlags: 0
