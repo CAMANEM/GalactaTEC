@@ -224,10 +224,6 @@ RectTransform:
   - {fileID: 946120455}
   - {fileID: 103921379}
   - {fileID: 1539518480}
-  - {fileID: 655927611}
-  - {fileID: 430381227}
-  - {fileID: 1306664770}
-  - {fileID: 927089459}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -265,12 +261,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c7ab854780f5843b115a03c9b21e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confettiPrefabs:
-  - {fileID: 4039386406996574976, guid: 74d3b626262450f4594ac749f5e3dca1, type: 3}
-  - {fileID: 2957425571045421863, guid: c83aea6cd82c3284fa06aae5c49a322e, type: 3}
-  spawnPoints:
-  - {fileID: 655927611}
-  - {fileID: 430381227}
+  fireworkPrefabs:
+  - {fileID: 8053993998349665297, guid: 32502a2337601a540aa94a7385efbfa5, type: 3}
+  - {fileID: 8643869408195452637, guid: 381e31bc7843e3e47aee844233d46e73, type: 3}
+  - {fileID: 6482362679572869964, guid: ed345e4d409c2d9498a63fe3cdfe3c21, type: 3}
+  - {fileID: 9006302505226469054, guid: 986324903a0e069439c4284eb33a2075, type: 3}
+  canvasRectTransform: {fileID: 0}
 --- !u!1 &103921378
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,37 +347,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103921378}
   m_CullTransparentMesh: 1
---- !u!1 &430381226
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 430381227}
-  m_Layer: 0
-  m_Name: Spawn_Confetti_1
-  m_TagString: Untagged
-  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &430381227
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430381226}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 955.8, y: -523.7999, z: -9719.999}
-  m_LocalScale: {x: 1.15, y: 1.15, z: 1.15}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 76706759}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!1 &432700419
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,37 +749,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 584355997}
   m_CullTransparentMesh: 1
---- !u!1 &655927610
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 655927611}
-  m_Layer: 0
-  m_Name: Spawn_Confetti_0
-  m_TagString: Untagged
-  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &655927611
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 655927610}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -955.8, y: -523.7999, z: -9719.999}
-  m_LocalScale: {x: 1.15, y: 1.15, z: 1.15}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 76706759}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
 --- !u!1 &900767178
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,37 +883,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 900767178}
   m_CullTransparentMesh: 1
---- !u!1 &927089458
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 927089459}
-  m_Layer: 0
-  m_Name: Spawn_Confetti_3
-  m_TagString: Untagged
-  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &927089459
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 927089458}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.92387956, w: 0.38268343}
-  m_LocalPosition: {x: -955.8, y: 523.7999, z: -9719.999}
-  m_LocalScale: {x: 1.15, y: 1.15, z: 1.15}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 76706759}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -135}
 --- !u!1 &946120454
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,37 +1398,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267960268}
   m_CullTransparentMesh: 1
---- !u!1 &1306664769
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1306664770}
-  m_Layer: 0
-  m_Name: Spawn_Confetti_2
-  m_TagString: Untagged
-  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1306664770
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306664769}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.92387956, w: 0.38268343}
-  m_LocalPosition: {x: 955.8, y: 523.7999, z: -9719.999}
-  m_LocalScale: {x: 1.15, y: 1.15, z: 1.15}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 76706759}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 135}
 --- !u!1 &1402699980
 GameObject:
   m_ObjectHideFlags: 0
