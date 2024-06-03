@@ -10,7 +10,6 @@ TagManager:
   - HorizontalBoundary
   - EnemyShot
   - ChargedShot
-  - EnemyHive
   layers:
   - Default
   - TransparentFX

@@ -240,7 +240,7 @@ Transform:
   m_GameObject: {fileID: 108493812}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.8, y: 0, z: 6.674968}
+  m_LocalPosition: {x: 2.3, y: 0, z: 6.674968}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -289,7 +289,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 2.5}
+  m_Size: {x: 1, y: 4}
   m_EdgeRadius: 0
 --- !u!1001 &123677209
 PrefabInstance:
@@ -3598,7 +3598,7 @@ Transform:
   m_GameObject: {fileID: 1195183277}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.8, y: 0, z: 6.674968}
+  m_LocalPosition: {x: -2.3, y: 0, z: 6.674968}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3647,7 +3647,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 2.5}
+  m_Size: {x: 1, y: 4}
   m_EdgeRadius: 0
 --- !u!1 &1245465138
 GameObject:
@@ -4042,7 +4042,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 0.1}
+  m_Size: {x: 4, y: 1}
   m_EdgeRadius: 0
 --- !u!4 &1384775926
 Transform:
@@ -4053,7 +4053,7 @@ Transform:
   m_GameObject: {fileID: 1384775924}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.8, z: 6.674968}
+  m_LocalPosition: {x: 0, y: -1.27, z: 6.674968}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5175,7 +5175,7 @@ Transform:
   m_GameObject: {fileID: 1995138011}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 6.674968}
+  m_LocalPosition: {x: 0, y: 1.5, z: 6.674968}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5224,7 +5224,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 0.1}
+  m_Size: {x: 4, y: 1}
   m_EdgeRadius: 0
 --- !u!1001 &179114345091412631
 PrefabInstance:
