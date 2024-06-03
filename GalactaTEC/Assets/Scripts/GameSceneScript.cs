@@ -52,17 +52,6 @@ public class GameSceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Remove this later
-        //setAttackPatternForLevel(int level, int attackPattern)
-        gameManager.getInstance().setAttackPatternForLevel(1, 1);
-        gameManager.getInstance().setAttackPatternForLevel(2, 2);
-        gameManager.getInstance().setAttackPatternForLevel(3, 3);
-
-        Debug.Log("Level1: " + gameManager.getInstance().getAttackPatternForLevel(1));
-        Debug.Log("Level2: " + gameManager.getInstance().getAttackPatternForLevel(2));
-        Debug.Log("Level3: " + gameManager.getInstance().getAttackPatternForLevel(3));
-        //
-
         AudioManager.getInstance().playLevel1Soundtrack();
         AudioManager.getInstance().pauseMusicSource.Play();
         AudioManager.getInstance().pauseMusicSource.Pause();
@@ -366,4 +355,15 @@ public class GameSceneScript : MonoBehaviour
     {
         return level;
     }
+
+    public int getMovementPattern(){
+        int movePattern = gameManager.getInstance().getAttackPatternForLevel(level);
+        if (movePattern == 5)
+        {
+            movePattern = UnityEngine.Random.Range(1, 5);
+            gameManager.getInstance().setAttackPatternForLevel(level, movePattern);
+        }
+        return movePattern;
+    }
+
 }

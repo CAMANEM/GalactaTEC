@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public float movementDistanceY = 0.5f;
     private bool moveLaterally = true;
 
-    public byte movePattern = 2;
+    public int movePattern = 2;
     private Vector3 destinyPosition;
 
     [SerializeField]
@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
     {
         gameObject.transform.Rotate(180f, 0, 0);
         destinyPosition = transform.position - new Vector3(0, 1f, 0);
+        configMovePattern();
     }
 
     // Update is called once per frame
@@ -48,20 +49,20 @@ public class Enemy : MonoBehaviour
     */
     void move(){
         switch(movePattern){
-            case 0:
+            case 1:
                 moveSideToSide();
                 break;
-            case 1:
-                kamikaze(); 
-                break;
             case 2:
-                moveZigzag();
+                moveShortSTS(); 
                 break;
             case 3:
-                moveShortSTS();
+                moveZigzag();
                 break;
             case 4:
                 moveUpDown();
+                break;
+            case 5:
+                kamikaze();
                 break;
         }
     }
@@ -71,14 +72,14 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag == "HorizontalBoundary" || collision.gameObject.tag == "VerticalBoundary")
         {
             switch(movePattern){
-                case 0:
+                case 1:
                     sideTiSideLimit(collision);
                     break;
                 case 2:
-                    zigzagLimit(collision);
+                    shortSTSLimit(collision);
                     break;
                 case 3:
-                    shortSTSLimit(collision);
+                    zigzagLimit(collision);
                     break;
                 case 4:
                     upDownLimit(collision);
@@ -292,5 +293,9 @@ public class Enemy : MonoBehaviour
     private void chargedShoot()
     {
         Instantiate(chargedShot, attackPoint.position, Quaternion.identity);
+    }
+
+    private void configMovePattern(){
+        movePattern = GameObject.Find("Canvas").GetComponent<GameSceneScript>().getMovementPattern();
     }
 }

@@ -60,7 +60,11 @@ namespace GameManager
         public string playerEditingInformation = "";
 
         // Defines the dictionary to store attack levels and patterns
-        private Dictionary<int, int> levelAttackPatterns = new Dictionary<int, int>();
+        private Dictionary<int, int> levelAttackPatterns = new Dictionary<int, int>{
+            { 1, 5 },
+            { 2, 5 },
+            { 3, 5 }
+        };
 
         // Paths
         public string usersPath = Application.dataPath + "/Data/users.json";
