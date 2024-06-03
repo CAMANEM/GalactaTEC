@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using audio_manager;
 
 public class Enemy : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject chargedShot;
     private bool alreadyShotCharged = false;
+    private int level;
 
 
 
@@ -26,6 +28,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         gameObject.transform.Rotate(180f, 0, 0);
+        level = GameObject.Find("Canvas").GetComponent<GameSceneScript>().getLevel();
     }
 
     // Update is called once per frame
@@ -92,6 +95,7 @@ public class Enemy : MonoBehaviour
 
     private void destroy()
     {
+        AudioManager.getInstance().playEnemyExplosionEffect();
         Spawner spawnerScript = GameObject.Find("MainCamera").GetComponent<Spawner>();
         spawnerScript.enemyDestroyed(gameObject.name);
         Instantiate(explosion, transform.position, Quaternion.identity);
@@ -121,11 +125,24 @@ public class Enemy : MonoBehaviour
 
     private void normalShoot()
     {
+        if (level == 1)
+        {
+            AudioManager.getInstance().playEnemyShot1Effect();
+        }
+        else if (level == 2)
+        {
+            AudioManager.getInstance().playEnemyShot2Effect();
+        }
+        else if (level == 3)
+        {
+            AudioManager.getInstance().playEnemyShot3Effect();
+        }
         Instantiate(enemyShot, attackPoint.position, Quaternion.identity);
     }
 
     private void chargedShoot()
     {
+        AudioManager.getInstance().playEnemyChargedShotEffect();
         Instantiate(chargedShot, attackPoint.position, Quaternion.identity);
     }
 

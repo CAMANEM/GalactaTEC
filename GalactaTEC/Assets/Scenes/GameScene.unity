@@ -3238,6 +3238,11 @@ MonoBehaviour:
   movementClip: {fileID: 8300000, guid: 238b7940cfda27a44834f7c4460f3a27, type: 3}
   bonusClip: {fileID: 8300000, guid: aed99e32e78677a43ab203f52801c1bf, type: 3}
   shotClip: {fileID: 8300000, guid: b1709a6ce73146b44bd96a78d7f869c2, type: 3}
+  enemyExplosion: {fileID: 8300000, guid: 9d00290e218d778489f96ea6ad138554, type: 3}
+  enemyShot1: {fileID: 8300000, guid: f2d4bb48bff3bca49bb27781a874389e, type: 3}
+  enemyShot2: {fileID: 8300000, guid: f51b53e50f322604caad5b2cfe273a21, type: 3}
+  enemyShot3: {fileID: 8300000, guid: d610e72ec6667e5468f821809ecaaf74, type: 3}
+  enemyChargedShot: {fileID: 8300000, guid: c2c40ad1c1436304eb16cf003ec939e8, type: 3}
   shipDestructionClip: {fileID: 0}
   volume: 1
   pauseMusicSource: {fileID: 971620875}

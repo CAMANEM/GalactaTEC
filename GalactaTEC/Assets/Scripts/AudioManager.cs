@@ -17,6 +17,11 @@ namespace audio_manager
         [SerializeField] public AudioClip movementClip;
         [SerializeField] public AudioClip bonusClip;
         [SerializeField] public AudioClip shotClip;
+        [SerializeField] public AudioClip enemyExplosion;
+        [SerializeField] public AudioClip enemyShot1;
+        [SerializeField] public AudioClip enemyShot2;
+        [SerializeField] public AudioClip enemyShot3;
+        [SerializeField] public AudioClip enemyChargedShot;
         [SerializeField] public AudioClip shipDestructionClip;
         [SerializeField] float volume = 1f;
 
@@ -218,6 +223,36 @@ namespace audio_manager
         public void playShipDestructionEffect()
         {
             this.sfxSource.clip = this.shipDestructionClip;
+            this.sfxSource.Play();
+        }
+
+        public void playEnemyExplosionEffect()
+        {
+            this.sfxSource.clip = this.enemyShot1;
+            this.sfxSource.Play();
+        }
+
+        public void playEnemyShot1Effect()
+        {
+            this.sfxSource.clip = this.enemyShot1;
+            this.sfxSource.Play();
+        }
+
+        public void playEnemyShot2Effect()
+        {
+            this.sfxSource.clip = this.enemyShot2;
+            this.sfxSource.Play();
+        }
+
+        public void playEnemyShot3Effect()
+        {
+            this.sfxSource.clip = this.enemyShot3;
+            this.sfxSource.Play();
+        }
+
+        public void playEnemyChargedShotEffect()
+        {
+            this.sfxSource.clip = this.enemyChargedShot;
             this.sfxSource.Play();
         }
 
