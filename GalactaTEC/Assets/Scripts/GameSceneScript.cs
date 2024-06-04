@@ -72,7 +72,7 @@ public class GameSceneScript : MonoBehaviour
                 imgUser1.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
         }
-        else if (gameManager.getInstance().cuantityOfPlayers == 2 && !gameManager.getInstance().getOneInsteadOfTwo())
+        else if (twoPlayer())
         {
             user1 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
             user2 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player2Username);
@@ -168,7 +168,7 @@ public class GameSceneScript : MonoBehaviour
     public void onCollision(float playerLifes)
     {
         lifes = playerLifes;
-        if (gameManager.getInstance().cuantityOfPlayers == 2 && !gameManager.getInstance().getOneInsteadOfTwo())
+        if (twoPlayer() && playerContext1.isEnable() && playerContext2.isEnable())
         {
             if (!pnlPauseDialogue.activeSelf)
             {
@@ -203,6 +203,10 @@ public class GameSceneScript : MonoBehaviour
 
         if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
         {
+            if (lifes <= 0)
+            {
+                playerContext1.setEnable(false);
+            }
             playerContext1.savePlayerState(score, level, lifes);
             playerContext2.restorePlayerState();
 
@@ -218,6 +222,10 @@ public class GameSceneScript : MonoBehaviour
         }
         else
         {
+            if (lifes <= 0)
+            {
+                playerContext2.setEnable(false);
+            }
             playerContext2.savePlayerState(score, level, lifes);
             playerContext1.restorePlayerState();
 
@@ -244,17 +252,42 @@ public class GameSceneScript : MonoBehaviour
 
         GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
 
-        if (lifes <= 0)
+        if (twoPlayer() && (!playerContext1.isEnable() || !playerContext2.isEnable()))
         {
-            gameManager.getInstance().setScore1(score);
-            gameManager.getInstance().setPodiumSceneTitle("Game Over");
-            SceneManager.LoadScene("PodiumScene");
+            if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+            {
+                playerContext1.savePlayerState(score, level, lifes);
+            }
+            else
+            {
+                playerContext2.savePlayerState(score, level, lifes);
+            }
+
+            if (lifes <= 0)
+            {
+                // Start the coroutine to wait and go to Podium/GameOver scene
+                StartCoroutine(gameFinished(0.5f));
+            }
+            else
+            {
+                GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
+                GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+                GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
+            }
         }
         else
         {
-            GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
-            GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
-            GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
+            if (lifes <= 0)
+            {
+                // Start the coroutine to wait and go to Podium/GameOver scene
+                StartCoroutine(gameOver(0.5f));
+            }
+            else
+            {
+                GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
+                GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+                GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
+            }
         }
     }
 
@@ -327,7 +360,7 @@ public class GameSceneScript : MonoBehaviour
         }
         score += points;
 
-        if (gameManager.getInstance().cuantityOfPlayers == 2 && !gameManager.getInstance().getOneInsteadOfTwo())
+        if (twoPlayer())
         {
             if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
             {
@@ -352,18 +385,184 @@ public class GameSceneScript : MonoBehaviour
         Instantiate(bonus, transform.position, Quaternion.identity);
     }
 
-    public void levelCompleted()
-    {
-        if (level < 3)
-        {
-            level++;
-        }
-        Debug.Log("Level Completed");
-    }
-
     public int getLevel()
     {
         return level;
+    }
+
+    public void levelCompleted()
+    {
+        if (twoPlayer())
+        {
+            if (level < 3)
+            {
+                level++;
+
+                if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+                {
+                    playerContext1.savePlayerState(score, level, lifes);
+                }
+                else
+                {
+                    playerContext2.savePlayerState(score, level, lifes);
+                }
+
+                txtLevel.text = "Level " + level.ToString();
+
+                // Start the coroutine to wait and load next level
+                StartCoroutine(loadNextLevel(1.5f));
+            }
+            else
+            {
+                if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+                {
+                    playerContext1.savePlayerState(score, level, lifes);
+                }
+                else
+                {
+                    playerContext2.savePlayerState(score, level, lifes);
+                }
+
+                // When both players finish the third level of the game
+                if (playerContext1.getLevel() == playerContext2.getLevel())
+                {
+                    // Start the coroutine to wait and go to Podium/GameOver scene
+                    StartCoroutine(gameFinished(1.5f));
+                }
+                // When one player finishes the third level of the game and the other player has no lives
+                else if ((playerContext1.getLevel() == 3 && playerContext2.getLifes() <= 0) || (playerContext2.getLevel() == 3 && playerContext1.getLifes() <= 0))
+                {
+                    // Start the coroutine to wait and go to Podium/GameOver scene
+                    StartCoroutine(gameFinished(1.5f));
+                }
+                // When player1 finishes the third level of the game and the other player has still lives
+                else if (playerContext1.getLevel() == 3 && playerContext2.getLifes() > 0)
+                {
+                    playerContext1.setEnable(false);
+                    playerContext2.restorePlayerState();
+
+                    gameManager.getInstance().playerToPlay = user2.username;
+                    gameManager.getInstance().setCurrentPlayer(user2);
+
+                    imgControl1.gameObject.SetActive(false);
+                    imgControl2.gameObject.SetActive(true);
+
+                    score = playerContext2.getScore();
+                    level = playerContext2.getLevel();
+                    lifes = playerContext2.getLifes();
+
+                    onCollision(lifes);
+                }
+                // When player2 finishes the third level of the game and the other player has still lives
+                else if (playerContext2.getLevel() == 3 && playerContext1.getLifes() > 0)
+                {
+                    playerContext2.setEnable(false);
+                    playerContext1.restorePlayerState();
+
+                    gameManager.getInstance().playerToPlay = user1.username;
+                    gameManager.getInstance().setCurrentPlayer(user1);
+
+                    imgControl1.gameObject.SetActive(true);
+                    imgControl2.gameObject.SetActive(false);
+
+                    score = playerContext1.getScore();
+                    level = playerContext1.getLevel();
+                    lifes = playerContext1.getLifes();
+
+                    onCollision(lifes);
+                }
+            }
+        }
+        else
+        {
+            if (level < 3)
+            {
+                level++;
+                txtLevel.text = "Level " + level.ToString();
+
+                // Start the coroutine to wait and load next level
+                StartCoroutine(loadNextLevel(1.5f));
+            }
+            else
+            {
+                // Start the coroutine to wait and go to Podium/GameOver scene
+                StartCoroutine(gameCompleted(1.5f));
+            }
+        }
+
+        Debug.Log("Level Completed");
+    }
+
+    private IEnumerator loadNextLevel(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+        // Spawn new enemies for the level
+    }
+
+    private IEnumerator gameOver(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        userManager.getInstance().updatePlayerScoreRecord(gameManager.getInstance().getCurrentPlayer().username, score);
+
+        gameManager.getInstance().setScore1(score);
+        gameManager.getInstance().setPodiumSceneTitle("Game Over");
+        SceneManager.LoadScene("PodiumScene");
+    }
+
+    private IEnumerator gameCompleted(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+
+        userManager.getInstance().updatePlayerScoreRecord(gameManager.getInstance().getCurrentPlayer().username, score);
+
+        gameManager.getInstance().setScore1(score);
+        gameManager.getInstance().setPodiumSceneTitle("Game Completed");
+        SceneManager.LoadScene("PodiumScene");
+    }
+
+    private IEnumerator gameFinished(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+
+        playerContext1.restorePlayerState();
+        playerContext2.restorePlayerState();
+
+        int score1 = playerContext1.getScore();
+        int score2 = playerContext2.getScore();
+
+        string user1 = playerContext1.getPlayer();
+        string user2 = playerContext2.getPlayer();
+
+        userManager.getInstance().updatePlayerScoreRecord(user1, score1);
+        userManager.getInstance().updatePlayerScoreRecord(user2, score2);
+
+        if (score1 >= score2)
+        {
+            gameManager.getInstance().playerToPlay = user1;
+            gameManager.getInstance().setScore1(score1);
+            gameManager.getInstance().setScore2(score2);
+        }
+        else
+        {
+            gameManager.getInstance().playerToPlay = user2;
+            gameManager.getInstance().setScore1(score2);
+            gameManager.getInstance().setScore2(score1);
+        }
+
+        gameManager.getInstance().setPodiumSceneTitle("Podium");
+        SceneManager.LoadScene("PodiumScene");
+    }
+
+    private bool twoPlayer()
+    {
+        return gameManager.getInstance().cuantityOfPlayers == 2 && !gameManager.getInstance().getOneInsteadOfTwo();
     }
 
     public int getMovementPattern(){

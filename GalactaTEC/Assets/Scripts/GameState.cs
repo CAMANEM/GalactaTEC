@@ -100,11 +100,13 @@ public class PlayerContext
     private PlayerState state;
     private GameState gameState;
     private Memento memento;
+    private bool enable;
 
     public PlayerContext(PlayerState initialState, string player, int score, int level, int ship, float lifes)
     {
         state = initialState;
         gameState = new GameState(player, score, level, ship, lifes);
+        enable = true;
     }
 
     public string getPlayer()
@@ -125,6 +127,16 @@ public class PlayerContext
     public float getLifes()
     {
         return gameState.Lifes;
+    }
+
+    public void setEnable(bool enable)
+    {
+        this.enable = enable;
+    }
+
+    public bool isEnable()
+    {
+        return enable;
     }
 
     public void saveInitPlayerState()
