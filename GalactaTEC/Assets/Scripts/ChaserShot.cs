@@ -40,8 +40,6 @@ public class ChaserShot : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Enemy"){
-            GameSceneScript gameSceneScriptScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
-            gameSceneScriptScript.updateScore(200);
             destroy();
         }
         else if (collision.gameObject.tag == "EnemyShot")

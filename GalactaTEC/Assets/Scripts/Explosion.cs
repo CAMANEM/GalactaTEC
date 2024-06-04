@@ -23,8 +23,6 @@ public class Explosion : MonoBehaviour
         Debug.Log(collision.gameObject);
         if (collision.gameObject.tag == "Enemy"){
             Destroy(collision.gameObject);
-            GameSceneScript gameSceneScriptScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
-            gameSceneScriptScript.updateScore(200);
         }
     }
 

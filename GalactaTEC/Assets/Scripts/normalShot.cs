@@ -32,8 +32,6 @@ public class NormalShot : MonoBehaviour
     {
         //Debug.Log(collision.gameObject);
         if (collision.gameObject.tag == "Enemy"){
-            GameSceneScript gameSceneScriptScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
-            gameSceneScriptScript.updateScore(200);
             destroy();
         }
         else if (collision.gameObject.tag == "EnemyShot")

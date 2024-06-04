@@ -59,6 +59,8 @@ public class PlayerController : MonoBehaviour
     public InputAction next;
     public InputAction back;
 
+    private bool cooldown = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -110,7 +112,16 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Fire(InputAction.CallbackContext context){
-        Instantiate(normalShot, attack_Point.position, Quaternion.identity);
+        if (cooldown)
+        {
+            // salao
+        }
+        else
+        {
+            Instantiate(normalShot, attack_Point.position, Quaternion.identity);
+            cooldown = true;
+            Invoke("endCooldown", 0.7f);
+        }
     }
 
     void Move()
@@ -455,4 +466,9 @@ public class PlayerController : MonoBehaviour
             powerSelected = 3;
         }
     }
+
+    private void endCooldown(){
+        cooldown = false;
+    }
+
 }

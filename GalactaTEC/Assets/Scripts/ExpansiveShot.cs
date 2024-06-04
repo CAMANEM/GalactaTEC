@@ -37,8 +37,6 @@ public class ExpansiveShot : MonoBehaviour
         Debug.Log(collision.gameObject);
         if (collision.gameObject.tag == "Enemy"){
             Destroy(collision.gameObject);
-            GameSceneScript gameSceneScriptScript = GameObject.Find("Canvas").GetComponent<GameSceneScript>();
-            gameSceneScriptScript.updateScore(200);
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
             

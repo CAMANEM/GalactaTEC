@@ -96,6 +96,7 @@ public class Enemy : MonoBehaviour
     private void destroy()
     {
         AudioManager.getInstance().playEnemyExplosionEffect();
+        GameObject.Find("Canvas").GetComponent<GameSceneScript>().updateScore();
         Spawner spawnerScript = GameObject.Find("MainCamera").GetComponent<Spawner>();
         spawnerScript.enemyDestroyed(gameObject.name);
         Instantiate(explosion, transform.position, Quaternion.identity);

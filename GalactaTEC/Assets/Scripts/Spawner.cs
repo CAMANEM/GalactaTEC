@@ -103,7 +103,7 @@ public class Spawner : MonoBehaviour
         Vector3 enemyPos = EnemySpawn.position;
         enemyPos.z = 0f;
         // Gets the current level
-        int enemyType = GameObject.Find("Canvas").GetComponent<GameSceneScript>().getLevel();
+        int enemyType = GameObject.Find("Canvas").GetComponent<GameSceneScript>().getLevel() - 1;
         // Gets the enemyType assigned to this level
         enemyType = enemyTypes[enemyType];
         var enemyShip = enemyKlaedBattlecruiser;

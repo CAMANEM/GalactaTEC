@@ -351,9 +351,9 @@ public class GameSceneScript : MonoBehaviour
         x2PtsIsActive = false;
     }
 
-    public void updateScore(int points)
+    public void updateScore()
     {
-
+        int points = 200;
         if (x2PtsIsActive)
         {
             points *= 2;
@@ -498,7 +498,7 @@ public class GameSceneScript : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
-        // Spawn new enemies for the level
+        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
     }
 
     private IEnumerator gameOver(float time)
