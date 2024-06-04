@@ -117,7 +117,8 @@ public class GameSceneScript : MonoBehaviour
         }
         else
         {
-            User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
+            //User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
+            User user = userManager.getInstance().getUserByUsername("andresTEC");
             gameManager.getInstance().setCurrentPlayer(user);
             imgControl1.gameObject.SetActive(true);
             txtUsername1.text = user.username;
@@ -566,12 +567,7 @@ public class GameSceneScript : MonoBehaviour
     }
 
     public int getMovementPattern(){
-        int movePattern = gameManager.getInstance().getAttackPatternForLevel(level);
-        if (movePattern == 5)
-        {
-            movePattern = UnityEngine.Random.Range(1, 5);
-            gameManager.getInstance().setAttackPatternForLevel(level, movePattern);
-        }
+        int movePattern = gameManager.getInstance().getInGameAttackPatternForLevel(level);
         return movePattern;
     }
 }

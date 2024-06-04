@@ -70,6 +70,13 @@ namespace GameManager
             { 3, 5 }
         };
 
+        // Defines the dictionary to store attack levels and patterns
+        private Dictionary<int, int> levelAttackPatternsInGame = new Dictionary<int, int>{
+            { 1, 1 },
+            { 2, 2 },
+            { 3, 3 }
+        };
+
         // Paths
         public string usersPath = Application.dataPath + "/Data/users.json";
 
@@ -128,6 +135,37 @@ namespace GameManager
             this.cuantityOfPlayers = cuantityOfPlayers;
         }
 
+        public void calculateRandomAttackPatterns()
+        {
+            Debug.Log("Original dictionary:\nLevel 1: " + getAttackPatternForLevel(1) + "\nLevel 2: " + getAttackPatternForLevel(2) + "\nLevel 3: " + getAttackPatternForLevel(3));
+
+            Debug.Log("In game dictionary:\nLevel 1: " + getInGameAttackPatternForLevel(1) + "\nLevel 2: " + getInGameAttackPatternForLevel(2) + "\nLevel 3: " + getInGameAttackPatternForLevel(3));
+
+            for (int i = 1; i <= 3; i++)
+            {
+                setInGameAttackPatternForLevel(i, getAttackPatternForLevel(i));
+
+                if (this.getAttackPatternForLevel(i) == 5)
+                {
+                    bool isAttackPatternOk = false;
+
+                    while(!isAttackPatternOk)
+                    {
+                        setInGameAttackPatternForLevel(i, UnityEngine.Random.Range(1, 5));
+
+                        if ((this.getInGameAttackPatternForLevel(1) != this.getInGameAttackPatternForLevel(2) || (this.getInGameAttackPatternForLevel(1) == 5 && this.getInGameAttackPatternForLevel(2) == 5)) &&
+                            (this.getInGameAttackPatternForLevel(1) != this.getInGameAttackPatternForLevel(3) || (this.getInGameAttackPatternForLevel(1) == 5 && this.getInGameAttackPatternForLevel(3) == 5)) &&
+                            (this.getInGameAttackPatternForLevel(2) != this.getInGameAttackPatternForLevel(3) || (this.getInGameAttackPatternForLevel(2) == 5 && this.getInGameAttackPatternForLevel(3) == 5)))
+                        {
+                            isAttackPatternOk = true;
+                        }
+                    }
+                }
+            }
+
+            Debug.Log("Calculated attack patterns:\nLevel 1: " + getInGameAttackPatternForLevel(1) + "\nLevel 2: " + getInGameAttackPatternForLevel(2) + "\nLevel 3: " + getInGameAttackPatternForLevel(3));
+        }
+
         public int getAttackPatternForLevel(int level)
         {
             int attackPattern;
@@ -143,6 +181,21 @@ namespace GameManager
             }
         }
 
+        public int getInGameAttackPatternForLevel(int level)
+        {
+            int attackPattern;
+            // Try to get the attack pattern for the given level
+            if (levelAttackPatternsInGame.TryGetValue(level, out attackPattern))
+            {
+                return attackPattern;
+            }
+            else
+            {
+                Debug.LogError("The specified level does not have an in game attack pattern assigned.");
+                return -1;
+            }
+        }
+
         public void setAttackPatternForLevel(int level, int attackPattern)
         {
             // Check if the level exists in the dictionary
@@ -150,6 +203,20 @@ namespace GameManager
             {
                 // Modify the attack pattern for the given level
                 levelAttackPatterns[level] = attackPattern;
+            }
+            else
+            {
+                Debug.LogError("The specified level does not exist in the dictionary.");
+            }
+        }
+
+        public void setInGameAttackPatternForLevel(int level, int attackPattern)
+        {
+            // Check if the level exists in the dictionary
+            if (levelAttackPatternsInGame.ContainsKey(level))
+            {
+                // Modify the attack pattern for the given level
+                levelAttackPatternsInGame[level] = attackPattern;
             }
             else
             {

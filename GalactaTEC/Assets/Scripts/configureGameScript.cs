@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using GameManager;
 using audio_manager;
 
 public class configureGameScript : MonoBehaviour
@@ -21,6 +22,7 @@ public class configureGameScript : MonoBehaviour
 
     public void BackButtonOnClick()
     {
+        gameManager.getInstance().calculateRandomAttackPatterns();
         SceneManager.LoadScene("MainMenuScene");
     }
 }

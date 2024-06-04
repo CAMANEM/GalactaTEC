@@ -111,6 +111,8 @@ public class patternSelectionScript : MonoBehaviour
                 gameManager.getInstance().setAttackPatternForLevel(level, i + 1);
             }
         }
+
+        Debug.Log("Attack patterns saved!\nLevel 1: " + gameManager.getInstance().getAttackPatternForLevel(1) + "\nLevel 2: " + gameManager.getInstance().getAttackPatternForLevel(2) + "\nLevel 3: " + gameManager.getInstance().getAttackPatternForLevel(3));
     }
 
     private void LoadToggleState()
@@ -149,6 +151,12 @@ public class patternSelectionScript : MonoBehaviour
                 toggles[i].isOn = true;
                 toggles[i].interactable = false;
             }
+        }
+
+        if (toggleA == 4 || toggleB == 4)
+        {
+            toggles[4].isOn = false;
+            toggles[4].interactable = true;
         }
     }
 
