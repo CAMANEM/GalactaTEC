@@ -53,8 +53,6 @@ public class GameSceneScript : MonoBehaviour
     void Start()
     {
         AudioManager.getInstance().playLevel1Soundtrack();
-        AudioManager.getInstance().pauseMusicSource.Play();
-        AudioManager.getInstance().pauseMusicSource.Pause();
 
         if (gameManager.getInstance().cuantityOfPlayers == 1)
         {
@@ -117,8 +115,8 @@ public class GameSceneScript : MonoBehaviour
         }
         else
         {
-            User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
-            
+            //User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
+            User user = userManager.getInstance().getUserByUsername("andresTEC");
             gameManager.getInstance().setCurrentPlayer(user);
             imgControl1.gameObject.SetActive(true);
             txtUsername1.text = user.username;
@@ -155,13 +153,9 @@ public class GameSceneScript : MonoBehaviour
                 pnlPauseDialogue.SetActive(true);
 
                 // Pause game time and music
-                AudioManager.getInstance().pauseSoundtrack();
-                AudioManager.getInstance().pauseMusicSource.volume = AudioManager.getInstance().audioVolumeBeforePause;
-                AudioManager.getInstance().pauseMusicSource.UnPause();
-                if (AudioManager.getInstance().isAudioPaused == true)
-                {
-                    Time.timeScale = 0f;
-                }
+                AudioManager.getInstance().musicSource.Pause();
+                AudioManager.getInstance().isAudioPaused = true;
+                Time.timeScale = 0f;
             }
         }
     }
@@ -194,13 +188,9 @@ public class GameSceneScript : MonoBehaviour
         pnlPauseDialogue.SetActive(true);
 
         // Pause game time and music
-        AudioManager.getInstance().pauseSoundtrack();
-        AudioManager.getInstance().pauseMusicSource.volume = AudioManager.getInstance().audioVolumeBeforePause;
-        AudioManager.getInstance().pauseMusicSource.UnPause();
-        if (AudioManager.getInstance().isAudioPaused == true)
-        {
-            Time.timeScale = 0f;
-        }
+        AudioManager.getInstance().musicSource.Pause();
+        AudioManager.getInstance().isAudioPaused = true;
+        Time.timeScale = 0f;
 
         if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
         {
@@ -315,7 +305,6 @@ public class GameSceneScript : MonoBehaviour
             Time.timeScale = 1f;
             if (Time.timeScale == 1f)
             {
-                AudioManager.getInstance().pauseMusicSource.Pause();
                 AudioManager.getInstance().unPauseSoundtrack();
             }
         }
@@ -500,6 +489,17 @@ public class GameSceneScript : MonoBehaviour
 
         GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
         GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+
+        if(this.level == 1)
+        {
+            AudioManager.getInstance().playLevel1Soundtrack();
+        } else if(this.level == 2)
+        {
+            AudioManager.getInstance().playLevel2Soundtrack();
+        } else
+        {
+            AudioManager.getInstance().playLevel3Soundtrack();
+        }
     }
 
     private IEnumerator gameOver(float time)

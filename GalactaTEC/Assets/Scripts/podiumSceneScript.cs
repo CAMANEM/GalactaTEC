@@ -33,6 +33,8 @@ public class podiumSceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.getInstance().playPodiumSoundtrack();
+
         string title = gameManager.getInstance().getPodiumSceneTitle();
         if (title == "Game Over" || title == "Game Completed")
         {

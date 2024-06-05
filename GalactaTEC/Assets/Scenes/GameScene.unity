@@ -3281,10 +3281,14 @@ MonoBehaviour:
   - Audio/Soundtracks/Level/Level - Section 303
   - Audio/Soundtracks/Level/Level - Section 304
   - Audio/Soundtracks/Level/Level - Section 305
+  podiumSoudtracksPaths:
+  - Audio/Soundtracks/Podium/Podium - Victory Battle
+  - Audio/Soundtracks/Podium/Podium - Winds of Victory
   loggedUserFavoriteSoundtracks: []
   clipPath: 
   isAudioPaused: 0
   audioVolumeBeforePause: 0
+  playlistIndex: 0
 --- !u!4 &1026997777
 Transform:
   m_ObjectHideFlags: 0
@@ -5044,7 +5048,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 2488023030972855796, guid: 593037b71ba0f6044acf6250e0c8b768, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0

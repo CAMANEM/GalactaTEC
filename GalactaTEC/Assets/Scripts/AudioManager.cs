@@ -48,7 +48,11 @@ namespace audio_manager
                                                     "Audio/Soundtracks/Level/Level - Section 302", "Audio/Soundtracks/Level/Level - Section 303",
                                                     "Audio/Soundtracks/Level/Level - Section 304", "Audio/Soundtracks/Level/Level - Section 305" };
 
+        public string[] podiumSoudtracksPaths = { "Audio/Soundtracks/Podium/Podium - Victory Battle", "Audio/Soundtracks/Podium/Podium - Winds of Victory" };
+
         private string[] currentPlaylist;
+
+        private string[] nextPlaylist;
 
         public string[] loggedUserFavoriteSoundtracks;
 
@@ -57,10 +61,12 @@ namespace audio_manager
         public bool isAudioPaused = false;
         public float audioVolumeBeforePause;
 
+        public int playlistIndex = 0;
+
         // Start is called before the first frame update
         void Start()
         {
-            
+
         }
 
         // Update is called once per frame
@@ -105,22 +111,23 @@ namespace audio_manager
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-
                 volume += 0.1f;
-                myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 volume -= 0.1f;
-                myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
             }
+
+            this.musicSource.volume = volume;
+            this.pauseMusicSource.volume = volume;
+            this.sfxSource.volume = volume;
         }
 
         public void playBackgroundSoundtrack()
         {
             if(this.currentPlaylist != this.backgroundSoundtracksPaths)
             {
-                this.currentPlaylist = this.backgroundSoundtracksPaths;
+                this.nextPlaylist = this.backgroundSoundtracksPaths;
 
                 InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
@@ -130,7 +137,7 @@ namespace audio_manager
         {
             if (this.currentPlaylist != this.level1SoundtracksPaths)
             {
-                this.currentPlaylist = this.level1SoundtracksPaths;
+                this.nextPlaylist = this.level1SoundtracksPaths;
 
                 InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
@@ -140,7 +147,7 @@ namespace audio_manager
         {
             if (this.currentPlaylist != this.level2SoundtracksPaths)
             {
-                this.currentPlaylist = this.level2SoundtracksPaths;
+                this.nextPlaylist = this.level2SoundtracksPaths;
 
                 InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
@@ -150,7 +157,17 @@ namespace audio_manager
         {
             if (this.currentPlaylist != this.level3SoundtracksPaths)
             {
-                this.currentPlaylist = this.level3SoundtracksPaths;
+                this.nextPlaylist = this.level3SoundtracksPaths;
+
+                InvokeRepeating("fadeStopMusic", 0f, 0.1f);
+            }
+        }
+
+        public void playPodiumSoundtrack()
+        {
+            if (this.currentPlaylist != this.podiumSoudtracksPaths)
+            {
+                this.nextPlaylist = this.podiumSoudtracksPaths;
 
                 InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
@@ -160,13 +177,34 @@ namespace audio_manager
         // Verifies if there are soundtracks playing, if there are, does nothing, if not, play a random soundtrack of currentPlaylist array
         private void checkSoundtrackActivity()
         {
-            if (!musicSource.isPlaying && !this.isAudioPaused && gameManager.getInstance().player1Email != "")
+            if (!musicSource.isPlaying && !this.isAudioPaused && this.currentPlaylist == this.podiumSoudtracksPaths)
             {
-                int index = UnityEngine.Random.Range(0, this.currentPlaylist.Length);
-
-                if (isSounditrackInUserFavorites(this.currentPlaylist[index]))
+                if(this.playlistIndex == 0)
                 {
-                    this.clipPath = this.currentPlaylist[index];
+                    this.playlistIndex = 1;
+                } else if(this.playlistIndex == 1)
+                {
+                    this.playlistIndex = 0;
+                } else
+                {
+                    this.playlistIndex = UnityEngine.Random.Range(0, this.currentPlaylist.Length);
+                }
+
+                this.clipPath = this.currentPlaylist[this.playlistIndex];
+
+                this.clip = (AudioClip)Resources.Load(this.clipPath, typeof(AudioClip));
+
+                musicSource.clip = this.clip;
+
+                InvokeRepeating("fadePlayMusic", 0f, 0.01f);
+            }
+            else if (!musicSource.isPlaying && !this.isAudioPaused && gameManager.getInstance().player1Email != "")
+            {
+                this.playlistIndex = UnityEngine.Random.Range(0, this.currentPlaylist.Length);
+
+                if (isSounditrackInUserFavorites(this.currentPlaylist[this.playlistIndex]))
+                {
+                    this.clipPath = this.currentPlaylist[this.playlistIndex];
 
                     this.clip = (AudioClip)Resources.Load(this.clipPath, typeof(AudioClip));
 
@@ -174,19 +212,19 @@ namespace audio_manager
 
                     this.pauseMusicSource.clip = this.clip;
 
-                    InvokeRepeating("fadePlayMusic", 0f, 0.1f);
+                    InvokeRepeating("fadePlayMusic", 0f, 0.01f);
                 }
-            } else if (!musicSource.isPlaying && !this.isAudioPaused)
+            } else if (!musicSource.isPlaying && !this.isAudioPaused && this.currentPlaylist != null)
             {
-                int index = UnityEngine.Random.Range(0, this.currentPlaylist.Length);
+                this.playlistIndex = UnityEngine.Random.Range(0, this.currentPlaylist.Length);
 
-                this.clipPath = this.currentPlaylist[index];
+                this.clipPath = this.currentPlaylist[this.playlistIndex];
 
                 this.clip = (AudioClip)Resources.Load(this.clipPath, typeof(AudioClip));
 
                 musicSource.clip = this.clip;
 
-                InvokeRepeating("fadePlayMusic", 0f, 0.1f);
+                InvokeRepeating("fadePlayMusic", 0f, 0.01f);
             }
         }
 
@@ -287,28 +325,21 @@ namespace audio_manager
 
         private void fadeStopMusic()
         {
-            musicSource.volume -= 0.1f;
+            this.volume -= 0.1f;
 
-            musicSource.volume = Mathf.Max(musicSource.volume, 0f);
-
-            myMixer.SetFloat("Music", (float)Math.Log10(this.volume) * 20f);
-
-            if (musicSource.volume <= 0f)
+            if (this.volume <= 0f)
             {
-                musicSource.Stop();
+                this.musicSource.Stop();
+                this.currentPlaylist = this.nextPlaylist;
                 CancelInvoke("fadeStopMusic");
             }
         }
 
         private void fadePauseMusic()
         {
-            musicSource.volume -= 0.1f;
+            this.volume -= 0.1f;
 
-            musicSource.volume = Mathf.Max(musicSource.volume, 0f);
-
-            myMixer.SetFloat("Music", (float)Math.Log10(this.volume) * 20f);
-
-            if (musicSource.volume <= 0f)
+            if (this.volume <= 0f)
             {
                 this.musicSource.Pause();
                 isAudioPaused = true;
@@ -320,16 +351,13 @@ namespace audio_manager
         {
             if (!this.musicSource.isPlaying)
             {
+                this.volume = 0f;
                 this.musicSource.Play();
             }
 
-            musicSource.volume += 0.1f;
+            this.volume += 0.1f;
 
-            musicSource.volume = Mathf.Max(musicSource.volume, 0f);
-
-            myMixer.SetFloat("Music", (float)Math.Log10(this.volume) * 20f);
-
-            if (musicSource.volume >= 1f)
+            if (this.volume >= 1f)
             {
                 CancelInvoke("fadePlayMusic");
             }
@@ -343,13 +371,9 @@ namespace audio_manager
                 isAudioPaused = false;
             }
 
-            musicSource.volume += 0.1f;
+            this.volume += 0.1f;
 
-            musicSource.volume = Mathf.Max(musicSource.volume, 1f);
-
-            myMixer.SetFloat("Music", (float)Math.Log10(this.volume) * 20f);
-
-            if (musicSource.volume >= this.audioVolumeBeforePause)
+            if (this.volume >= this.audioVolumeBeforePause)
             {
                 CancelInvoke("fadeUnPauseMusic");
             }
