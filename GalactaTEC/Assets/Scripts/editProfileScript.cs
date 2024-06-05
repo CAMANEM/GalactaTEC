@@ -619,6 +619,23 @@ public class editProfileScript : MonoBehaviour {
 
                     AlertsManager.getInstance().showAlert("Great!", "Account updated succesfully", "Awesome!");
                 }
+
+                try
+                {
+                    if(gameManager.getInstance().player1Email == previousEmail)
+                    {
+                        gameManager.getInstance().player1Email = inpEmail.text;
+                        gameManager.getInstance().player1Username = inpUsername.text;
+                    }
+                    else if(gameManager.getInstance().player2Email == previousEmail)
+                    {
+                        gameManager.getInstance().player2Email = inpEmail.text;
+                        gameManager.getInstance().player2Username = inpUsername.text;
+                    }
+                } catch
+                {
+                    Debug.Log("Something went wrong loading player information. Debug code: 8.1.");
+                }
             }
             else
             {

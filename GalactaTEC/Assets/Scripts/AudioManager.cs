@@ -59,7 +59,7 @@ namespace audio_manager
         public string clipPath;
 
         public bool isAudioPaused = false;
-        public float audioVolumeBeforePause;
+        public float audioVolumeBeforeStopOrPause;
 
         public int playlistIndex = 0;
 
@@ -111,11 +111,11 @@ namespace audio_manager
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                volume += 0.1f;
+                volume += 0.05f;
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                volume -= 0.1f;
+                volume -= 0.05f;
             }
 
             this.musicSource.volume = volume;
@@ -139,6 +139,8 @@ namespace audio_manager
             {
                 this.nextPlaylist = this.level1SoundtracksPaths;
 
+                this.audioVolumeBeforeStopOrPause = this.volume;
+
                 InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
         }
@@ -148,6 +150,8 @@ namespace audio_manager
             if (this.currentPlaylist != this.level2SoundtracksPaths)
             {
                 this.nextPlaylist = this.level2SoundtracksPaths;
+
+                this.audioVolumeBeforeStopOrPause = this.volume;
 
                 InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
@@ -159,6 +163,8 @@ namespace audio_manager
             {
                 this.nextPlaylist = this.level3SoundtracksPaths;
 
+                this.audioVolumeBeforeStopOrPause = this.volume;
+
                 InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
         }
@@ -168,6 +174,8 @@ namespace audio_manager
             if (this.currentPlaylist != this.podiumSoudtracksPaths)
             {
                 this.nextPlaylist = this.podiumSoudtracksPaths;
+
+                this.audioVolumeBeforeStopOrPause = this.volume;
 
                 InvokeRepeating("fadeStopMusic", 0f, 0.1f);
             }
@@ -314,7 +322,7 @@ namespace audio_manager
 
         public void pauseSoundtrack()
         {
-            this.audioVolumeBeforePause = this.musicSource.volume;
+            this.audioVolumeBeforeStopOrPause = this.musicSource.volume;
             InvokeRepeating("fadePauseMusic", 0f, 0.1f);
         }
 
@@ -357,7 +365,7 @@ namespace audio_manager
 
             this.volume += 0.1f;
 
-            if (this.volume >= 1f)
+            if (this.volume >= this.audioVolumeBeforeStopOrPause)
             {
                 CancelInvoke("fadePlayMusic");
             }
@@ -373,7 +381,7 @@ namespace audio_manager
 
             this.volume += 0.1f;
 
-            if (this.volume >= this.audioVolumeBeforePause)
+            if (this.volume >= this.audioVolumeBeforeStopOrPause)
             {
                 CancelInvoke("fadeUnPauseMusic");
             }

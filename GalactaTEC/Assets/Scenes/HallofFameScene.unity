@@ -159,6 +159,11 @@ MonoBehaviour:
   movementClip: {fileID: 8300000, guid: 238b7940cfda27a44834f7c4460f3a27, type: 3}
   bonusClip: {fileID: 8300000, guid: aed99e32e78677a43ab203f52801c1bf, type: 3}
   shotClip: {fileID: 8300000, guid: b1709a6ce73146b44bd96a78d7f869c2, type: 3}
+  enemyExplosion: {fileID: 0}
+  enemyShot1: {fileID: 0}
+  enemyShot2: {fileID: 0}
+  enemyShot3: {fileID: 0}
+  enemyChargedShot: {fileID: 0}
   shipDestructionClip: {fileID: 0}
   volume: 1
   pauseMusicSource: {fileID: 1788965858}
@@ -197,10 +202,14 @@ MonoBehaviour:
   - Audio/Soundtracks/Level/Level - Section 303
   - Audio/Soundtracks/Level/Level - Section 304
   - Audio/Soundtracks/Level/Level - Section 305
+  podiumSoudtracksPaths:
+  - Audio/Soundtracks/Podium/Podium - Victory Battle
+  - Audio/Soundtracks/Podium/Podium - Winds of Victory
   loggedUserFavoriteSoundtracks: []
   clipPath: 
   isAudioPaused: 0
-  audioVolumeBeforePause: 0
+  audioVolumeBeforeStopOrPause: 0
+  playlistIndex: 0
 --- !u!4 &137015736
 Transform:
   m_ObjectHideFlags: 0
@@ -479,7 +488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 430, y: 210}
+  m_AnchoredPosition: {x: 430, y: 260}
   m_SizeDelta: {x: 400, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &569142382
@@ -767,6 +776,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a90eb2d83a64c2646a0e6b07b63afb0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txtBackButton: {fileID: 520901532}
+  users:
+    users: []
+    cuantity: 0
   hallOfFameEntries: []
   playerEntryPrefab: {fileID: 1737328238186857715}
 --- !u!1 &1223689328
@@ -933,8 +946,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 804, y: -479}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 700, y: -479}
+  m_SizeDelta: {x: 225, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1570139405
 MonoBehaviour:
@@ -1064,7 +1077,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 500}
+  m_AnchoredPosition: {x: 0, y: 525}
   m_SizeDelta: {x: 1600, y: 200}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1587426844
@@ -1114,8 +1127,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
-  m_fontSizeBase: 150
+  m_fontSize: 130
+  m_fontSizeBase: 130
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 10
@@ -1326,7 +1339,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: 210}
+  m_AnchoredPosition: {x: -200, y: 260}
   m_SizeDelta: {x: 400, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1677418394
@@ -1741,7 +1754,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3413270969595497297, guid: 496d60dfa46377742a0b3f25acd59f5f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 100
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3413270969595497297, guid: 496d60dfa46377742a0b3f25acd59f5f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1786,6 +1799,10 @@ PrefabInstance:
     - target: {fileID: 5377037395836354695, guid: 496d60dfa46377742a0b3f25acd59f5f, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4291348680
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447515451087371165, guid: 496d60dfa46377742a0b3f25acd59f5f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -75
       objectReference: {fileID: 0}
     - target: {fileID: 8217813288288599408, guid: 496d60dfa46377742a0b3f25acd59f5f, type: 3}
       propertyPath: m_Name

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 using GameManager;
@@ -27,22 +28,45 @@ public class podiumSceneScript : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI txtScore1;
     [SerializeField] TMPro.TextMeshProUGUI txtScore2;
 
+    [SerializeField] Button ctnTop5P1;
+    [SerializeField] Button ctnTop5P2;
+    [SerializeField] Button ctnTop5SP;
+
     private User user1;
     private User user2;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager.getInstance().didGameJustFinished = true;
+
         AudioManager.getInstance().playPodiumSoundtrack();
+
+        StartCoroutine(redirectToHallOfFame(210f));
 
         string title = gameManager.getInstance().getPodiumSceneTitle();
         if (title == "Game Over" || title == "Game Completed")
         {
             singlePlayer(title);
+
+            if (gameManager.getInstance().isScoreNewRecord(gameManager.getInstance().getScore1()))
+            {
+                this.ctnTop5SP.gameObject.SetActive(true);
+            }
         }
         else
         {
             multiPlayer(title);
+
+            if (gameManager.getInstance().isScoreNewRecord(gameManager.getInstance().getScore1()))
+            {
+                this.ctnTop5P1.gameObject.SetActive(true);
+            }
+
+            if (gameManager.getInstance().isScoreNewRecord(gameManager.getInstance().getScore2()))
+            {
+                this.ctnTop5P2.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -119,14 +143,16 @@ public class podiumSceneScript : MonoBehaviour
         pnlSinglePlayer.SetActive(false);
     }
 
-    public void hallOfFameButtonOnClick()
+    private IEnumerator redirectToHallOfFame(float time)
     {
+        yield return new WaitForSeconds(time);
+
         SceneManager.LoadScene("HallOfFameScene");
     }
 
-    public void playAgainButtonOnClick()
+    public void hallOfFameButtonOnClick()
     {
-        
+        SceneManager.LoadScene("HallOfFameScene");
     }
 
     public void mainMenuButtonOnClick()

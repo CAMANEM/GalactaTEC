@@ -77,6 +77,8 @@ namespace GameManager
             { 3, 3 }
         };
 
+        public bool didGameJustFinished = false;
+
         // Paths
         public string usersPath = Application.dataPath + "/Data/users.json";
 

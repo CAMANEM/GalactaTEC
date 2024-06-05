@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 using audio_manager;
 using GameManager;
@@ -29,6 +30,8 @@ namespace HallOfFame
     [System.Serializable]
     public class hallOfFameScript : MonoBehaviour
     {
+        [SerializeField] TMP_Text txtBackButton;
+
         public Users users;
 
         // Hall of Fame Entry List
@@ -41,6 +44,16 @@ namespace HallOfFame
         void Start()
         {
             AudioManager.getInstance().playBackgroundSoundtrack();
+
+            if (gameManager.getInstance().didGameJustFinished)
+            {
+                this.txtBackButton.text = "Continue";
+                gameManager.getInstance().didGameJustFinished = false;
+            }
+            else
+            {
+                this.txtBackButton.text = "Back";
+            }
 
             string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
 

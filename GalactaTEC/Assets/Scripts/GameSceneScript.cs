@@ -115,8 +115,7 @@ public class GameSceneScript : MonoBehaviour
         }
         else
         {
-            //User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
-            User user = userManager.getInstance().getUserByUsername("andresTEC");
+            User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
             gameManager.getInstance().setCurrentPlayer(user);
             imgControl1.gameObject.SetActive(true);
             txtUsername1.text = user.username;
@@ -143,7 +142,7 @@ public class GameSceneScript : MonoBehaviour
     private void pauseMenu()
     {
         // Detect if the "P" key is pressed
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (!pnlPauseDialogue.activeSelf)
             {
@@ -289,6 +288,7 @@ public class GameSceneScript : MonoBehaviour
 
     public void option3ButtonOnClick()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenuScene");
     }
 
@@ -490,7 +490,9 @@ public class GameSceneScript : MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
         GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
 
-        if(this.level == 1)
+        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
+
+        if (this.level == 1)
         {
             AudioManager.getInstance().playLevel1Soundtrack();
         } else if(this.level == 2)
@@ -556,6 +558,12 @@ public class GameSceneScript : MonoBehaviour
             gameManager.getInstance().setScore1(score2);
             gameManager.getInstance().setScore2(score1);
         }
+
+        this.user1 = null;
+        this.user2 = null;
+
+        this.playerContext1 = null;
+        this.playerContext2 = null;
 
         gameManager.getInstance().setPodiumSceneTitle("Podium");
         SceneManager.LoadScene("PodiumScene");
