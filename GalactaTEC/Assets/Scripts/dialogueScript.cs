@@ -91,6 +91,8 @@ namespace dialogueManager
 
         public void StartGameButtonOnClick()
         {
+            gameManager.getInstance().calculateRandomAttackPatterns();
+
             if (gameManager.getInstance().cuantityOfPlayers == 2)
             {
                 this.optionMenu = "StartGame";
