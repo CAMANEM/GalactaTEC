@@ -36,6 +36,15 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI txtScore1;
     [SerializeField] TMPro.TextMeshProUGUI txtScore2;
 
+    [SerializeField] GameObject pnlRoundsAssistantMP;
+    [SerializeField] TMPro.TextMeshProUGUI txtPreviousPlayerMP;
+    [SerializeField] TMPro.TextMeshProUGUI txtPreviousPlayerLifesMP;
+    [SerializeField] TMPro.TextMeshProUGUI txtNextPlayerMP;
+
+    [SerializeField] GameObject pnlRoundsAssistantSP;
+    [SerializeField] TMPro.TextMeshProUGUI txtPreviousPlayerSP;
+    [SerializeField] TMPro.TextMeshProUGUI txtPreviousPlayerLifesSP;
+
     [SerializeField] GameObject bonus;
     [SerializeField] int score = 0;
     [SerializeField] int level = 1;
@@ -183,9 +192,6 @@ public class GameSceneScript : MonoBehaviour
 
         GameObject.Find("MainCamera").GetComponent<Spawner>().pauseSpawner();
 
-        // Activate the pause panel
-        pnlPauseDialogue.SetActive(true);
-
         // Pause game time and music
         AudioManager.getInstance().musicSource.Pause();
         AudioManager.getInstance().isAudioPaused = true;
@@ -209,6 +215,11 @@ public class GameSceneScript : MonoBehaviour
             score = playerContext2.getScore();
             level = playerContext2.getLevel();
             lifes = playerContext2.getLifes();
+
+            // Activate the rounds assistant panel
+            this.txtPreviousPlayerMP.text = playerContext1.getPlayer() + " turn is over!";
+            this.txtPreviousPlayerLifesMP.text = "Lifes:		" + playerContext1.getLifes();
+            this.txtNextPlayerMP.text = playerContext2.getPlayer();
         }
         else
         {
@@ -228,12 +239,41 @@ public class GameSceneScript : MonoBehaviour
             score = playerContext1.getScore();
             level = playerContext1.getLevel();
             lifes = playerContext1.getLifes();
+
+            // Activate the rounds assistant panel
+            this.txtPreviousPlayerMP.text = playerContext2.getPlayer() + " turn is over!";
+            this.txtPreviousPlayerLifesMP.text = "Lifes:		" + playerContext2.getLifes();
+            this.txtNextPlayerMP.text = playerContext1.getPlayer();
         }
+
+        this.pnlRoundsAssistantMP.SetActive(true);
 
         GameObject.Find("MainCamera").GetComponent<Spawner>().updatePlayerShip();
         GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
         GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
         GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
+    }
+
+    public void closeRoundsAssistantDialogueMP()
+    {
+        this.pnlRoundsAssistantMP.SetActive(false);
+
+        Time.timeScale = 1f;
+        if (Time.timeScale == 1f)
+        {
+            AudioManager.getInstance().unPauseSoundtrack();
+        }
+    }
+
+    public void closeRoundsAssistantDialogueSP()
+    {
+        this.pnlRoundsAssistantSP.SetActive(false);
+
+        Time.timeScale = 1f;
+        if (Time.timeScale == 1f)
+        {
+            AudioManager.getInstance().unPauseSoundtrack();
+        }
     }
 
     private IEnumerator restartOnCollision(float time)
@@ -247,6 +287,8 @@ public class GameSceneScript : MonoBehaviour
             if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
             {
                 playerContext1.savePlayerState(score, level, lifes);
+
+                
             }
             else
             {
@@ -274,6 +316,14 @@ public class GameSceneScript : MonoBehaviour
             }
             else
             {
+                // Activate the singleplayer rounds assistant panel
+                this.txtPreviousPlayerSP.text = gameManager.getInstance().getCurrentPlayer().username + " lost a life!";
+                this.txtPreviousPlayerLifesSP.text = "Lifes:		" + lifes;
+
+                this.pnlRoundsAssistantSP.SetActive(true);
+
+                Time.timeScale = 0f;
+
                 GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
                 GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
                 GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
@@ -495,10 +545,12 @@ public class GameSceneScript : MonoBehaviour
         if (this.level == 1)
         {
             AudioManager.getInstance().playLevel1Soundtrack();
-        } else if(this.level == 2)
+        }
+        else if (this.level == 2)
         {
             AudioManager.getInstance().playLevel2Soundtrack();
-        } else
+        }
+        else
         {
             AudioManager.getInstance().playLevel3Soundtrack();
         }
@@ -574,7 +626,8 @@ public class GameSceneScript : MonoBehaviour
         return gameManager.getInstance().cuantityOfPlayers == 2 && !gameManager.getInstance().getOneInsteadOfTwo();
     }
 
-    public int getMovementPattern(){
+    public int getMovementPattern()
+    {
         int movePattern = gameManager.getInstance().getInGameAttackPatternForLevel(level);
         return movePattern;
     }
