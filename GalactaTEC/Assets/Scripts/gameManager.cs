@@ -253,13 +253,19 @@ namespace GameManager
 
             List<HallOfFameEntry> hallOfFameRanking = hallOfFameEntriesAdapter.adaptHallOfFameEntriesByPlayers();
 
-            if (score > hallOfFameRanking[hallOfFameRanking.Count-1].score)
+            if(hallOfFameRanking.Count <= 4)
             {
                 return true;
-            }
-            else
+            } else
             {
-                return false;
+                if(score > hallOfFameRanking[4].score)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }

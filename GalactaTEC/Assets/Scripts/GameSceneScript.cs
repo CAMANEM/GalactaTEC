@@ -124,7 +124,8 @@ public class GameSceneScript : MonoBehaviour
         }
         else
         {
-            User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
+            //User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
+            User user = userManager.getInstance().getUserByUsername("andresUNA");
             gameManager.getInstance().setCurrentPlayer(user);
             imgControl1.gameObject.SetActive(true);
             txtUsername1.text = user.username;
