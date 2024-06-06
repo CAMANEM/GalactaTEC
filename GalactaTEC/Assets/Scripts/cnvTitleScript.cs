@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 using GameManager;
+using audio_manager;
 
 public class cnvTitleScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        
+        AudioManager.getInstance().playBackgroundSoundtrack();
     }
 
     // Update is called once per frame
@@ -36,13 +37,6 @@ public class cnvTitleScript : MonoBehaviour
         gameManager.getInstance().setCuantityOfPlayers(2);
 
         SceneManager.LoadScene("2PLoginScene");
-    }
-
-    public void helpButtonOnClick()
-    {
-        PlayerPrefs.SetString("HelpScene", "TitleScene");
-        PlayerPrefs.Save();
-        SceneManager.LoadScene("HelpScene");
     }
 
     public void closeButtonOnClick()

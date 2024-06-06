@@ -14,26 +14,41 @@ public class PowerSelector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        NextPower();
+        //SwitchPower();
     }
 
-    void NextPower(){
-        if(Input.GetKeyDown(KeyCode.N)) {
+    void SwitchPower(){
+        if(Input.GetKeyDown(KeyCode.RightArrow)) {
             
             Vector3 pos = GetComponent<RectTransform>().anchoredPosition;
-            if (pos.x <= 600f)
+            if (pos.x < 1550f)
             {
-                pos.x += 116.6f;
+                pos.x += 100f;
                 GetComponent<RectTransform>().anchoredPosition = pos;
                 powerSelected++;
             }
             else
             {
-                pos.x = 306.4f;
+                pos.x = 1250f;
                 GetComponent<RectTransform>().anchoredPosition = pos;
                 powerSelected = 0;
             }
-            
+        } else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+
+            Vector3 pos = GetComponent<RectTransform>().anchoredPosition;
+            if (pos.x > 1250f)
+            {
+                pos.x -= 100f;
+                GetComponent<RectTransform>().anchoredPosition = pos;
+                powerSelected--;
+            }
+            else
+            {
+                pos.x = 1550f;
+                GetComponent<RectTransform>().anchoredPosition = pos;
+                powerSelected = 3;
+            }
         }
     }
 }

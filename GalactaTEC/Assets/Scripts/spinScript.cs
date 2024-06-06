@@ -5,7 +5,9 @@ using UnityEngine.UI;
 using EasyUI.PickerWheelUI;
 using TMPro;
 using System.IO;
+
 using GameManager;
+using UserManager;
 
 public class spinScript : MonoBehaviour
 {
@@ -39,6 +41,8 @@ public class spinScript : MonoBehaviour
                 txtSpin.text = "Spin";
                 txtPlayer.text = wheelPiece.Label + "\nwill start the game";
 
+                gameManager.getInstance().playerToPlay = wheelPiece.Label;
+                gameManager.getInstance().setOneInsteadOfTwo(false);
                 Invoke("LoadNewScene", 2.0f);
             });
 
@@ -57,7 +61,7 @@ public class spinScript : MonoBehaviour
             // Calls the LoadScene method of the loadingSceneScript script
             if (loadingScript != null)
             {
-                loadingScript.LoadScene(10); // Load GameScene
+                loadingScript.LoadScene("GameScene");
             }
             else
             {
@@ -78,10 +82,8 @@ public class spinScript : MonoBehaviour
 
     private void loadPickerWheelInfo()
     {
-        Debug.Log("Player1: " + gameManager.getInstance().player1Username);
-        Debug.Log("Player2: " + gameManager.getInstance().player2Username);
-        User user1 = getUserByUsername(gameManager.getInstance().player1Username);
-        User user2 = getUserByUsername(gameManager.getInstance().player2Username);
+        User user1 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
+        User user2 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player2Username);
 
         wheelPieces[0].Label = user1.username;
         wheelPieces[1].Label = user2.username;
@@ -110,28 +112,5 @@ public class spinScript : MonoBehaviour
         {
             Debug.LogWarning("Could not find player image: " + Application.dataPath + user2.userImage);
         }
-    }
-
-    private User getUserByUsername(string username)
-    {
-        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
-        Debug.Log(usersJSON);
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        User foundUser = null;
-
-        foreach (User user in users.users)
-        {
-            if (user.username == username)
-            {
-                foundUser = user;
-            }
-            else
-            {
-                Debug.Log("Something went wrong loading player information");
-            }
-        }
-
-        return foundUser;
     }
 }

@@ -9,12 +9,12 @@ public class loadingScene : MonoBehaviour
     public GameObject loadingScreen;
     public Slider loadingBar;
 
-    public void LoadScene(int levelIndex)
+    public void LoadScene(string sceneName)
     {
-        StartCoroutine(LoadSceneAsynchronously(levelIndex));
+        StartCoroutine(LoadSceneAsynchronously(sceneName));
     }
 
-    IEnumerator LoadSceneAsynchronously(int levelIndex)
+    IEnumerator LoadSceneAsynchronously(string sceneName)
     {
         loadingScreen.SetActive(true);
 
@@ -29,7 +29,7 @@ public class loadingScene : MonoBehaviour
         }
 
         // Espera a que la operación esté completada
-        AsyncOperation operation = SceneManager.LoadSceneAsync(levelIndex);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         while (!operation.isDone)
         {
             yield return null;

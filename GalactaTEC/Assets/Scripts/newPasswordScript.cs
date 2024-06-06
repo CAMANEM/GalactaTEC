@@ -5,11 +5,14 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-
 using GameManager;
+using UserManager;
+using audio_manager;
 
 public class newPasswordScript : MonoBehaviour
 {
@@ -17,12 +20,15 @@ public class newPasswordScript : MonoBehaviour
     public TMP_InputField inpNewPassword;
     public TMP_Text txtEmail;
 
-    string usersPath = Application.dataPath + "/Data/users.json";
+    public Button btnShowPassword;
+    public Button btnHidePassword;
 
+    string usersPath = Application.dataPath + "/Data/users.json";
 
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.getInstance().playBackgroundSoundtrack();
         txtEmail.text = gameManager.getInstance().emailRecoveringPassword;
     }
 
@@ -97,28 +103,17 @@ public class newPasswordScript : MonoBehaviour
         }
     }
 
-    private List<User> getSignedUsers()
-    {
-        string usersJSON = File.ReadAllText(usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        return users.users;
-    }
-
-
-
     public void doneButtonOnClick()
     {
         if (passwordIsValid(inpNewPassword.text))
         {
-            List<User> signedUsers = getSignedUsers();
+            List<User> signedUsers = userManager.getInstance().getSignedUsers();
 
             foreach (User user in signedUsers)
             {
                 if (user.email == gameManager.getInstance().emailRecoveringPassword)
                 {
-                    user.password = inpNewPassword.text;
+                    user.password = this.generatePasswordHashKey(inpNewPassword.text);
                 }
             }
             Users updatedUsers = new Users();
@@ -151,6 +146,41 @@ public class newPasswordScript : MonoBehaviour
         {
             Debug.Log("There was a problem changing your password, please try again.");
         }
+    }
+
+    private string generatePasswordHashKey(string password)
+    {
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (byte b in hashedBytes)
+            {
+                stringBuilder.Append(b.ToString("x2"));
+            }
+
+            return stringBuilder.ToString();
+        }
+    }
+
+    public void showPasswordButtonOnClick()
+    {
+        this.inpNewPassword.contentType = TMP_InputField.ContentType.Standard;
+        this.btnShowPassword.gameObject.SetActive(false);
+        this.btnHidePassword.gameObject.SetActive(true);
+        this.inpNewPassword.gameObject.SetActive(false);
+        this.inpNewPassword.gameObject.SetActive(true);
+    }
+
+    public void hidePasswordButtonOnClick()
+    {
+        this.inpNewPassword.contentType = TMP_InputField.ContentType.Password;
+        this.btnHidePassword.gameObject.SetActive(false);
+        this.btnShowPassword.gameObject.SetActive(true);
+        this.inpNewPassword.gameObject.SetActive(false);
+        this.inpNewPassword.gameObject.SetActive(true);
+
     }
 
     public void backButtonOnClick()

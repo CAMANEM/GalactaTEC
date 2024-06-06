@@ -4,69 +4,93 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.Windows.Forms;
+using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
 
 using GameManager;
+using UserManager;
 using alerts_manager;
-
-[System.Serializable]
-public class User
-{
-    public string name;
-    public string email;
-    public string username;
-    public string password;
-    public string userImage;
-    public string shipImage;
-    public int[] scoreRecord;
-}
-
-[System.Serializable]
-public class Users : IEnumerable<User>
-{
-    public List<User> users;
-    public int cuantity;
-
-    public IEnumerator<User> GetEnumerator()
-    {
-        return users.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-}
+using audio_manager;
 
 [System.Serializable]
 public class signUpSceneScript : MonoBehaviour  
 {
     // GUI elements
     public RawImage imgUserName;
-    public RawImage imgShipName;
 
     public TMP_InputField inpName;
     public TMP_InputField inpEmail;
     public TMP_InputField inpUsername;
     public TMP_InputField inpPassword;
 
+    public TMP_Text txtShipName;
+    public TMP_Text txtSoundtrack;
+
+    public UnityEngine.UI.Button btnIsInFavorites;
+    public UnityEngine.UI.Button btnisNotInFavoritesButton;
+    public UnityEngine.UI.Button btnAddTofavorites;
+    public UnityEngine.UI.Button btnRemoveFromFavorites;
+    public UnityEngine.UI.Button btnPlaySoundtrack;
+    public UnityEngine.UI.Button btnStopSoundtrack;
+
+    public UnityEngine.UI.Button btnShowPassword;
+    public UnityEngine.UI.Button btnHidePassword;
+
+    public Transform pntShipGenerator;
+    public GameObject sprKlaedFighterPrefab;
+    public GameObject sprKlaedScoutPrefab;
+    public GameObject sprNairanFighterPrefab;
+    public GameObject sprNairanScoutPrefab;
+    public GameObject sprNautolanBomberPrefab;
+    public GameObject sprNautolanScoutPrefab;
+    public GameObject sprPipOpsMarauderPrefab;
+
     // Variables
-    string userImagePath = "";
-    string shipImagePath = "";
+    private string userImagePath = "";
+    private string shipImagePath = "";
 
-    byte[] imageBytesUser;
-    byte[] imageBytesShip;
+    private byte[] imageBytesUser;
 
-    string usersPath = Application.dataPath + "/Data/users.json";
+    private GameObject sprKlaedFighter;
+    private GameObject sprKlaedScout;
+    private GameObject sprNairanFighter;
+    private GameObject sprNairanScout;
+    private GameObject sprNautolanBomber;
+    private GameObject sprNautolanScout;
+    private GameObject sprPipOpsMarauder;
+    private int shipIndex;
+
+    private string[] soundtracks;
+    private string[] showableSoundtracks;
+    private string[] userFavoriteSoundtracks;
+    private int soundtrackIndex;
+
+    private string usersPath = UnityEngine.Application.dataPath + "/Data/users.json";
 
     // Start is called before the first frame update
     void Start()
     {
-        // alertsScript.getInstance().setTitle("Testing title").setBody("Testing body").showAlert();
+        this.sprPipOpsMarauder = Instantiate(this.sprPipOpsMarauderPrefab, this.pntShipGenerator.position, Quaternion.identity);
+        this.sprPipOpsMarauder.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
+        this.txtShipName.text = "PipOps\nMarauder";
+        this.shipIndex = 0;
+
+        AudioManager.getInstance().playBackgroundSoundtrack();
+
+        this.loadSountracks();
+        this.userFavoriteSoundtracks = this.soundtracks;
+
+        this.soundtrackIndex = 0;
+        txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+
+        updateFavoriteSoundtracksUI();
     }
 
     // Update is called once per frame
@@ -75,18 +99,250 @@ public class signUpSceneScript : MonoBehaviour
         
     }
 
+    private void loadShipSprite()
+    {
+        switch (this.shipIndex)
+        {
+            case 0:
+                if (this.sprNautolanScout != null)
+                {
+                    Destroy(this.sprNautolanScout.gameObject);
+                }
+                else if (this.sprKlaedFighter != null)
+                {
+                    Destroy(this.sprKlaedFighter.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprNautolanScout.gameObject);
+                        Destroy(this.sprKlaedFighter.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading PipOps Marauder Ship. Debug log: 11");
+                    }
+                }
+
+                this.sprPipOpsMarauder = Instantiate(this.sprPipOpsMarauderPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprPipOpsMarauder.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
+                this.txtShipName.text = "PipOps\nMarauder";
+
+                break;
+            case 1:
+                if (this.sprPipOpsMarauder != null)
+                {
+                    Destroy(this.sprPipOpsMarauder.gameObject);
+                }
+                else if (this.sprKlaedScout != null)
+                {
+                    Destroy(this.sprKlaedScout.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprPipOpsMarauder.gameObject);
+                        Destroy(this.sprKlaedScout.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Kla'ed Fighter Ship. Debug log: 12");
+                    }
+                }
+
+                this.sprKlaedFighter = Instantiate(this.sprKlaedFighterPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprKlaedFighter.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
+                this.txtShipName.text = "Kla'ed\nFighter";
+
+                break;
+            case 2:
+                if (this.sprKlaedFighter != null)
+                {
+                    Destroy(this.sprKlaedFighter.gameObject);
+                }
+                else if (this.sprNairanFighter != null)
+                {
+                    Destroy(this.sprNairanFighter.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprKlaedFighter.gameObject);
+                        Destroy(this.sprNairanFighter.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Kla'ed Scout Ship. Debug log: 13");
+                    }
+                }
+
+                this.sprKlaedScout = Instantiate(this.sprKlaedScoutPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprKlaedScout.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
+                this.txtShipName.text = "Kla'ed\nScout";
+                break;
+            case 3:
+                if (this.sprKlaedScout != null)
+                {
+                    Destroy(this.sprKlaedScout.gameObject);
+                }
+                else if (this.sprNairanScout != null)
+                {
+                    Destroy(this.sprNairanScout.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprKlaedScout.gameObject);
+                        Destroy(this.sprNairanScout.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Nairan Fighter Ship. Debug log: 14");
+                    }
+                }
+
+                this.sprNairanFighter = Instantiate(this.sprNairanFighterPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprNairanFighter.transform.localScale = new Vector3(6f, 6f, 6f);
+                this.txtShipName.text = "Nairan\nFighter";
+
+                break;
+            case 4:
+                if (this.sprNairanFighter != null)
+                {
+                    Destroy(this.sprNairanFighter.gameObject);
+                }
+                else if (this.sprNautolanBomber != null)
+                {
+                    Destroy(this.sprNautolanBomber.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprNairanFighter.gameObject);
+                        Destroy(this.sprNautolanBomber.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Nairan Scout Ship. Debug log: 15");
+                    }
+                }
+
+                this.sprNairanScout = Instantiate(this.sprNairanScoutPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprNairanScout.transform.localScale = new Vector3(6f, 6f, 6f);
+                this.txtShipName.text = "Nairan\nScout";
+
+                break;
+            case 5:
+                if (this.sprNairanScout != null)
+                {
+                    Destroy(this.sprNairanScout.gameObject);
+                } else if (this.sprNautolanScout != null)
+                {
+                    Destroy(this.sprNautolanScout.gameObject);
+                }
+                else
+                {
+                    try
+                    {
+                        Destroy(this.sprNairanScout.gameObject);
+                        Destroy(this.sprNautolanScout.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Nautolan Bomber Ship. Debug log: 16");
+                    }
+                }
+
+                this.sprNautolanBomber = Instantiate(this.sprNautolanBomberPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprNautolanBomber.transform.localScale = new Vector3(6f, 6f, 6f);
+                this.txtShipName.text = "Nautolan\nBomber";
+
+                break;
+            case 6:
+                if (this.sprNautolanBomber != null)
+                {
+                    Destroy(this.sprNautolanBomber.gameObject);
+                }
+                else if (this.sprPipOpsMarauder != null)
+                {
+                    Destroy(this.sprPipOpsMarauder.gameObject);
+                } else
+                {
+                    try
+                    {
+                        Destroy(this.sprNautolanBomber.gameObject);
+                        Destroy(this.sprPipOpsMarauder.gameObject);
+                    }
+                    catch
+                    {
+                        Debug.Log("Something went wrong loading Nautolan Scout Ship. Debug log: 17");
+                    }
+                }
+
+                this.sprNautolanScout = Instantiate(this.sprNautolanScoutPrefab, this.pntShipGenerator.position, Quaternion.identity);
+                this.sprNautolanScout.transform.localScale = new Vector3(6f, 6f, 6f);
+                this.txtShipName.text = "Nautolan\nScout";
+
+                break;
+        }
+    }
+
+    public void nextShipButtonOnClick()
+    {
+        this.shipIndex++;
+
+        if(this.shipIndex > 6)
+        {
+            this.shipIndex = 0;
+        }
+
+        this.loadShipSprite();
+    }
+
+    public void previousShipButtonOnClick() 
+    {
+        this.shipIndex--;
+
+        if (this.shipIndex < 0)
+        {
+            this.shipIndex = 6;
+        }
+
+        this.loadShipSprite();
+    }
+
     public void changeImageButtonOnClick()
     {
         try
         {
-            userImagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new user image", "", "png,jpg,jpeg,gif,bmp");
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Title = "Select a profile image";
+            openFileDialog.Filter = "Image files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+            DialogResult result = openFileDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                this.userImagePath = openFileDialog.FileName;
+            }
+            else
+            {
+                this.userImagePath = "";
+            }
 
             if (!string.IsNullOrEmpty(userImagePath))
             {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(userImagePath);
+                imageBytesUser = System.IO.File.ReadAllBytes(userImagePath);
 
                 Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(imageBytes);
+                texture.LoadImage(imageBytesUser);
 
                 imgUserName.texture = texture;
             }
@@ -96,43 +352,162 @@ public class signUpSceneScript : MonoBehaviour
         }
     }
 
-    public void changeShipButtonOnClick()
+    public void addToFavoritesButtonOnClick()
     {
-        try
+        int indexToAdd = Array.IndexOf(this.userFavoriteSoundtracks, this.soundtracks[this.soundtrackIndex]);
+        if (indexToAdd == -1)
         {
-            shipImagePath = UnityEditor.EditorUtility.OpenFilePanel("Select a new ship image", "", "png,jpg,jpeg,gif,bmp");
-
-            if (!string.IsNullOrEmpty(shipImagePath))
-            {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(shipImagePath);
-
-                Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(imageBytes);
-
-                imgShipName.texture = texture;
-            }
+            Array.Resize(ref this.userFavoriteSoundtracks, this.userFavoriteSoundtracks.Length + 1);
+            this.userFavoriteSoundtracks[this.userFavoriteSoundtracks.Length - 1] = this.soundtracks[this.soundtrackIndex];
         }
-        catch
-        {
 
-            Debug.LogError("Something went wrong loading the selected ship image. Image selected: " + shipImagePath + ". Debug code: 2.");
+        updateFavoriteSoundtracksUI();
+    }
+
+    public void removeFromFavoritesButtonOnClick()
+    {
+        int indexToRemove = Array.IndexOf(this.userFavoriteSoundtracks, this.soundtracks[this.soundtrackIndex]);
+        if (indexToRemove != -1)
+        {
+            string[] copyUserFavoriteSoundtracks = new string[this.userFavoriteSoundtracks.Length];
+            Array.Copy(this.userFavoriteSoundtracks, copyUserFavoriteSoundtracks, this.userFavoriteSoundtracks.Length);
+
+            for (int i = indexToRemove; i < copyUserFavoriteSoundtracks.Length - 1; i++)
+            {
+                copyUserFavoriteSoundtracks[i] = copyUserFavoriteSoundtracks[i + 1];
+            }
+            Array.Resize(ref copyUserFavoriteSoundtracks, copyUserFavoriteSoundtracks.Length - 1);
+
+            this.userFavoriteSoundtracks = copyUserFavoriteSoundtracks;
+        }
+
+        updateFavoriteSoundtracksUI();
+    }
+
+    public void playNextSoundtrackButtonOnClick()
+    {
+        this.soundtrackIndex++;
+
+        if (this.soundtrackIndex >= this.soundtracks.Length)
+        {
+            this.soundtrackIndex = 0;
+        }
+
+        txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+
+        updateFavoriteSoundtracksUI();
+
+        if (btnStopSoundtrack.gameObject.activeSelf)
+        {
+            this.playSoundtrackButtonOnClick();
         }
     }
 
-    private List<User> getSignedUsers()
+    public void playPreviousSoundtrackButtonOnClick()
     {
-        string usersJSON = File.ReadAllText(usersPath);
+        this.soundtrackIndex--;
 
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
+        if (this.soundtrackIndex < 0)
+        {
+            this.soundtrackIndex = this.soundtracks.Length-1;
+        }
 
-        return users.users;
+        txtSoundtrack.text = this.showableSoundtracks[this.soundtrackIndex];
+
+        updateFavoriteSoundtracksUI();
+
+        if (btnStopSoundtrack.gameObject.activeSelf)
+        {
+            this.playSoundtrackButtonOnClick();
+        }
+    }
+
+    public void playSoundtrackButtonOnClick()
+    {
+        AudioManager.getInstance().playSpecificSoundtrack(this.soundtracks[this.soundtrackIndex]);
+        this.btnPlaySoundtrack.gameObject.SetActive(false);
+        this.btnStopSoundtrack.gameObject.SetActive(true);
+    }
+
+    public void stopSoundtrackButtonOnClick()
+    {
+        AudioManager.getInstance().stopSoundtrack();
+        this.btnPlaySoundtrack.gameObject.SetActive(true);
+        this.btnStopSoundtrack.gameObject.SetActive(false);
+    }
+
+    private void updateFavoriteSoundtracksUI()
+    {
+        if (isSounditrackInUserFavorites(this.soundtracks[this.soundtrackIndex]))
+        {
+        btnIsInFavorites.gameObject.SetActive(true);
+        btnisNotInFavoritesButton.gameObject.SetActive(false);
+
+        btnRemoveFromFavorites.gameObject.SetActive(true);
+        btnAddTofavorites.gameObject.SetActive(false);
+    }
+        else
+        {
+        btnIsInFavorites.gameObject.SetActive(false);
+        btnisNotInFavoritesButton.gameObject.SetActive(true);
+
+        btnRemoveFromFavorites.gameObject.SetActive(false);
+        btnAddTofavorites.gameObject.SetActive(true);
+    }
+    }
+
+    private bool isSounditrackInUserFavorites(string soundtrack)
+    {
+        foreach (string str in this.userFavoriteSoundtracks)
+        {
+            if (str == soundtrack)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool CheckFavoriteSoundtracks()
+    {
+        int menuSoundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Menu/"));
+        int level1Soundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Level/Level - Section 1"));
+        int level2Soundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Level/Level - Section 2"));
+        int level3Soundtracks = this.userFavoriteSoundtracks.Count(s => s.StartsWith("Audio/Soundtracks/Level/Level - Section 3"));
+
+
+        if (menuSoundtracks < 5 || level1Soundtracks < 2 || level2Soundtracks < 2 || level3Soundtracks < 2)
+        {
+            if (menuSoundtracks < 5)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 5 soundtracks for menus", "Retry");
+            }else if (level1Soundtracks < 2)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 2 soundtracks for sections 100", "Retry");
+            }
+            else if (level2Soundtracks < 2)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 2 soundtracks for sections 200", "Retry");
+            }
+            else if (level3Soundtracks < 2)
+            {
+                AlertsManager.getInstance().showAlert("Wait", "You should select at least 2 soundtracks for sections 300", "Retry");
+            }
+            
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
     }
 
     public void createAccountButtonOnClick()
     {
         if (File.Exists(usersPath))
         {
-            if (emailIsUnique(inpEmail.text) && usernameIsUnique(inpUsername.text) && passwordIsValid(inpPassword.text))
+            if (emailIsUnique(inpEmail.text) && usernameIsUnique(inpUsername.text) && passwordIsValid(inpPassword.text) && CheckFavoriteSoundtracks())
             {
                 if (emailExists(inpEmail.text))
                 {
@@ -144,7 +519,9 @@ public class signUpSceneScript : MonoBehaviour
                     user.name = inpName.text;
                     user.email = inpEmail.text;
                     user.username = inpUsername.text;
-                    user.password = inpPassword.text;
+                    user.password = this.generatePasswordHashKey(inpPassword.text);
+                    user.ship = this.shipIndex;
+                    user.favoriteSoundtracks = this.userFavoriteSoundtracks;
 
                     string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
                     if (userImagePath != "" && user.userImage != newUserImage)
@@ -153,21 +530,15 @@ public class signUpSceneScript : MonoBehaviour
                         user.userImage = newUserImage;
 
                         // Copy and paste the new user image in ../Data/UserPhotos
-                        string savePath = Application.dataPath + newUserImage;
+                        string savePath = UnityEngine.Application.dataPath + newUserImage;
                         File.WriteAllBytes(savePath, imageBytesUser);
                     }
 
-                    // Do the same for shipImage
-                    string newShipImage = "/Data/ShipPhotos/" + Path.GetFileName(shipImagePath);
-                    if (shipImagePath != "" && user.shipImage != newShipImage)
+                    if (string.IsNullOrEmpty(user.userImage))
                     {
-                        // Update ship image
-                        user.shipImage = newShipImage;
-
-                        // Copy and paste the new ship image in ../Data/ShipPhotos
-                        string savePath = Application.dataPath + newShipImage;
-                        File.WriteAllBytes(savePath, imageBytesShip);
+                        user.userImage = "/Data/UserPhotos/defaultUserImage1.png";
                     }
+
                     user.scoreRecord = new int[5];
 
                     users.users.Add(user);
@@ -183,7 +554,7 @@ public class signUpSceneScript : MonoBehaviour
         }
         else
         {
-            if (passwordIsValid(inpPassword.text))
+            if (passwordIsValid(inpPassword.text) && CheckFavoriteSoundtracks())
             {
                 if (emailExists(inpEmail.text))
                 {
@@ -191,7 +562,9 @@ public class signUpSceneScript : MonoBehaviour
                     user.name = inpName.text;
                     user.email = inpEmail.text;
                     user.username = inpUsername.text;
-                    user.password = inpPassword.text;
+                    user.password = this.generatePasswordHashKey(inpPassword.text);
+                    user.ship = this.shipIndex;
+                    user.favoriteSoundtracks = this.userFavoriteSoundtracks;
 
                     string newUserImage = "/Data/UserPhotos/" + Path.GetFileName(userImagePath);
                     if (userImagePath != "" && user.userImage != newUserImage)
@@ -200,20 +573,8 @@ public class signUpSceneScript : MonoBehaviour
                         user.userImage = newUserImage;
 
                         // Copy and paste the new user image in ../Data/UserPhotos
-                        string savePath = Application.dataPath + newUserImage;
+                        string savePath = UnityEngine.Application.dataPath + newUserImage;
                         File.WriteAllBytes(savePath, imageBytesUser);
-                    }
-
-                    // Do the same for shipImage
-                    string newShipImage = "/Data/ShipPhotos/" + Path.GetFileName(shipImagePath);
-                    if (shipImagePath != "" && user.shipImage != newShipImage)
-                    {
-                        // Update ship image
-                        user.shipImage = newShipImage;
-
-                        // Copy and paste the new ship image in ../Data/ShipPhotos
-                        string savePath = Application.dataPath + newShipImage;
-                        File.WriteAllBytes(savePath, imageBytesShip);
                     }
 
                     user.scoreRecord = new int[5];
@@ -235,7 +596,7 @@ public class signUpSceneScript : MonoBehaviour
 
     private bool usernameIsUnique(string username)
     {
-        List<User> users = getSignedUsers();
+        List<User> users = userManager.getInstance().getSignedUsers();
 
         if(users.Exists(user => user.username == username) || username == "")
         {
@@ -250,7 +611,7 @@ public class signUpSceneScript : MonoBehaviour
 
     private bool emailIsUnique(string email)
     {
-        List<User> users = getSignedUsers();
+        List<User> users = userManager.getInstance().getSignedUsers();
 
         if(users.Exists(user => user.email == email) || email == "")
         {
@@ -420,6 +781,41 @@ public class signUpSceneScript : MonoBehaviour
         }
     }
 
+    private string generatePasswordHashKey(string password)
+    {
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (byte b in hashedBytes)
+            {
+                stringBuilder.Append(b.ToString("x2"));
+            }
+
+            return stringBuilder.ToString();
+        }
+    }
+
+    public void showPasswordButtonOnClick()
+    {
+        this.inpPassword.contentType = TMP_InputField.ContentType.Standard;
+        this.btnShowPassword.gameObject.SetActive(false);
+        this.btnHidePassword.gameObject.SetActive(true);
+        this.inpPassword.gameObject.SetActive(false);
+        this.inpPassword.gameObject.SetActive(true);
+    }
+
+    public void hidePasswordButtonOnClick()
+    {
+        this.inpPassword.contentType = TMP_InputField.ContentType.Password;
+        this.btnHidePassword.gameObject.SetActive(false);
+        this.btnShowPassword.gameObject.SetActive(true);
+        this.inpPassword.gameObject.SetActive(false);
+        this.inpPassword.gameObject.SetActive(true);
+
+    }
+
     private void goToLoginScene()
     {
         if (gameManager.getInstance().cuantityOfPlayers == 1)
@@ -432,8 +828,19 @@ public class signUpSceneScript : MonoBehaviour
         }
     }
 
+    private void loadSountracks()
+    {
+        this.soundtracks = AudioManager.getInstance().backgroundSoundtracksPaths.Concat(AudioManager.getInstance().level1SoundtracksPaths).Concat(AudioManager.getInstance().level2SoundtracksPaths).Concat(AudioManager.getInstance().level3SoundtracksPaths).ToArray();
+        this.showableSoundtracks = this.soundtracks.Select(s => s.Split('/').Last()).ToArray();
+    }
+
     public void backButtonOnClik()
     {
+        if (AudioManager.getInstance().clipPath.StartsWith("Audio/Soundtracks/Level/Level - Section "))
+        {
+            AudioManager.getInstance().stopSoundtrack();
+        }
+
         goToLoginScene();
     }
 }

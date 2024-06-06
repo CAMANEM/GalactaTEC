@@ -76,7 +76,7 @@ namespace dialogueManager
                 // Calls the LoadScene method of the loadingSceneScript script
                 if (loadingScript != null)
                 {
-                    loadingScript.LoadScene(10); // Load GameScene
+                    loadingScript.LoadScene("GameScene");
                 }
                 else
                 {
@@ -91,6 +91,8 @@ namespace dialogueManager
 
         public void StartGameButtonOnClick()
         {
+            gameManager.getInstance().calculateRandomAttackPatterns();
+
             if (gameManager.getInstance().cuantityOfPlayers == 2)
             {
                 this.optionMenu = "StartGame";

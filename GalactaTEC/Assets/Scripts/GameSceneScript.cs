@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using GameManager;
 using System;
 using System.IO;
 using TMPro;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+
+using GameManager;
+using UserManager;
+using audio_manager;
 
 public class GameSceneScript : MonoBehaviour
 {
@@ -23,26 +25,49 @@ public class GameSceneScript : MonoBehaviour
     [SerializeField] UnityEngine.UI.Image imgUser1;
     [SerializeField] UnityEngine.UI.Image imgUser2;
 
+    [SerializeField] UnityEngine.UI.Image imgControl1;
+    [SerializeField] UnityEngine.UI.Image imgControl2;
+
+    [SerializeField] TMPro.TextMeshProUGUI txtLevel;
+
     [SerializeField] TMPro.TextMeshProUGUI txtUsername1;
     [SerializeField] TMPro.TextMeshProUGUI txtUsername2;
 
     [SerializeField] TMPro.TextMeshProUGUI txtScore1;
     [SerializeField] TMPro.TextMeshProUGUI txtScore2;
 
-    [SerializeField] private AudioMixer myMixer;
-    public AudioSource source;
-    public AudioClip bgMusic;
-    float volume = 1f;
+    [SerializeField] GameObject pnlRoundsAssistantMP;
+    [SerializeField] TMPro.TextMeshProUGUI txtPreviousPlayerMP;
+    [SerializeField] TMPro.TextMeshProUGUI txtPreviousPlayerLifesMP;
+    [SerializeField] TMPro.TextMeshProUGUI txtNextPlayerMP;
+
+    [SerializeField] GameObject pnlRoundsAssistantSP;
+    [SerializeField] TMPro.TextMeshProUGUI txtPreviousPlayerSP;
+    [SerializeField] TMPro.TextMeshProUGUI txtPreviousPlayerLifesSP;
+
+    [SerializeField] GameObject bonus;
+    [SerializeField] int score = 0;
+    [SerializeField] int level = 1;
+    [SerializeField] float lifes = 3f;
+
+    public float x2PtsDuration = 15f;
+    public bool x2PtsIsActive = false;
+
+    private User user1;
+    private User user2;
+    private PlayerContext playerContext1;
+    private PlayerContext playerContext2;
 
     // Start is called before the first frame update
     void Start()
     {
-        source.clip = bgMusic;
-        source.Play();
+        AudioManager.getInstance().playLevel1Soundtrack();
 
         if (gameManager.getInstance().cuantityOfPlayers == 1)
         {
-            User user = getUserByUsername(gameManager.getInstance().player1Username);
+            User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
+            gameManager.getInstance().setCurrentPlayer(user);
+            imgControl1.gameObject.SetActive(true);
             txtUsername1.text = user.username;
 
             // Load player image from specified path
@@ -54,10 +79,26 @@ public class GameSceneScript : MonoBehaviour
                 imgUser1.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
         }
-        else if (gameManager.getInstance().cuantityOfPlayers == 2 && gameManager.getInstance().playerToPlay == "")
+        else if (twoPlayer())
         {
-            User user1 = getUserByUsername(gameManager.getInstance().player1Username);
-            User user2 = getUserByUsername(gameManager.getInstance().player2Username);
+            user1 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player1Username);
+            user2 = userManager.getInstance().getUserByUsername(gameManager.getInstance().player2Username);
+
+            playerContext1 = new PlayerContext(PlayerState.Playing, user1.username, score, level, user1.ship, lifes);
+            playerContext2 = new PlayerContext(PlayerState.Waiting, user2.username, score, level, user2.ship, lifes);
+            playerContext1.saveInitPlayerState();
+            playerContext2.saveInitPlayerState();
+
+            if (user1.username == gameManager.getInstance().playerToPlay)
+            {
+                gameManager.getInstance().setCurrentPlayer(user1);
+                imgControl1.gameObject.SetActive(true);
+            }
+            else
+            {
+                gameManager.getInstance().setCurrentPlayer(user2);
+                imgControl2.gameObject.SetActive(true);
+            }
 
             txtUsername1.text = user1.username;
             txtUsername2.text = user2.username;
@@ -83,10 +124,11 @@ public class GameSceneScript : MonoBehaviour
         }
         else
         {
-            User user = getUserByUsername(gameManager.getInstance().playerToPlay);
+            //User user = userManager.getInstance().getUserByUsername(gameManager.getInstance().playerToPlay);
+            User user = userManager.getInstance().getUserByUsername("andresUNA");
+            gameManager.getInstance().setCurrentPlayer(user);
+            imgControl1.gameObject.SetActive(true);
             txtUsername1.text = user.username;
-            //User user = getUserByUsername("joseandres216");
-            //txtUsername1.text = user.username;
 
             // Load player image from specified path
             if (!string.IsNullOrEmpty(user.userImage) && File.Exists(Application.dataPath + user.userImage))
@@ -97,60 +139,240 @@ public class GameSceneScript : MonoBehaviour
                 imgUser1.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
         }
+
+        //generateBonus();
     }
 
     // Update is called once per frame
     void Update()
     {
-        changeVolume();
         pauseMenu();
-    }
-
-    private void changeVolume(){
-
-        if(Input.GetKeyDown(KeyCode.W)) {
-            
-            volume += 0.1f;
-            myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            volume -= 0.1f;
-            myMixer.SetFloat("Music", (float)Math.Log10(volume) * 20f);
-        }
     }
 
     private void pauseMenu()
     {
         // Detect if the "P" key is pressed
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (!pnlPauseDialogue.activeSelf)
             {
+                GameObject.Find("MainCamera").GetComponent<Spawner>().pauseSpawner();
+
                 // Activate the pause panel
                 pnlPauseDialogue.SetActive(true);
 
                 // Pause game time and music
+                AudioManager.getInstance().musicSource.Pause();
+                AudioManager.getInstance().isAudioPaused = true;
                 Time.timeScale = 0f;
-                source.Pause();
+            }
+        }
+    }
+
+    public void pauseMenuController()
+    {
+        // Detect if the "P" key is pressed
+        if (!pnlPauseDialogue.activeSelf)
+        {
+            GameObject.Find("MainCamera").GetComponent<Spawner>().pauseSpawner();
+
+            // Activate the pause panel
+            pnlPauseDialogue.SetActive(true);
+
+            // Pause game time and music
+            AudioManager.getInstance().musicSource.Pause();
+            AudioManager.getInstance().isAudioPaused = true;
+            Time.timeScale = 0f;
+        }
+        else{
+            if (pnlPauseDialogue.activeSelf)
+            {
+                GameObject.Find("MainCamera").GetComponent<Spawner>().unPauseSpawner();
+
+                // Deactivate the pause panel
+                pnlPauseDialogue.SetActive(false);
+
+                // Resume game and music
+                Time.timeScale = 1f;
+                if (Time.timeScale == 1f)
+                {
+                    AudioManager.getInstance().unPauseSoundtrack();
+                }
+            }
+        }
+    }
+
+    public void onCollision(float playerLifes)
+    {
+        lifes = playerLifes;
+        if (twoPlayer() && playerContext1.isEnable() && playerContext2.isEnable())
+        {
+            if (!pnlPauseDialogue.activeSelf)
+            {
+                // Start the coroutine to wait and activate the panel
+                StartCoroutine(pauseOnCollision(1.0f));
+            }
+        }
+        else
+        {
+            // Start the coroutine to wait and restart player and enemy spawn
+            StartCoroutine(restartOnCollision(1.5f));
+        }
+    }
+
+    private IEnumerator pauseOnCollision(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().pauseSpawner();
+
+        // Pause game time and music
+        AudioManager.getInstance().musicSource.Pause();
+        AudioManager.getInstance().isAudioPaused = true;
+        Time.timeScale = 0f;
+
+        if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+        {
+            if (lifes <= 0)
+            {
+                playerContext1.setEnable(false);
+            }
+            playerContext1.savePlayerState(score, level, lifes);
+            playerContext2.restorePlayerState();
+
+            gameManager.getInstance().playerToPlay = user2.username;
+            gameManager.getInstance().setCurrentPlayer(user2);
+
+            imgControl1.gameObject.SetActive(false);
+            imgControl2.gameObject.SetActive(true);
+
+            score = playerContext2.getScore();
+            level = playerContext2.getLevel();
+            lifes = playerContext2.getLifes();
+
+            // Activate the rounds assistant panel
+            this.txtPreviousPlayerMP.text = playerContext1.getPlayer() + " turn is over!";
+            this.txtPreviousPlayerLifesMP.text = "Lifes:		" + playerContext1.getLifes();
+            this.txtNextPlayerMP.text = playerContext2.getPlayer();
+        }
+        else
+        {
+            if (lifes <= 0)
+            {
+                playerContext2.setEnable(false);
+            }
+            playerContext2.savePlayerState(score, level, lifes);
+            playerContext1.restorePlayerState();
+
+            gameManager.getInstance().playerToPlay = user1.username;
+            gameManager.getInstance().setCurrentPlayer(user1);
+
+            imgControl1.gameObject.SetActive(true);
+            imgControl2.gameObject.SetActive(false);
+
+            score = playerContext1.getScore();
+            level = playerContext1.getLevel();
+            lifes = playerContext1.getLifes();
+
+            // Activate the rounds assistant panel
+            this.txtPreviousPlayerMP.text = playerContext2.getPlayer() + " turn is over!";
+            this.txtPreviousPlayerLifesMP.text = "Lifes:		" + playerContext2.getLifes();
+            this.txtNextPlayerMP.text = playerContext1.getPlayer();
+        }
+
+        this.pnlRoundsAssistantMP.SetActive(true);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().updatePlayerShip();
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+        GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
+    }
+
+    public void closeRoundsAssistantDialogueMP()
+    {
+        this.pnlRoundsAssistantMP.SetActive(false);
+
+        Time.timeScale = 1f;
+        if (Time.timeScale == 1f)
+        {
+            AudioManager.getInstance().unPauseSoundtrack();
+        }
+    }
+
+    public void closeRoundsAssistantDialogueSP()
+    {
+        this.pnlRoundsAssistantSP.SetActive(false);
+
+        Time.timeScale = 1f;
+        if (Time.timeScale == 1f)
+        {
+            AudioManager.getInstance().unPauseSoundtrack();
+        }
+    }
+
+    private IEnumerator restartOnCollision(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+
+        if (twoPlayer() && (!playerContext1.isEnable() || !playerContext2.isEnable()))
+        {
+            if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+            {
+                playerContext1.savePlayerState(score, level, lifes);
+
+                
+            }
+            else
+            {
+                playerContext2.savePlayerState(score, level, lifes);
+            }
+
+            if (lifes <= 0)
+            {
+                // Start the coroutine to wait and go to Podium/GameOver scene
+                StartCoroutine(gameFinished(0.5f));
+            }
+            else
+            {
+                GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
+                GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+                GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
+            }
+        }
+        else
+        {
+            if (lifes <= 0)
+            {
+                // Start the coroutine to wait and go to Podium/GameOver scene
+                StartCoroutine(gameOver(0.5f));
+            }
+            else
+            {
+                // Activate the singleplayer rounds assistant panel
+                this.txtPreviousPlayerSP.text = gameManager.getInstance().getCurrentPlayer().username + " lost a life!";
+                this.txtPreviousPlayerLifesSP.text = "Lifes:		" + lifes;
+
+                this.pnlRoundsAssistantSP.SetActive(true);
+
+                Time.timeScale = 0f;
+
+                GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
+                GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+                GameObject.Find("playerInstance").GetComponent<PlayerController>().setLifes((int)lifes);
             }
         }
     }
 
     public void option1ButtonOnClick()
     {
-        
-    }
 
-    public void option2ButtonOnClick()
-    {
-        PlayerPrefs.SetString("HelpScene", "GameScene");
-        PlayerPrefs.Save();
-        SceneManager.LoadScene("HelpScene");
     }
 
     public void option3ButtonOnClick()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenuScene");
     }
 
@@ -158,12 +380,17 @@ public class GameSceneScript : MonoBehaviour
     {
         if (pnlPauseDialogue.activeSelf)
         {
+            GameObject.Find("MainCamera").GetComponent<Spawner>().unPauseSpawner();
+
             // Deactivate the pause panel
             pnlPauseDialogue.SetActive(false);
 
             // Resume game and music
             Time.timeScale = 1f;
-            source.UnPause();
+            if (Time.timeScale == 1f)
+            {
+                AudioManager.getInstance().unPauseSoundtrack();
+            }
         }
     }
 
@@ -187,49 +414,255 @@ public class GameSceneScript : MonoBehaviour
         pnlPauseDialogue.SetActive(false);
     }
 
-    private User getUserByEmail(string email)
+    public void activateX2Pts()
     {
-        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
-
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        User foundUser = null;
-
-        foreach (User user in users.users)
-        {
-            if (user.email == email)
-            {
-                foundUser = user;
-            }
-            else
-            {
-                Debug.Log("Something went wrong loading player information");
-            }
-        }
-
-        return foundUser;
+        x2PtsIsActive = true;
+        Invoke("desactivateX2Pts", x2PtsDuration);
     }
 
-    private User getUserByUsername(string username)
+    public void desactivateX2Pts()
     {
-        string usersJSON = File.ReadAllText(gameManager.getInstance().usersPath);
+        x2PtsIsActive = false;
+    }
 
-        Users users = JsonUtility.FromJson<Users>(usersJSON);
-
-        User foundUser = null;
-
-        foreach (User user in users.users)
+    public void updateScore()
+    {
+        int points = 200;
+        if (x2PtsIsActive)
         {
-            if (user.username == username)
+            points *= 2;
+        }
+        score += points;
+
+        if (twoPlayer())
+        {
+            if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
             {
-                foundUser = user;
+                txtScore1.text = score.ToString();
             }
             else
             {
-                Debug.Log("Something went wrong loading player information");
+                txtScore2.text = score.ToString();
+            }
+        }
+        else
+        {
+            txtScore1.text = score.ToString();
+        }
+    }
+
+    // Generates a bonus in the game
+    public void generateBonus()
+    {
+        Debug.Log("Something went wrong loading player information");
+
+        Instantiate(bonus, transform.position, Quaternion.identity);
+    }
+
+    public int getLevel()
+    {
+        return level;
+    }
+
+    public void levelCompleted()
+    {
+        if (twoPlayer())
+        {
+            if (level < 3)
+            {
+                level++;
+
+                if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+                {
+                    playerContext1.savePlayerState(score, level, lifes);
+                }
+                else
+                {
+                    playerContext2.savePlayerState(score, level, lifes);
+                }
+
+                txtLevel.text = "Level " + level.ToString();
+
+                // Start the coroutine to wait and load next level
+                StartCoroutine(loadNextLevel(1.5f));
+            }
+            else
+            {
+                if (gameManager.getInstance().getCurrentPlayer().username == playerContext1.getPlayer())
+                {
+                    playerContext1.savePlayerState(score, level, lifes);
+                }
+                else
+                {
+                    playerContext2.savePlayerState(score, level, lifes);
+                }
+
+                // When both players finish the third level of the game
+                if (playerContext1.getLevel() == playerContext2.getLevel())
+                {
+                    // Start the coroutine to wait and go to Podium/GameOver scene
+                    StartCoroutine(gameFinished(1.5f));
+                }
+                // When one player finishes the third level of the game and the other player has no lives
+                else if ((playerContext1.getLevel() == 3 && playerContext2.getLifes() <= 0) || (playerContext2.getLevel() == 3 && playerContext1.getLifes() <= 0))
+                {
+                    // Start the coroutine to wait and go to Podium/GameOver scene
+                    StartCoroutine(gameFinished(1.5f));
+                }
+                // When player1 finishes the third level of the game and the other player has still lives
+                else if (playerContext1.getLevel() == 3 && playerContext2.getLifes() > 0)
+                {
+                    playerContext1.setEnable(false);
+                    playerContext2.restorePlayerState();
+
+                    gameManager.getInstance().playerToPlay = user2.username;
+                    gameManager.getInstance().setCurrentPlayer(user2);
+
+                    imgControl1.gameObject.SetActive(false);
+                    imgControl2.gameObject.SetActive(true);
+
+                    score = playerContext2.getScore();
+                    level = playerContext2.getLevel();
+                    lifes = playerContext2.getLifes();
+
+                    onCollision(lifes);
+                }
+                // When player2 finishes the third level of the game and the other player has still lives
+                else if (playerContext2.getLevel() == 3 && playerContext1.getLifes() > 0)
+                {
+                    playerContext2.setEnable(false);
+                    playerContext1.restorePlayerState();
+
+                    gameManager.getInstance().playerToPlay = user1.username;
+                    gameManager.getInstance().setCurrentPlayer(user1);
+
+                    imgControl1.gameObject.SetActive(true);
+                    imgControl2.gameObject.SetActive(false);
+
+                    score = playerContext1.getScore();
+                    level = playerContext1.getLevel();
+                    lifes = playerContext1.getLifes();
+
+                    onCollision(lifes);
+                }
+            }
+        }
+        else
+        {
+            if (level < 3)
+            {
+                level++;
+                txtLevel.text = "Level " + level.ToString();
+
+                // Start the coroutine to wait and load next level
+                StartCoroutine(loadNextLevel(1.5f));
+            }
+            else
+            {
+                // Start the coroutine to wait and go to Podium/GameOver scene
+                StartCoroutine(gameCompleted(1.5f));
             }
         }
 
-        return foundUser;
+        Debug.Log("Level Completed");
+    }
+
+    private IEnumerator loadNextLevel(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnEnemies();
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().spawnPlayer();
+
+        if (this.level == 1)
+        {
+            AudioManager.getInstance().playLevel1Soundtrack();
+        }
+        else if (this.level == 2)
+        {
+            AudioManager.getInstance().playLevel2Soundtrack();
+        }
+        else
+        {
+            AudioManager.getInstance().playLevel3Soundtrack();
+        }
+    }
+
+    private IEnumerator gameOver(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        userManager.getInstance().updatePlayerScoreRecord(gameManager.getInstance().getCurrentPlayer().username, score);
+
+        gameManager.getInstance().setScore1(score);
+        gameManager.getInstance().setPodiumSceneTitle("Game Over");
+        SceneManager.LoadScene("PodiumScene");
+    }
+
+    private IEnumerator gameCompleted(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+
+        userManager.getInstance().updatePlayerScoreRecord(gameManager.getInstance().getCurrentPlayer().username, score);
+
+        gameManager.getInstance().setScore1(score);
+        gameManager.getInstance().setPodiumSceneTitle("Game Completed");
+        SceneManager.LoadScene("PodiumScene");
+    }
+
+    private IEnumerator gameFinished(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GameObject.Find("MainCamera").GetComponent<Spawner>().destroyAllEnemies();
+
+        playerContext1.restorePlayerState();
+        playerContext2.restorePlayerState();
+
+        int score1 = playerContext1.getScore();
+        int score2 = playerContext2.getScore();
+
+        string user1 = playerContext1.getPlayer();
+        string user2 = playerContext2.getPlayer();
+
+        userManager.getInstance().updatePlayerScoreRecord(user1, score1);
+        userManager.getInstance().updatePlayerScoreRecord(user2, score2);
+
+        if (score1 >= score2)
+        {
+            gameManager.getInstance().playerToPlay = user1;
+            gameManager.getInstance().setScore1(score1);
+            gameManager.getInstance().setScore2(score2);
+        }
+        else
+        {
+            gameManager.getInstance().playerToPlay = user2;
+            gameManager.getInstance().setScore1(score2);
+            gameManager.getInstance().setScore2(score1);
+        }
+
+        this.user1 = null;
+        this.user2 = null;
+
+        this.playerContext1 = null;
+        this.playerContext2 = null;
+
+        gameManager.getInstance().setPodiumSceneTitle("Podium");
+        SceneManager.LoadScene("PodiumScene");
+    }
+
+    private bool twoPlayer()
+    {
+        return gameManager.getInstance().cuantityOfPlayers == 2 && !gameManager.getInstance().getOneInsteadOfTwo();
+    }
+
+    public int getMovementPattern()
+    {
+        int movePattern = gameManager.getInstance().getInGameAttackPatternForLevel(level);
+        return movePattern;
     }
 }

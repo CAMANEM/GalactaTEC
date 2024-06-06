@@ -2,27 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using audio_manager;
+
 public class NormalShot : MonoBehaviour
 {
 
-    public float speed = 500f;
-    public float deactivateTimer = 5f;
-
-    public AudioSource source;
-    public AudioClip audioClip;
-
-    public float volume=0.5f;
-    private PointManager pointManager;
+    public float speed = 0.4f;
+    public GameObject explosion;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        // Invoke("DeactivateGameObject", deactivateTimer);
-        source.PlayOneShot(audioClip, volume);
-
-        //vea esto mae XD es para el puntaje
-        //  pointManager = GameObject.Find("PointMananger").GetComponent<PointManager>();
+        AudioManager.getInstance().playShotEffect();
     }
 
     // Update is called once per frame
@@ -31,24 +23,26 @@ public class NormalShot : MonoBehaviour
         Move();
     }
 
+    void OnCollision(){
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Enemy")
-    //    {
-    // Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-    // Destroy(collision.gameObject);
-    // pointManager.UpdateScore(50)
-    // Destroy(gameObject);
-    //}
+        Debug.Log("Shot: Collision");
+    }
 
-    //if (collision.gameObject.tag == "Boundary")
-    //{
-    //Destroy(gameObject);
-    //        }
-    //   }
-
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log(collision.gameObject);
+        if (collision.gameObject.tag == "Enemy"){
+            destroy();
+        }
+        else if (collision.gameObject.tag == "EnemyShot")
+        {
+            destroy();
+        }
+        else if (collision.gameObject.tag == "HorizontalBoundary")
+        {
+            destroy();
+        }
+    }
 
 
     void Move()
@@ -59,8 +53,10 @@ public class NormalShot : MonoBehaviour
         
     }
 
-    void DeactivateGameObject(){
-
-        gameObject.SetActive(false);
+    private void destroy()
+    {
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
+    
 }

@@ -2,36 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
-public class helpScript : MonoBehaviour
+namespace helpManager
 {
-    // Start is called before the first frame update
-    void Start()
+    public class helpScript : MonoBehaviour
     {
+        [SerializeField] GameObject pnlHelp;
+        [SerializeField] Button btnCloseHelp;
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void backButtonOnClick()
-    {
-        string scene = PlayerPrefs.GetString("HelpScene");
-
-        if (scene == "TitleScene")
+        // Start is called before the first frame update
+        void Start()
         {
-            SceneManager.LoadScene("TitleScene");
+
         }
-        else if (scene == "MainMenuScene")
+
+        // Update is called once per frame
+        void Update()
         {
-            SceneManager.LoadScene("MainMenuScene");
+
         }
-        else if (scene == "GameScene")
+
+        private static helpScript instance;
+
+        public static helpScript getInstance()
         {
-            SceneManager.LoadScene("GameScene");
+            if (instance == null)
+            {
+                instance = FindObjectOfType<helpScript>();
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject("helpManager");
+                    instance = obj.AddComponent<helpScript>();
+                }
+            }
+            return instance;
+        }
+
+        void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
+            btnCloseHelp.onClick.RemoveAllListeners();
+            btnCloseHelp.onClick.AddListener(HideDialogue);
+        }
+
+        public void ShowDialogue()
+        {
+            pnlHelp.SetActive(true);
+        }
+
+        public void HideDialogue()
+        {
+            pnlHelp.SetActive(false);
         }
     }
 }

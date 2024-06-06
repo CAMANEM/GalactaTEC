@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using GameManager;
+using audio_manager;
 
 public class mainMenuScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-
+        AudioManager.getInstance().playBackgroundSoundtrack();
     }
 
     // Update is called once per frame
@@ -36,16 +37,16 @@ public class mainMenuScript : MonoBehaviour
         SceneManager.LoadScene("EditProfileScene");
     }
 
-    public void helpButtonOnClick()
-    {
-        PlayerPrefs.SetString("HelpScene", "MainMenuScene");
-        PlayerPrefs.Save();
-        SceneManager.LoadScene("HelpScene");
-    }
-
     public void BackButtonOnClick()
     {
-        // Agregar ventana emergente indicando si está seguro que quiere regresar y de ser así se eliminará el/los inicios de sesión
+        // Agregar ventana emergente indicando si estï¿½ seguro que quiere regresar y de ser asï¿½ se eliminarï¿½ el/los inicios de sesiï¿½n
+
+        gameManager.getInstance().cuantityOfPlayers = 0;
+        gameManager.getInstance().player1Email = "";
+        gameManager.getInstance().player2Email = "";
+        gameManager.getInstance().player1Username = "";
+        gameManager.getInstance().player2Username = "";
+
         SceneManager.LoadScene("TitleScene");
     }
 }
