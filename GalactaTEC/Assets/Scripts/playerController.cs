@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     public InputAction power;
     public InputAction next;
     public InputAction back;
+    public InputAction menu;
 
     private bool cooldown = false;
 
@@ -103,6 +104,10 @@ public class PlayerController : MonoBehaviour
         next = playerControls.Player.Next;
         next.Enable();
         next.performed += Next;
+
+        menu = playerControls.Player.Menu;
+        menu.Enable();
+        menu.performed += Menu;
     }
 
     private void OnDisable(){
@@ -110,6 +115,11 @@ public class PlayerController : MonoBehaviour
         power.Disable();
         next.Disable();
         back.Disable();
+        menu.Disable();
+    }
+
+    private void Menu(InputAction.CallbackContext context){
+        GameObject.Find("Canvas").GetComponent<GameSceneScript>().pauseMenuController();
     }
 
     private void Fire(InputAction.CallbackContext context){

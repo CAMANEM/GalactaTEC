@@ -169,6 +169,39 @@ public class GameSceneScript : MonoBehaviour
         }
     }
 
+    public void pauseMenuController()
+    {
+        // Detect if the "P" key is pressed
+        if (!pnlPauseDialogue.activeSelf)
+        {
+            GameObject.Find("MainCamera").GetComponent<Spawner>().pauseSpawner();
+
+            // Activate the pause panel
+            pnlPauseDialogue.SetActive(true);
+
+            // Pause game time and music
+            AudioManager.getInstance().musicSource.Pause();
+            AudioManager.getInstance().isAudioPaused = true;
+            Time.timeScale = 0f;
+        }
+        else{
+            if (pnlPauseDialogue.activeSelf)
+            {
+                GameObject.Find("MainCamera").GetComponent<Spawner>().unPauseSpawner();
+
+                // Deactivate the pause panel
+                pnlPauseDialogue.SetActive(false);
+
+                // Resume game and music
+                Time.timeScale = 1f;
+                if (Time.timeScale == 1f)
+                {
+                    AudioManager.getInstance().unPauseSoundtrack();
+                }
+            }
+        }
+    }
+
     public void onCollision(float playerLifes)
     {
         lifes = playerLifes;
