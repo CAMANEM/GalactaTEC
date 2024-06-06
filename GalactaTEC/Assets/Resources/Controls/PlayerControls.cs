@@ -306,7 +306,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e83af5e3-70ee-4e9c-8510-8d634e915648"",
-                    ""path"": ""<HID::Logitech Logitech Attack 3>/button2"",
+                    ""path"": ""<HID::Logitech Logitech Attack 3>/button3"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick"",
