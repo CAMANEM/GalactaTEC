@@ -6,15 +6,15 @@ See more about the project [here](Docs/Enunciado_Proyecto_I_Semestre_2024.pdf)
 ## Game Preview:
 
 <div align="center">
-  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/Title.gif" width="470">
-  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/Gameplay.gif" width="470">
-  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/SignUp.gif" width="470">
-  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/LogIn.gif" width="470">
-  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/MainMenu.gif" width="470">
-  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/EditProfile.gif" width="470">
-  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/HallOfFame.gif" width="470">
-  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/GameSetUp.gif" width="470">
-  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/Help.gif" width="470">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/Title.gif" width="250">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/Gameplay.gif" width="250">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/SignUp.gif" width="250">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/LogIn.gif" width="250">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/MainMenu.gif" width="250">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/EditProfile.gif" width="250">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/HallOfFame.gif" width="250">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/GameSetUp.gif" width="250">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/Help.gif" width="250">
 </div>
 
 ## Introduction:
