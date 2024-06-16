@@ -1,5 +1,24 @@
 # GalactaTEC
-Project for Principles of modeling in engineering course (CE1105)
+Project for Principles of modeling in engineering course (CE1105) 
+
+See more about the project [here](Docs/Enunciado_Proyecto_I_Semestre_2024.pdf)
+
+## Game Preview:
+
+<div align="center">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/Title.gif" width="470">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/Gameplay.gif" width="470">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/SignUp.gif" width="470">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/LogIn.gif" width="470">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/MainMenu.gif" width="470">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/EditProfile.gif" width="470">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/HallOfFame.gif" width="470">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/GameSetUp.gif" width="470">
+  <img src="https://github.com/CAMANEM/GalactaTEC/blob/main/Docs/Gifs/Help.gif" width="470">
+</div>
+
+## Introduction:
+
 
 Welcome to the official repository for GalactaTEC, a reinvention of the classic arcade game, adapted and modernized by the TecGamesNow team using Unity. This project aims to revive the excitement of retro video games, integrating modern technology and a collaborative approach that allows multiple players to enjoy the experience together.
 
